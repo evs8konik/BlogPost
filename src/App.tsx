@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from 'react'
+import Comment from './components/Comment/Comment'
+import CommentForm, { IComment } from './components/CommentForm/CommentForm'
+import useCommentList from './hooks/useCommentList/useCommentList'
 
-function App() {
+const App: FC = () => {
+  const { commentList, addComment, handleSaveComment, handleClickRemoveButton } = useCommentList()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <div className="main">
+        <div>
+          <CommentForm addComment={addComment} />
+        </div>
+
+        <div className={'comment-title'}>
+          <div>COMMENTS</div>
+        </div>
+
+        <div className="comments">
+          {commentList.map((comment) => {
+            return (
+              <Comment
+                key={comment.id}
+                id={comment.id}
+                title={comment.title}
+                content={comment.content}
+                username={comment.username}
+                onClick={handleClickRemoveButton}
+                onSave={handleSaveComment}
+              />
+            )
+          })}
+        </div>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,56 @@
+.wrapper {
+  height: auto;
+  width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 20px;
+
+  margin-bottom: 20px;
+
+  border-radius: 15px;
+
+  gap: 10px;
+
+  background-color: white;
+}
+
+.title {
+  width: 800px;
+
+  display: flex;
+  justify-content: start;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+}
+
+.content {
+  width: 800px;
+
+  display: flex;
+  justify-content: start;
+
+  text-align: justify;
+}
+
+.username {
+  width: 800px;
+
+  display: flex;
+  justify-content: end;
+
+  font-style: italic;
+
+  text-transform: capitalize;
+}
+
+.button-wrapper {
+  width: 100%;
+
+  display: flex;
+  justify-content: end;
+}

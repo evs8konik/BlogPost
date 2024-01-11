@@ -1,0 +1,45 @@
+.wrapper {
+  height: auto;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 20px;
+  margin-bottom: 20px;
+  margin: 10px;
+
+  border-radius: 15px;
+
+  gap: 10px;
+
+  background-color: #e1e1e1;
+}
+
+.content {
+  width: 800px;
+
+  display: flex;
+  justify-content: start;
+
+  text-align: justify;
+}
+
+.username {
+  width: 800px;
+
+  display: flex;
+  justify-content: end;
+
+  font-style: italic;
+
+  text-transform: capitalize;
+}
+
+.button-wrapper {
+  width: 100%;
+
+  display: flex;
+  justify-content: end;
+}
