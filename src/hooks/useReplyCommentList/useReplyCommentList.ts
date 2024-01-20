@@ -33,7 +33,7 @@ const useReplyCommentList = () => {
 
     setReplyCommentList(storedReplyCommentList)
 
-    console.log('STORED_DATA', storedReplyCommentList)
+    console.log('STORED_REPLY_COMMENT_LIST', storedReplyCommentList)
   }, [])
 
   const addReplyComment = (reply: IReplyComment): void => {
