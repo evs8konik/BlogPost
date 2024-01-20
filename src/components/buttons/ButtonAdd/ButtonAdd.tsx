@@ -1,16 +1,18 @@
-import { FC } from 'react'
-import styles from './ButtonAdd.module.css'
+import { FC, PropsWithChildren } from 'react'
+import Styled from './ButtonAdd.styles'
 
-const ButtonAdd: FC = () => {
+interface IProps {
+  color?: 'primary' | 'secondary'
+}
+
+const ButtonAdd: FC<PropsWithChildren<IProps>> = ({ color, children }) => {
   return (
-    <div>
-      <button
-        className={styles.button}
-        type={'submit'}
-      >
-        Add comment
-      </button>
-    </div>
+    <Styled.Button
+      type={'submit'}
+      $color={color ?? 'primary'}
+    >
+      {children}
+    </Styled.Button>
   )
 }
 

@@ -142,7 +142,7 @@ const Comment: FC<IProps> = ({ id, title, content, username, onClick, onSave }) 
         </div>
       </div>
 
-      <div>{isReply ? <ReplyCommentForm addReplyComment={addReplyComment} /> : undefined}</div>
+      <div>{isReply ? <ReplyCommentForm addReplyComment={addReplyComment} /> : null}</div>
 
       <div>
         <div className={styles['reply.comment']}>

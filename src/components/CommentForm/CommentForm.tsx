@@ -91,7 +91,7 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
 
           <div className={styles['button-wrapper']}>
             <div className={styles.button}>
-              <ButtonAdd />
+              <ButtonAdd color={'secondary'}>Add comment</ButtonAdd>
             </div>
           </div>
         </form>

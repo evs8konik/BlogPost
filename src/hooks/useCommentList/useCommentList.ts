@@ -39,7 +39,7 @@ const useCommentList = () => {
 
     setCommentList(storedCommentList)
 
-    console.log('STORED_DATA', storedCommentList)
+    console.log('STORED_COMMENT_LIST', storedCommentList)
   }, [])
 
   // Функция добавления нового комментария
