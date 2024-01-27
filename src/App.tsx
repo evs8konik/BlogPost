@@ -1,11 +1,14 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import Comment from './components/Comment/Comment'
 import CommentForm, { IComment } from './components/CommentForm/CommentForm'
 import useCommentList from './hooks/useCommentList/useCommentList'
 import LoginContext, { IUser } from './context/LoginContext/LoginContext'
 import Login from './containers/Login/Login'
 import useLogin from './hooks/useLogin/useLogin'
-import ButtonClose from './components/buttons/ButtonClose/ButtonClose'
+
+import ButtonNormal from './components/buttons/ButtonNormal/ButtonNormal'
+import Comments from './components/Comments/Comments'
+import Header from './components/Header/Comments/Header'
 
 const App: FC = () => {
   const { commentList, addComment, handleSaveComment, handleClickRemoveButton } = useCommentList()
@@ -24,19 +27,25 @@ const App: FC = () => {
     cleanCurrentUser,
   } = useLogin()
 
-  const handleLoginClick = () => {
-    setIsShowSignIn(true)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(true)
-  }
+  // const handleLoginClick = () => {
+  //   setIsShowSignIn(true)
+  //   setIsShowSignUp(false)
+  //   setIsShowLoginForm(true)
+  // }
 
-  const checkIfNeedToShowLogin = (): boolean => {
-    if (!isShowSignIn && !isShowSignUp && !isShowLoginForm && currentUser === null) return true
+  // const checkIfNeedToShowLogin = (): boolean => {
+  //   if (!isShowSignIn && !isShowSignUp && !isShowLoginForm && currentUser === null) return true
 
-    return false
-  }
+  //   return false
+  // }
 
-  const checkIfNeedToShowLogoutButton = (): boolean => {
+  // const checkIfNeedToShowLogoutButton = (): boolean => {
+  //   if (currentUser !== null) return true
+
+  //   return false
+  // }
+
+  const checkIfNeedToShowCommentForm = (): boolean => {
     if (currentUser !== null) return true
 
     return false
@@ -59,78 +68,9 @@ const App: FC = () => {
     >
       <>
         <div className="general-wrapper">
-          <div>
-            {checkIfNeedToShowLogin() ? (
-              <div className="login-header">
-                <button
-                  className="login-button"
-                  onClick={handleLoginClick}
-                >
-                  Login
-                </button>
-              </div>
-            ) : null}
+          <Header />
 
-            {checkIfNeedToShowLogoutButton() ? (
-              <div className="logout-header">
-                <div>
-                  <b>Hello: </b>
-                  {currentUser?.firstName}
-                </div>
-                <button
-                  className="logout-button"
-                  onClick={cleanCurrentUser}
-                >
-                  Logout
-                </button>{' '}
-              </div>
-            ) : null}
-          </div>
-
-          {isShowLoginForm && (
-            <div
-              className="shadow-background"
-              onClick={closeLoginForm}
-            >
-              <div
-                className="login-form"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="button-close_wrapper">
-                  <ButtonClose
-                    value="Close"
-                    onClick={closeLoginForm}
-                  />
-                </div>
-
-                <Login />
-              </div>
-            </div>
-          )}
-
-          <div className="main">
-            <div>
-              <CommentForm addComment={addComment} />
-            </div>
-
-            <div className={'comment-title'}>
-              <div>COMMENTS</div>
-            </div>
-
-            <div className="comments">
-              {commentList.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  id={comment.id}
-                  title={comment.title}
-                  content={comment.content}
-                  username={comment.username}
-                  onClick={handleClickRemoveButton}
-                  onSave={handleSaveComment}
-                />
-              ))}
-            </div>
-          </div>
+          <Comments />
         </div>
       </>
     </LoginContext.Provider>

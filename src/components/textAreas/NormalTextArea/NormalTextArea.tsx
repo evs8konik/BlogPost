@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react'
-import styles from './NormalTextArea.module.css'
+import { Wrapper, TextArea, Span } from './NormalTextArea.styles'
 
 interface IProps {
   label: string
@@ -13,18 +13,17 @@ const NormalTextArea: FC<IProps> = ({ label, value, onChange }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span className={styles.label}>{label}</span>
+    <Wrapper>
+      <Span>{label}</Span>
 
-      <textarea
-        className={styles.textarea}
+      <TextArea
         placeholder={'Enter text'}
         required
         maxLength={400}
         value={value}
         onChange={handleChangeContent}
       />
-    </div>
+    </Wrapper>
   )
 }
 

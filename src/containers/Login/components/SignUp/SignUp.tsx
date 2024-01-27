@@ -2,7 +2,8 @@ import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import styles from './SIgnUp.module.css'
+import { Form } from './SygnUp.styles'
+import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 
 const SignUp: FC = () => {
   const { setIsShowSignIn, setIsShowSignUp } = useLoginContext()
@@ -31,10 +32,7 @@ const SignUp: FC = () => {
   }
 
   return (
-    <form
-      className={styles['wrapper']}
-      onSubmit={handleSubmit}
-    >
+    <Form onSubmit={handleSubmit}>
       <NormalInput
         label="First name"
         value={firstName}
@@ -58,20 +56,16 @@ const SignUp: FC = () => {
         value={password}
         onChange={setPassword}
       />
-      <button
-        className={styles['singUp-button']}
-        type="submit"
-      >
-        Sing Up
-      </button>
 
-      <button
-        className={styles['singIn-button']}
+      <ButtonNormal preset="singUp">Sing Up</ButtonNormal>
+
+      <ButtonNormal
+        preset="singIn"
         onClick={handleSignInClick}
       >
         Sing In
-      </button>
-    </form>
+      </ButtonNormal>
+    </Form>
   )
 }
 
