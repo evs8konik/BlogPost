@@ -1,35 +1,29 @@
 import { FC, useEffect, useState } from 'react'
-import ButtonRemove from '../buttons/ButtonRemove/ButtonRemove'
-import styles from './Comment.module.css'
+// import styles from './Comment.module.css'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import { IComment, IReplyComment } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import ButtonSave from '../buttons/ButtonSave/ButtonSave'
-import ButtonEdit from '../buttons/ButtonEdit/ButtonEdit'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
-import ReplyComment from '../ReplayComment/ReplayComment'
-import ButtonReply from '../buttons/ButtonReply/ButtonReply'
-import useReplyCommentList from '../../hooks/useReplyCommentList/useReplyCommentList'
+import ReplyComment from '../ReplyComment/ReplyComment'
+import { Wrapper, Title, Content, Username, ButtonWrapper } from './Comment.styles'
+import { useLoginContext } from '../../context/LoginContext/LoginContext'
+import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 
-interface IProps {
-  id: string
-  title: string
-  content: string
-  username: string
-  onClick: (id: string) => void
-  onSave: (data: IComment) => void
-}
+type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
-const Comment: FC<IProps> = ({ id, title, content, username, onClick, onSave }) => {
-  const { replyCommentList, addReplyComment, handleSaveReplyComment, handleClickReplyRemoveButton } =
-    useReplyCommentList()
+const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onClick, onSave }) => {
+  const { currentUser } = useLoginContext()
+
+  // const [replyCommentList, setReplyCommentList] = useState<IReplyComment[]>([])
+
+  // const { replyCommentList, addReplyComment, handleSaveReplyComment, handleClickReplyRemoveButton } =
+  //   useReplyCommentList(id)
 
   const [isEdit, setIsEdit] = useState(false)
   const [isReply, setIsReply] = useState(false)
 
-  const [editableTitle, setEditableTitle] = useState('')
-  const [editableContent, setEditableContent] = useState('')
-  const [editableUsername, setEditableUsername] = useState('')
+  const [editableTitle, setEditableTitle] = useState(title)
+  const [editableContent, setEditableContent] = useState(content)
   const [editableReplyList, setEditableReplayList] = useState<IReplyComment[]>([])
 
   useEffect(() => {
@@ -39,10 +33,6 @@ const Comment: FC<IProps> = ({ id, title, content, username, onClick, onSave }) 
   useEffect(() => {
     setEditableContent(content)
   }, [content])
-
-  useEffect(() => {
-    setEditableUsername(username)
-  }, [username])
 
   useEffect(() => {
     setEditableReplayList(replyCommentList)
@@ -57,32 +47,73 @@ const Comment: FC<IProps> = ({ id, title, content, username, onClick, onSave }) 
   }
 
   const handleSave = (): void => {
+    console.log('TEST_DATA', replyCommentList)
+
     onSave({
       id,
       title: editableTitle,
       content: editableContent,
-      username: editableUsername,
+      owner,
       replyCommentList: editableReplyList,
     })
+
     isReply ? setIsReply(!isReply) : setIsReply(isReply)
     isEdit ? setIsEdit(!isEdit) : setIsEdit(isEdit)
   }
 
+  const addReply = (reply: IReplyComment): void => {
+    const newCommentList = [...editableReplyList, reply]
+
+    // setEditableReplayList((prevReplyList) => [...prevReplyList, reply])
+    setEditableReplayList(newCommentList)
+    handleSave()
+  }
+
+  const handleSaveReplyEditComment = (data: IReplyComment): void => {
+    const newReplyCommentList = replyCommentList.map((reply) => {
+      if (reply.id === data.id) {
+        return { ...reply, ...data }
+      }
+
+      return reply
+    })
+
+    setEditableReplayList(newReplyCommentList)
+    handleSave()
+    // saveReplyCommentList(replyId, newReplyCommentList)
+  }
+
+  const handleClickReplyRemoveButton = (replyCommentId: string): void => {
+    const newReplyCommentList = replyCommentList.filter((reply) => reply.id !== replyCommentId)
+
+    setEditableReplayList(newReplyCommentList)
+    handleSave()
+    // saveReplyCommentList(replyId, newReplyCommentList)
+  }
+
+  const checkIfNeedToShowEditDeletButton = () => {
+    return owner.email === currentUser?.email
+  }
+
+  const checkIfNeedToShowReplyButton = () => {
+    return currentUser !== null
+  }
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.title}>
+    <Wrapper>
+      <Title>
         {isEdit ? (
           <NormalInput
-            label="Title"
+            label="title"
             value={editableTitle}
             onChange={setEditableTitle}
           />
         ) : (
           <div className={'title'}>{title}</div>
         )}
-      </div>
+      </Title>
 
-      <div className={styles.content}>
+      <Content>
         {isEdit ? (
           <NormalTextArea
             label="Comment"
@@ -92,74 +123,83 @@ const Comment: FC<IProps> = ({ id, title, content, username, onClick, onSave }) 
         ) : (
           <div className={'content'}>{content}</div>
         )}
-      </div>
+      </Content>
 
-      <div className={styles.username}>
-        {isEdit ? (
-          <NormalInput
-            label="Username"
-            value={editableUsername}
-            onChange={setEditableUsername}
-          />
-        ) : (
-          <div className={styles['username']}>{username}</div>
-        )}
-      </div>
+      <Username>{owner.firstName}</Username>
 
-      <div className={styles['button-wrapper']}>
-        <div>
-          {isEdit ? (
-            <ButtonSave
-              value="Save"
-              onClick={handleSave}
-            />
-          ) : (
-            <ButtonEdit
-              value="Edit"
-              onClick={toggleEditing}
-            />
-          )}
-        </div>
+      <ButtonWrapper>
+        {checkIfNeedToShowEditDeletButton() ? (
+          <div>
+            <div>
+              {isEdit ? (
+                <ButtonNormal
+                  preset="save"
+                  // onClick={handleSave}
+                >
+                  Save
+                </ButtonNormal>
+              ) : (
+                <ButtonNormal
+                  preset="edit"
+                  onClick={toggleEditing}
+                >
+                  Edit
+                </ButtonNormal>
+              )}
+            </div>
 
-        <div className={styles.button}>
-          <ButtonRemove onClick={() => onClick(id)}>Delete</ButtonRemove>
-        </div>
+            <div>
+              <ButtonNormal
+                preset="delete"
+                onClick={() => onClick(id)}
+              >
+                Delete
+              </ButtonNormal>
+            </div>
+          </div>
+        ) : null}
 
-        {/* часть с ответом на коммент */}
+        {/* Часть с ответом на комментарий */}
 
-        <div>
-          {isReply ? (
-            <ButtonSave
-              value="Save"
-              onClick={handleSave}
-            />
-          ) : (
-            <ButtonReply
-              value="Reply"
-              onClick={toggleReplay}
-            />
-          )}
-        </div>
-      </div>
+        {checkIfNeedToShowReplyButton() ? (
+          <div>
+            {isReply ? (
+              <ButtonNormal
+                preset="save"
+                // onClick={handleSave}
+              >
+                Save
+              </ButtonNormal>
+            ) : (
+              <ButtonNormal
+                preset="reply"
+                onClick={toggleReplay}
+              >
+                Reply
+              </ButtonNormal>
+            )}
+          </div>
+        ) : null}
+      </ButtonWrapper>
 
-      <div>{isReply ? <ReplyCommentForm addReplyComment={addReplyComment} /> : null}</div>
+      <div>{isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}</div>
 
       <div>
-        <div className={styles['reply.comment']}>
-          {replyCommentList.map((reply) => {
+        <div>
+          {editableReplyList.map((reply) => {
             return (
               <ReplyComment
-                id={reply.id}
-                content={reply.content}
-                username={reply.username}
+                key={reply.id}
+                commentOwner={owner}
                 onClick={handleClickReplyRemoveButton}
-                onSave={handleSaveReplyComment}
+                onSave={handleSaveReplyEditComment}
+                {...reply}
               />
             )
           })}
         </div>
       </div>
-    </div>
+    </Wrapper>
   )
 }
 

@@ -1,46 +1,26 @@
-.wrapper {
+import styled from 'styled-components'
+
+export const Wrapper = styled.div`
   height: auto;
   width: 900px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 24px;
-
   border-radius: 16px;
-
   background-color: white;
-}
+`
 
-.form {
+export const Form = styled.form`
   width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 10px;
-}
+`
 
-.inputs {
+export const ButtonWrapper = styled.div`
   width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-}
-
-.input {
-  width: 420px;
-}
-
-.textArea {
-  width: 100%;
-}
-
-.button-wrapper {
-  width: 100%;
-
   display: flex;
   justify-content: start;
-}
+`

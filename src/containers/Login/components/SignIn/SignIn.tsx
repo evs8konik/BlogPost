@@ -2,7 +2,8 @@ import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import LoginContext, { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import styles from './SIgnIn.module.css'
+import { Form } from './SygnIn.styles'
+import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 
 const SignIn: FC = () => {
   const { setIsShowSignIn, setIsShowSignUp, setUser, setCurrentUser, setIsShowLoginForm } = useLoginContext()
@@ -29,10 +30,7 @@ const SignIn: FC = () => {
   }
 
   return (
-    <form
-      className={styles['wrapper']}
-      onSubmit={handleSubmit}
-    >
+    <Form onSubmit={handleSubmit}>
       <NormalInput
         label="Username"
         value={editableUsername}
@@ -45,20 +43,15 @@ const SignIn: FC = () => {
         onChange={setEditablePassword}
       />
 
-      <button
-        className={styles['singIn-button']}
-        type="submit"
-      >
-        Sing In
-      </button>
+      <ButtonNormal preset="singIn">Sing In</ButtonNormal>
 
-      <button
-        className={styles['singUp-button']}
+      <ButtonNormal
+        preset="singUp"
         onClick={handleSignUpClick}
       >
         Create Account
-      </button>
-    </form>
+      </ButtonNormal>
+    </Form>
   )
 }
 

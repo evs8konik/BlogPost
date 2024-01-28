@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react'
-import styles from './NormalInput.module.css'
+import { Wrapper, Input, Label } from './NormalInput.styles'
 
 interface IProps {
   label: string
@@ -13,18 +13,17 @@ const NormalInput: FC<IProps> = ({ label, value, onChange }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span className={styles.label}>{label}</span>
+    <Wrapper>
+      <Label>{label}</Label>
 
-      <input
-        className={styles.input}
+      <Input
         placeholder={'Enter text'}
         required
         type="text"
         value={value}
         onChange={handleChange}
-      />
-    </div>
+      ></Input>
+    </Wrapper>
   )
 }
 

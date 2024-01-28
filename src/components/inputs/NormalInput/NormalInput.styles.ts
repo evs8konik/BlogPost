@@ -1,25 +1,21 @@
-.wrapper {
-  width: 100%;
+import styled from 'styled-components'
 
+export const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-
   gap: 4px;
-}
+`
 
-.input {
+export const Input = styled.input`
   height: 30px;
   width: 100%;
-
   border: 2px solid #e1e1e1;
-
   padding: 4px 6px;
-
   border-radius: 6px;
-}
+`
 
-.label {
+export const Label = styled.span`
   font-size: 15px;
-
   font-weight: bold;
-}
+`
