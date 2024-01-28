@@ -22,3 +22,20 @@ export const CommentWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
 `
+
+export const Background = styled.div`
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+`
+
+export const CommentFormDiv = styled.div`
+  z-index: 2;
+`

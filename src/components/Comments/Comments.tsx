@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Wrapper, Title, CommentWrapper } from './Comments.styles'
+import { Wrapper, Title, CommentWrapper, Background, CommentFormDiv } from './Comments.styles'
 
 import useLogin from '../../hooks/useLogin/useLogin'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
@@ -51,7 +51,12 @@ const Comments: FC<TProps> = ({}) => {
     >
       <>
         <Wrapper>
-          <div>{checkIfNeedToShowCommentForm() ? <CommentForm addComment={addComment} /> : null}</div>
+          <Background>
+            <CommentFormDiv>
+              <div>{checkIfNeedToShowCommentForm() ? <CommentForm addComment={addComment} /> : null}</div>
+            </CommentFormDiv>
+          </Background>
+
           <Title>COMMENTS</Title>
 
           <CommentWrapper>
