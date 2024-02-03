@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { IComment } from '../../components/CommentForm/CommentForm'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { CommentsActions, selectCommentList } from '../../modules/Comments/store/redusers/Comments.slice'
 
 // Ключ для хранения списка комментариев в localStorage
 const STORAGE_KEY = 'commentList'
@@ -30,49 +32,48 @@ const saveCommentList = (commentList: IComment[]): void => {
 }
 
 // Хук взаимодействия со списком комментариев
+// Хук взаимодействия со списком комментариев
 const useCommentList = () => {
-  const [commentList, setCommentList] = useState<IComment[]>([])
+  const dispatch = useAppDispatch()
+
+  const commentList = useAppSelector(selectCommentList)
 
   useEffect(() => {
     // Получение списка комментариев из localStorage при загрузке компонента
     const storedCommentList = getStoredCommentList()
-
-    setCommentList(storedCommentList)
+    // Если вы хотите установить список комментариев из localStorage при загрузке, раскомментируйте следующую строку:
+    dispatch(CommentsActions.addCommentList(storedCommentList))
   }, [])
 
   // Функция добавления нового комментария
   const addComment = (comment: IComment): void => {
-    const newCommentList = [...commentList, comment]
+    dispatch(CommentsActions.addComment(comment))
 
-    setCommentList(newCommentList)
-    saveCommentList(newCommentList)
+    saveCommentList([...commentList, comment])
   }
 
   // Функция обработки нажатия на кнопку удаления комментария
   const handleClickRemoveButton = (commentId: string): void => {
-    const newCommentList = commentList.filter((comment) => comment.id !== commentId)
+    dispatch(CommentsActions.deleteComment(commentId))
 
-    setCommentList(newCommentList)
-    saveCommentList(newCommentList)
+    saveCommentList(commentList.filter((comment) => comment.id !== commentId))
   }
 
   // Функция обновления комментария
   const handleSaveComment = (data: IComment): void => {
-    const newCommentList = commentList.map((comment) => {
-      if (comment.id === data.id) {
-        return { ...comment, ...data }
-      }
+    dispatch(CommentsActions.saveComment(data))
 
-      return comment
-    })
-
-    // console.log('DATA', data)
-
-    setCommentList(newCommentList)
-    saveCommentList(newCommentList)
+    saveCommentList(
+      commentList.map((comment) => {
+        if (comment.id === data.id) {
+          return { ...comment, ...data }
+        }
+        return comment
+      }),
+    )
   }
 
-  return { commentList, addComment, handleSaveComment, handleClickRemoveButton }
+  return { commentList, addComment, handleSaveComment, handleClickRemoveButton, saveCommentList }
 }
 
 export default useCommentList

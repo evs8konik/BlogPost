@@ -4,10 +4,14 @@ import LoginContext from '../../../context/LoginContext/LoginContext'
 import ButtonNormal from '../../buttons/ButtonNormal/ButtonNormal'
 import useLogin from '../../../hooks/useLogin/useLogin'
 import Login from '../../../containers/Login/Login'
+import useCommentList from '../../../hooks/useCommentList/useCommentList'
+import CommentForm from '../../CommentForm/CommentForm'
 
 type TProps = {}
 
 const Header: FC<TProps> = ({}) => {
+  const { addComment } = useCommentList()
+
   const {
     user,
     currentUser,
@@ -41,6 +45,12 @@ const Header: FC<TProps> = ({}) => {
     return false
   }
 
+  const checkIfNeedToShowCommentForm = (): boolean => {
+    if (currentUser !== null) return true
+
+    return false
+  }
+
   return (
     <LoginContext.Provider
       value={{
@@ -57,33 +67,34 @@ const Header: FC<TProps> = ({}) => {
       }}
     >
       <>
-        <div>
-          {checkIfNeedToShowLogin() ? (
-            <LoginHeader>
-              <ButtonNormal
-                preset="login"
-                onClick={handleLoginClick}
-              >
-                Login
-              </ButtonNormal>
-            </LoginHeader>
-          ) : null}
+        {checkIfNeedToShowLogin() ? (
+          <LoginHeader>
+            <ButtonNormal
+              preset="login"
+              onClick={handleLoginClick}
+            >
+              Login
+            </ButtonNormal>
+          </LoginHeader>
+        ) : null}
 
-          {checkIfNeedToShowLogoutButton() ? (
-            <LogoutHeader>
-              <div>
-                <b>Hello: </b>
-                {currentUser?.firstName}
-              </div>
-              <ButtonNormal
-                preset="logout"
-                onClick={cleanCurrentUser}
-              >
-                Logout
-              </ButtonNormal>
-            </LogoutHeader>
-          ) : null}
-        </div>
+        {checkIfNeedToShowLogoutButton() ? (
+          <LogoutHeader>
+            <div>
+              <b>Hello: </b>
+              {currentUser?.firstName}
+            </div>
+            <ButtonNormal
+              preset="logout"
+              onClick={cleanCurrentUser}
+            >
+              Logout
+            </ButtonNormal>
+          </LogoutHeader>
+        ) : null}
+
+        {checkIfNeedToShowCommentForm() ? <CommentForm addComment={addComment} /> : null}
+
         {isShowLoginForm && (
           <ShadowBackground onClick={closeLoginForm}>
             <LoginForm onClick={(e) => e.stopPropagation()}>
