@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
+  width: 80%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -9,7 +10,7 @@ export const Wrapper = styled.div`
 `
 
 export const Title = styled.div`
-  width: 900px;
+  width: 100%;
 
   display: flex;
   justify-content: start;
@@ -19,6 +20,24 @@ export const Title = styled.div`
 `
 
 export const CommentWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column-reverse;
 `
+
+// export const Background = styled.div`
+//   position: fixed;
+//   pointer-events: none;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 1;
+//   display: flex;
+//   justify-content: center;
+//   align-items: end;
+// `
+
+// export const CommentFormDiv = styled.div`
+//   z-index: 2;
+// `

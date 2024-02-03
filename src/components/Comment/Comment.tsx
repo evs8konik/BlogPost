@@ -5,26 +5,28 @@ import { IComment, IReplyComment } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
 import ReplyComment from '../ReplyComment/ReplyComment'
-import { Wrapper, Title, Content, Username, ButtonWrapper } from './Comment.styles'
+import Styled from './Comment.styles'
 import { useLoginContext } from '../../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { CommentsActions } from '../../modules/Comments/store/redusers/Comments.slice'
+import useCommentList from '../../hooks/useCommentList/useCommentList'
 
 type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
 const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onClick, onSave }) => {
+  const dispatch = useAppDispatch()
+
+  const { commentList, saveCommentList } = useCommentList()
+
   const { currentUser } = useLoginContext()
-
-  // const [replyCommentList, setReplyCommentList] = useState<IReplyComment[]>([])
-
-  // const { replyCommentList, addReplyComment, handleSaveReplyComment, handleClickReplyRemoveButton } =
-  //   useReplyCommentList(id)
 
   const [isEdit, setIsEdit] = useState(false)
   const [isReply, setIsReply] = useState(false)
 
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableContent, setEditableContent] = useState(content)
-  const [editableReplyList, setEditableReplayList] = useState<IReplyComment[]>([])
+  // const [replyList, setReplayList] = useState<IReplyComment[]>([])
 
   useEffect(() => {
     setEditableTitle(title)
@@ -33,10 +35,6 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   useEffect(() => {
     setEditableContent(content)
   }, [content])
-
-  useEffect(() => {
-    setEditableReplayList(replyCommentList)
-  }, [replyCommentList])
 
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
@@ -54,7 +52,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
       title: editableTitle,
       content: editableContent,
       owner,
-      replyCommentList: editableReplyList,
+      replyCommentList,
     })
 
     isReply ? setIsReply(!isReply) : setIsReply(isReply)
@@ -62,33 +60,73 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   }
 
   const addReply = (reply: IReplyComment): void => {
-    const newCommentList = [...editableReplyList, reply]
+    dispatch(CommentsActions.addReplyComment({ commentId: id, reply }))
+
+    saveCommentList(
+      commentList.map((comment) => {
+        if (comment.id !== id) return comment
+
+        return { ...comment, replyCommentList: [...comment.replyCommentList, reply] }
+      }),
+    )
+    // const newCommentList = [...replyList, reply]
 
     // setEditableReplayList((prevReplyList) => [...prevReplyList, reply])
-    setEditableReplayList(newCommentList)
-    handleSave()
+    // setReplayList(newCommentList)
+    // handleSave()
   }
 
-  const handleSaveReplyEditComment = (data: IReplyComment): void => {
-    const newReplyCommentList = replyCommentList.map((reply) => {
-      if (reply.id === data.id) {
-        return { ...reply, ...data }
-      }
+  const handleSaveReplyEditComment = (replyComment: IReplyComment): void => {
+    dispatch(CommentsActions.saveReplyComment({ commentId: id, replyComment, replyCommentId: replyComment.id }))
 
-      return reply
-    })
+    saveCommentList(
+      commentList.map((comment) => {
+        if (comment.id !== id) return comment
 
-    setEditableReplayList(newReplyCommentList)
-    handleSave()
-    // saveReplyCommentList(replyId, newReplyCommentList)
+        return {
+          ...comment,
+          replyCommentList: comment.replyCommentList.map((reply) => {
+            if (reply.id === replyComment.id) {
+              return {
+                ...reply,
+                ...replyComment,
+              }
+            }
+            return reply
+          }),
+        }
+      }),
+    )
+
+    // dispatch(CommentsActions.saveReplyComment(data))
+    // const newReplyCommentList = replyCommentList.map((reply) => {
+    //   if (reply.id === data.id) {
+    //     return { ...reply, ...data }
+    //   }
+    //   return reply
+    // })
+    // // setReplayList(newReplyCommentList)
+    // handleSave()
+    // // saveReplyCommentList(replyId, newReplyCommentList)
   }
 
   const handleClickReplyRemoveButton = (replyCommentId: string): void => {
-    const newReplyCommentList = replyCommentList.filter((reply) => reply.id !== replyCommentId)
+    dispatch(CommentsActions.deleteReplyComment({ commentId: id, replyCommentId }))
 
-    setEditableReplayList(newReplyCommentList)
-    handleSave()
-    // saveReplyCommentList(replyId, newReplyCommentList)
+    saveCommentList(
+      commentList.map((comment) => {
+        if (comment.id !== id) return comment
+
+        return {
+          ...comment,
+          replyCommentList: [...comment.replyCommentList.filter((reply) => reply.id !== replyCommentId)],
+        }
+      }),
+    )
+    // const newReplyCommentList = replyCommentList.filter((reply) => reply.id !== replyCommentId)
+    // setReplayList(newReplyCommentList)
+    // handleSave()
+    // // saveReplyCommentList(replyId, newReplyCommentList)
   }
 
   const checkIfNeedToShowEditDeletButton = () => {
@@ -100,8 +138,11 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   }
 
   return (
-    <Wrapper>
-      <Title>
+    <Styled.Div
+      $preset={'wrapper'}
+      $color="red"
+    >
+      <Styled.Div $preset={'title'}>
         {isEdit ? (
           <NormalInput
             label="title"
@@ -111,9 +152,9 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
         ) : (
           <div className={'title'}>{title}</div>
         )}
-      </Title>
+      </Styled.Div>
 
-      <Content>
+      <Styled.Div $preset={'content'}>
         {isEdit ? (
           <NormalTextArea
             label="Comment"
@@ -123,46 +164,42 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
         ) : (
           <div className={'content'}>{content}</div>
         )}
-      </Content>
+      </Styled.Div>
 
-      <Username>{owner.firstName}</Username>
+      <Styled.Div $preset={'username'}>{owner.firstName}</Styled.Div>
 
-      <ButtonWrapper>
+      <Styled.Div $preset={'buttonWrapper'}>
         {checkIfNeedToShowEditDeletButton() ? (
-          <div>
-            <div>
-              {isEdit ? (
-                <ButtonNormal
-                  preset="save"
-                  // onClick={handleSave}
-                >
-                  Save
-                </ButtonNormal>
-              ) : (
-                <ButtonNormal
-                  preset="edit"
-                  onClick={toggleEditing}
-                >
-                  Edit
-                </ButtonNormal>
-              )}
-            </div>
-
-            <div>
+          <>
+            {isEdit ? (
               <ButtonNormal
-                preset="delete"
-                onClick={() => onClick(id)}
+                preset="save"
+                onClick={handleSave}
               >
-                Delete
+                Save
               </ButtonNormal>
-            </div>
-          </div>
+            ) : (
+              <ButtonNormal
+                preset="edit"
+                onClick={toggleEditing}
+              >
+                Edit
+              </ButtonNormal>
+            )}
+
+            <ButtonNormal
+              preset="delete"
+              onClick={() => onClick(id)}
+            >
+              Delete
+            </ButtonNormal>
+          </>
         ) : null}
 
         {/* Часть с ответом на комментарий */}
 
         {checkIfNeedToShowReplyButton() ? (
-          <div>
+          <>
             {isReply ? (
               <ButtonNormal
                 preset="save"
@@ -178,28 +215,24 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
                 Reply
               </ButtonNormal>
             )}
-          </div>
+          </>
         ) : null}
-      </ButtonWrapper>
+      </Styled.Div>
 
-      <div>{isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}</div>
+      {isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}
 
-      <div>
-        <div>
-          {editableReplyList.map((reply) => {
-            return (
-              <ReplyComment
-                key={reply.id}
-                commentOwner={owner}
-                onClick={handleClickReplyRemoveButton}
-                onSave={handleSaveReplyEditComment}
-                {...reply}
-              />
-            )
-          })}
-        </div>
-      </div>
-    </Wrapper>
+      {replyCommentList.map((reply) => {
+        return (
+          <ReplyComment
+            key={reply.id}
+            commentOwner={owner}
+            onClick={handleClickReplyRemoveButton}
+            onSave={handleSaveReplyEditComment}
+            {...reply}
+          />
+        )
+      })}
+    </Styled.Div>
   )
 }
 

@@ -1,12 +1,7 @@
 import React, { FC } from 'react'
-import Comment from './components/Comment/Comment'
-import CommentForm, { IComment } from './components/CommentForm/CommentForm'
 import useCommentList from './hooks/useCommentList/useCommentList'
 import LoginContext, { IUser } from './context/LoginContext/LoginContext'
-import Login from './containers/Login/Login'
 import useLogin from './hooks/useLogin/useLogin'
-
-import ButtonNormal from './components/buttons/ButtonNormal/ButtonNormal'
 import Comments from './components/Comments/Comments'
 import Header from './components/Header/Comments/Header'
 

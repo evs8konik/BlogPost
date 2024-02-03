@@ -1,16 +1,20 @@
 import { FC } from 'react'
 
-import { Wrapper, Title, CommentWrapper } from './Comments.styles'
+import {
+  Wrapper,
+  Title,
+  CommentWrapper,
+  // Background, CommentFormDiv
+} from './Comments.styles'
 
 import useLogin from '../../hooks/useLogin/useLogin'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
 import Comment from '../Comment/Comment'
 import CommentForm from '../CommentForm/CommentForm'
 import LoginContext from '../../context/LoginContext/LoginContext'
+import { useAppDispatch } from '../../app/hooks'
 
-type TProps = {}
-
-const Comments: FC<TProps> = ({}) => {
+const Comments: FC = () => {
   const { commentList, addComment, handleSaveComment, handleClickRemoveButton } = useCommentList()
 
   const {
@@ -28,11 +32,11 @@ const Comments: FC<TProps> = ({}) => {
     cleanCurrentUser,
   } = useLogin()
 
-  const checkIfNeedToShowCommentForm = (): boolean => {
-    if (currentUser !== null) return true
+  // const checkIfNeedToShowCommentForm = (): boolean => {
+  //   if (currentUser !== null) return true
 
-    return false
-  }
+  //   return false
+  // }
 
   return (
     <LoginContext.Provider
@@ -51,7 +55,13 @@ const Comments: FC<TProps> = ({}) => {
     >
       <>
         <Wrapper>
-          <div>{checkIfNeedToShowCommentForm() ? <CommentForm addComment={addComment} /> : null}</div>
+          {/* <Background>
+            <CommentFormDiv> */}
+          {/* {checkIfNeedToShowCommentForm() ? <CommentForm addComment={addComment} /> : null} */}
+
+          {/* </CommentFormDiv>
+          </Background> */}
+
           <Title>COMMENTS</Title>
 
           <CommentWrapper>
