@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { IComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { CommentsActions, selectCommentList } from '../../modules/Comments/store/redusers/Comments.slice'
+import { CommentsActions, selectCommentList } from '../../modules/Comments/store/reducers/Comments.slice'
 
 // Ключ для хранения списка комментариев в localStorage
 const STORAGE_KEY = 'commentList'
@@ -31,7 +31,6 @@ const saveCommentList = (commentList: IComment[]): void => {
   localStorage.setItem(STORAGE_KEY, formattedStoreData)
 }
 
-// Хук взаимодействия со списком комментариев
 // Хук взаимодействия со списком комментариев
 const useCommentList = () => {
   const dispatch = useAppDispatch()

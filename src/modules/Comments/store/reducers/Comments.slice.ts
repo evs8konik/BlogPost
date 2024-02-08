@@ -85,20 +85,6 @@ const CommentsSlice = createSlice({
     addCommentList: (state, { payload }: PayloadAction<IComment[]>) => {
       state.commentList = payload
     },
-
-    // deleteReplyComment: (state, { payload }: PayloadAction<string>) => {
-    //   state.replyList = state.replyList.filter((comment) => comment.id !== payload)
-    // },
-
-    // saveReplyComment: (state, { payload }: PayloadAction<IReplyComment>) => {
-    //   state.replyList = state.replyList.map((comment) => {
-    //     if (comment.id === payload.id) {
-    //       return { ...comment, ...payload }
-    //     }
-
-    //     return comment
-    //   })
-    // },
   },
 })
 

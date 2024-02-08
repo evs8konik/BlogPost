@@ -3,7 +3,7 @@ import { IReplyComment } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { Wrapper, Content, Username, ButtonWrapper } from './ReplyComment.styles'
+import Styled from './ReplyComment.styles'
 
 type TProps = {
   commentOwner: IUser
@@ -51,8 +51,8 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
   }
 
   return (
-    <Wrapper>
-      <Content>
+    <Styled.Wrapper>
+      <Styled.Content>
         {isEdit ? (
           <NormalTextArea
             label="Comment"
@@ -60,13 +60,13 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
             onChange={setEditableContent}
           />
         ) : (
-          <Content>{content}</Content>
+          <Styled.Content>{content}</Styled.Content>
         )}
-      </Content>
+      </Styled.Content>
 
-      <Username>{owner.firstName}</Username>
+      <Styled.Username>{owner.firstName}</Styled.Username>
 
-      <ButtonWrapper>
+      <Styled.ButtonWrapper>
         {checkIfNeedToShowEditButton() ? (
           <div>
             {isEdit ? (
@@ -94,8 +94,8 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
             Delete
           </ButtonNormal>
         ) : null}
-      </ButtonWrapper>
-    </Wrapper>
+      </Styled.ButtonWrapper>
+    </Styled.Wrapper>
   )
 }
 

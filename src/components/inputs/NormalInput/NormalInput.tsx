@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react'
-import { Wrapper, Input, Label } from './NormalInput.styles'
+import Styled from './NormalInput.styles'
 
 interface IProps {
   label: string
@@ -13,17 +13,17 @@ const NormalInput: FC<IProps> = ({ label, value, onChange }) => {
   }
 
   return (
-    <Wrapper>
-      <Label>{label}</Label>
+    <Styled.Wrapper>
+      <Styled.Label>{label}</Styled.Label>
 
-      <Input
+      <Styled.Input
         placeholder={'Enter text'}
         required
         type="text"
         value={value}
         onChange={handleChange}
-      ></Input>
-    </Wrapper>
+      ></Styled.Input>
+    </Styled.Wrapper>
   )
 }
 

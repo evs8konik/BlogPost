@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 80%;
   display: flex;
   align-items: center;
@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   gap: 30px;
 `
 
-export const Title = styled.div`
+const Title = styled.div`
   width: 100%;
 
   display: flex;
@@ -19,13 +19,16 @@ export const Title = styled.div`
   font-weight: bold;
 `
 
-export const CommentWrapper = styled.div`
+const CommentWrapper = styled.div`
   width: 100%;
+
   display: flex;
   flex-direction: column-reverse;
+
+  gap: 20px;
 `
 
-// export const Background = styled.div`
+// const Background = styled.div`
 //   position: fixed;
 //   pointer-events: none;
 //   top: 0;
@@ -38,6 +41,14 @@ export const CommentWrapper = styled.div`
 //   align-items: end;
 // `
 
-// export const CommentFormDiv = styled.div`
+// const CommentFormDiv = styled.div`
 //   z-index: 2;
 // `
+
+const StyledComments = {
+  Wrapper,
+  Title,
+  CommentWrapper,
+}
+
+export default StyledComments

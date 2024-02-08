@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Form = styled.form`
+const Form = styled.form`
   height: auto;
   width: 300px;
 
@@ -16,3 +16,9 @@ export const Form = styled.form`
 
   gap: 10px;
 `
+
+const StyledSignIn = {
+  Form,
+}
+
+export default StyledSignIn

@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import CommentsReducer from '../modules/Comments/store/redusers/Comments.slice'
+import CommentsReducer from '../modules/Comments/store/reducers/Comments.slice'
+import AccountReducer from '../modules/Comments/store/reducers/Account.slice'
 
 export const store = configureStore({
   reducer: {
     comments: CommentsReducer,
+    account: AccountReducer,
   },
 })
 

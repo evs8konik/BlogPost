@@ -2,11 +2,18 @@ import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import { Form } from './SygnUp.styles'
+import Styled from './SygnUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
+import { AccountActions, AccountSelectors } from '../../../../modules/Comments/store/reducers/Account.slice'
 
 const SignUp: FC = () => {
-  const { setIsShowSignIn, setIsShowSignUp } = useLoginContext()
+  // const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
+  // const openedForm = useAppSelector(AccountSelectors.selectOpenForm)
+
+  const dispatch = useAppDispatch()
+
+  // const { setIsShowSignIn, setIsShowSignUp } = useLoginContext()
 
   const { addUser } = useLogin()
 
@@ -16,8 +23,10 @@ const SignUp: FC = () => {
   const [password, setPassword] = useState<string>('')
 
   const handleSignInClick = () => {
-    setIsShowSignIn(true)
-    setIsShowSignUp(false)
+    // setIsShowSignIn(true)
+    // setIsShowSignUp(false)
+
+    dispatch(AccountActions.showSignInForm())
   }
 
   const handleSubmit = (e: FormEvent): void => {
@@ -32,7 +41,7 @@ const SignUp: FC = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Styled.Form onSubmit={handleSubmit}>
       <NormalInput
         label="First name"
         value={firstName}
@@ -65,7 +74,7 @@ const SignUp: FC = () => {
       >
         Sing In
       </ButtonNormal>
-    </Form>
+    </Styled.Form>
   )
 }
 

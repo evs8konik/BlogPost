@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
 `
 
-export const Input = styled.input`
+const Input = styled.input`
   height: 30px;
   width: 100%;
   border: 2px solid #e1e1e1;
@@ -15,7 +15,15 @@ export const Input = styled.input`
   border-radius: 6px;
 `
 
-export const Label = styled.span`
+const Label = styled.span`
   font-size: 15px;
   font-weight: bold;
 `
+
+const StyledNormalInput = {
+  Wrapper,
+  Input,
+  Label,
+}
+
+export default StyledNormalInput

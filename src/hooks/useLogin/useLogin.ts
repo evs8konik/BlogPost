@@ -1,5 +1,7 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
+import { useEffect, useState } from 'react'
+import { IUser } from '../../context/LoginContext/LoginContext'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
 
 const STORAGE_KEY = 'login'
 
@@ -39,41 +41,66 @@ const saveCurrentUser = (currentUser: IUser | null): void => {
 }
 
 const useLogin = () => {
-  const [user, setUser] = useState<IUser | null>(null)
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null)
+  const dispatch = useAppDispatch()
 
-  const [isShowSignIn, setIsShowSignIn] = useState(false)
-  const [isShowSignUp, setIsShowSignUp] = useState(false)
-  const [isShowLoginForm, setIsShowLoginForm] = useState(false)
-  const [isShowLoginButton, setIsShowLoginButton] = useState(false)
+  // const user = useAppSelector(AccountSelectors.selectUser)
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
+  // const openedForm = useAppSelector(AccountSelectors.selectOpenForm)
+  const registrationFormForm = useAppSelector(AccountSelectors.selectRegistrationForm)
+
+  // const userList = useAppSelector(AccountSelectors.selectUserList)
+
+  // const isShowSignIn = useAppSelector((state) => state.account.openedForm === EAccountForm.SignIn)
+  // const isShowSignUp = useAppSelector((state) => state.account.openedForm === EAccountForm.SignUp)
+  // const isShowLoginForm = useAppSelector((state) => state.account.openedForm === EAccountForm.Login)
+
+  // const isShowSignIn = useAppSelector((state) => state.account.openedForm)
+  // const isShowSignUp = useAppSelector((state) => state.account.openedForm)
+  // const isShowLoginForm = useAppSelector((state) => state.account.openedForm)
+
+  const isShowSignIn = registrationFormForm === EAccountForm.SignIn
+  const isShowSignUp = registrationFormForm === EAccountForm.SignUp
+  // const isShowLoginForm = openedForm
+
+  // const isShowLoginButton = useAppSelector((state) => state.account.openedForm === EAccountForm.LoginButton)
+
+  // const [isShowSignIn, setIsShowSignIn] = useState(false)
+  // const [isShowSignUp, setIsShowSignUp] = useState(false)
+  // const [isShowLoginForm, setIsShowLoginForm] = useState(false)
+  // const [isShowLoginButton, setIsShowLoginButton] = useState(false)
 
   const closeLoginForm = () => {
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    dispatch(AccountActions.closeLoginForm())
+    // setIsShowSignIn(false)
+    // setIsShowSignUp(false)
+    // setIsShowLoginForm(false)
   }
 
   useEffect(() => {
     const storedData = getStoredData()
-    setCurrentUser(storedData.currentUser)
+
+    dispatch(AccountActions.addCurrentUser(storedData.currentUser))
   }, [])
 
   const addUser = (user: IUser): void => {
     saveUser(user)
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    dispatch(AccountActions.closeLoginForm())
+    // setIsShowSignIn(false)
+    // setIsShowSignUp(false)
+    // setIsShowLoginForm(false)
   }
 
   const addCurrentUser = (currentUser: IUser | null): void => {
+    dispatch(AccountActions.addCurrentUser(currentUser))
+
     saveCurrentUser(currentUser)
   }
 
   const cleanCurrentUser = (): void => {
     setTimeout(() => {
-      const currentUser = null
-      saveCurrentUser(currentUser)
-      setCurrentUser(currentUser)
+      saveCurrentUser(null)
+
+      dispatch(AccountActions.addCurrentUser(null))
     }, 0)
   }
 
@@ -89,20 +116,17 @@ const useLogin = () => {
   }
 
   return {
-    user,
     currentUser,
-    setCurrentUser,
-    setUser,
     addUser,
     getUser,
     isShowSignIn,
     isShowSignUp,
-    isShowLoginForm,
-    isShowLoginButton,
-    setIsShowSignIn,
-    setIsShowSignUp,
-    setIsShowLoginForm,
-    setIsShowLoginButton,
+
+    // isShowLoginButton,
+    // setIsShowSignIn,
+    // setIsShowSignUp,
+    // setIsShowLoginForm,
+    // setIsShowLoginButton,
     addCurrentUser,
     closeLoginForm,
     cleanCurrentUser,

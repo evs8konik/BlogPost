@@ -169,8 +169,10 @@ const getPreset = (preset: string) => {
   switch (preset) {
     case 'edit':
       return editPreset
+
     case 'delete':
       return deletePreset
+
     case 'add':
       return addPreset
     case 'close':

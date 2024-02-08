@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   height: auto;
   width: 100%;
   display: flex;
@@ -14,14 +14,14 @@ export const Wrapper = styled.div`
   background-color: #e1e1e1;
 `
 
-export const Content = styled.div`
+const Content = styled.div`
   width: 100%;
   display: flex;
   justify-content: start;
   text-align: justify;
 `
 
-export const Username = styled.div`
+const Username = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -29,8 +29,17 @@ export const Username = styled.div`
   text-transform: capitalize;
 `
 
-export const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
 `
+
+const StyledReplyComment = {
+  Wrapper,
+  ButtonWrapper,
+  Username,
+  Content,
+}
+
+export default StyledReplyComment

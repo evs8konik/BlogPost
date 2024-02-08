@@ -4,7 +4,7 @@ import NormalInput from '../inputs/NormalInput/NormalInput'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { Wrapper, Form, ButtonWrapper } from './CommentForm.styles'
+import Styled from './CommentForm.styles'
 
 export interface IReplyComment {
   id: string
@@ -60,8 +60,8 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
   }
 
   return (
-    <Wrapper>
-      <Form onSubmit={(e) => handleSubmit(e)}>
+    <Styled.Wrapper>
+      <Styled.Form onSubmit={(e) => handleSubmit(e)}>
         <NormalInput
           label={'Title'}
           value={title}
@@ -74,11 +74,11 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
           onChange={(contentValue) => handleChangeInput('content', contentValue)}
         />
 
-        <ButtonWrapper>
+        <Styled.ButtonWrapper>
           <ButtonNormal preset="add">Add comment</ButtonNormal>
-        </ButtonWrapper>
-      </Form>
-    </Wrapper>
+        </Styled.ButtonWrapper>
+      </Styled.Form>
+    </Styled.Wrapper>
   )
 }
 

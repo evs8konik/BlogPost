@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   height: auto;
   width: 100%;
   display: flex;
@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   background-color: white;
 `
 
-export const Form = styled.form`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -19,8 +19,16 @@ export const Form = styled.form`
   gap: 10px;
 `
 
-export const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start; // changed to 'flex-start' to match your requirement
 `
+
+const StyledReplyCommentForm = {
+  Wrapper,
+  Form,
+  ButtonWrapper,
+}
+
+export default StyledReplyCommentForm

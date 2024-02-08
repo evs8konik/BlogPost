@@ -1,12 +1,17 @@
 import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import LoginContext, { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import { Form } from './SygnIn.styles'
+import { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
+import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
+import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { useAppDispatch } from '../../../../app/hooks'
 
 const SignIn: FC = () => {
-  const { setIsShowSignIn, setIsShowSignUp, setUser, setCurrentUser, setIsShowLoginForm } = useLoginContext()
+  const dispatch = useAppDispatch()
+
+  // const { setIsShowSignIn, setIsShowSignUp, setIsShowLoginForm } = useLoginContext()
+
   const { getUser, addCurrentUser } = useLogin()
 
   const [editableUsername, setEditableUsername] = useState<string>('')
@@ -16,21 +21,22 @@ const SignIn: FC = () => {
     e.preventDefault()
     const ourUser: IUser | null = getUser(editableUsername, editablePassword)
 
-    setCurrentUser(ourUser)
+    // setCurrentUser(ourUser)
     addCurrentUser(ourUser)
-
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    dispatch(AccountActions.closeLoginForm())
+    // setIsShowSignIn(false)
+    // setIsShowSignUp(false)
+    // setIsShowLoginForm(false)
   }
 
   const handleSignUpClick = () => {
-    setIsShowSignIn(false)
-    setIsShowSignUp(true)
+    // setIsShowSignIn(false)
+    // setIsShowSignUp(true)
+    dispatch(AccountActions.showSignUpForm())
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Styled.Form onSubmit={handleSubmit}>
       <NormalInput
         label="Username"
         value={editableUsername}
@@ -51,7 +57,7 @@ const SignIn: FC = () => {
       >
         Create Account
       </ButtonNormal>
-    </Form>
+    </Styled.Form>
   )
 }
 

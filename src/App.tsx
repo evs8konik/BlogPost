@@ -3,21 +3,19 @@ import useCommentList from './hooks/useCommentList/useCommentList'
 import LoginContext, { IUser } from './context/LoginContext/LoginContext'
 import useLogin from './hooks/useLogin/useLogin'
 import Comments from './components/Comments/Comments'
-import Header from './components/Header/Comments/Header'
+import Header from './components/Header/Header'
 
 const App: FC = () => {
   const { commentList, addComment, handleSaveComment, handleClickRemoveButton } = useCommentList()
   const {
-    user,
+    // user,
     currentUser,
-    setCurrentUser,
-    setUser,
     isShowSignIn,
     isShowSignUp,
-    isShowLoginForm,
-    setIsShowSignIn,
-    setIsShowSignUp,
-    setIsShowLoginForm,
+
+    // setIsShowSignIn,
+    // setIsShowSignUp,
+    // setIsShowLoginForm,
     closeLoginForm,
     cleanCurrentUser,
   } = useLogin()
@@ -40,35 +38,20 @@ const App: FC = () => {
   //   return false
   // }
 
-  const checkIfNeedToShowCommentForm = (): boolean => {
-    if (currentUser !== null) return true
+  // const checkIfNeedToShowCommentForm = (): boolean => {
+  //   if (currentUser !== null) return true
 
-    return false
-  }
+  //   return false
+  // }
 
   return (
-    <LoginContext.Provider
-      value={{
-        user,
-        currentUser,
-        isShowSignIn,
-        isShowSignUp,
-        isShowLoginForm,
-        setUser,
-        setCurrentUser,
-        setIsShowSignIn,
-        setIsShowSignUp,
-        setIsShowLoginForm,
-      }}
-    >
-      <>
-        <div className="general-wrapper">
-          <Header />
+    <>
+      <div className="general-wrapper">
+        <Header />
 
-          <Comments />
-        </div>
-      </>
-    </LoginContext.Provider>
+        <Comments />
+      </div>
+    </>
   )
 }
 

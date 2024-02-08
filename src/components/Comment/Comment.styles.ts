@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const wrapperPreset = css`
+const Wrapper = styled.div`
   height: auto;
   width: 100%;
   display: flex;
@@ -12,7 +12,7 @@ const wrapperPreset = css`
   background-color: white;
 `
 
-const titlePreset = css`
+const Title = styled.div`
   width: 100%;
   display: flex;
   justify-content: start;
@@ -20,14 +20,14 @@ const titlePreset = css`
   text-transform: uppercase;
 `
 
-const contentPreset = css`
+const Content = styled.div`
   width: 100%;
   display: flex;
   justify-content: start;
   text-align: justify;
 `
 
-const usernamePreset = css`
+const Username = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -35,42 +35,18 @@ const usernamePreset = css`
   text-transform: capitalize;
 `
 
-const buttonWrapperPreset = css`
+const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
 `
 
-const getPreset = (preset: string) => {
-  switch (preset) {
-    case 'wrapper':
-      return wrapperPreset
-    case 'title':
-      return titlePreset
-    case 'content':
-      return contentPreset
-    case 'username':
-      return usernamePreset
-    case 'buttonWrapper':
-      return buttonWrapperPreset
-
-    default:
-      return css``
-  }
+const StyledComment = {
+  Wrapper,
+  ButtonWrapper,
+  Username,
+  Content,
+  Title,
 }
 
-const Div = styled.div<{
-  $preset: string
-  $color?: string
-}>`
-  ${({ $color }) => css`
-    color: red;
-  `}
-  ${({ $preset }) => getPreset($preset)};
-`
-
-const StyledDiv = {
-  Div,
-}
-
-export default StyledDiv
+export default StyledComment

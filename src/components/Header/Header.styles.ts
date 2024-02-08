@@ -10,7 +10,7 @@ const size = {
   desktop: '2560px',
 }
 
-export const device = {
+const device = {
   mobileS: `(min-width: ${size.mobileS})`,
   mobileM: `(min-width: ${size.mobileM})`,
   mobileL: `(min-width: ${size.mobileL})`,
@@ -21,7 +21,7 @@ export const device = {
   desktopL: `(min-width: ${size.desktop})`,
 }
 
-export const ShadowBackground = styled.div`
+const ShadowBackground = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -34,20 +34,20 @@ export const ShadowBackground = styled.div`
   align-items: center;
 `
 
-export const LoginForm = styled.div`
+const LoginForm = styled.div`
   z-index: 2;
 `
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
 `
 
-export const ButtonCloseWrapper = styled.div`
+const ButtonCloseWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `
 
-export const LoginHeader = styled.div`
+const LoginHeader = styled.div`
   height: 50px;
   width: 80%;
   background-color: #fff;
@@ -58,7 +58,7 @@ export const LoginHeader = styled.div`
   align-items: center;
 `
 
-export const LogoutHeader = styled.div`
+const LogoutHeader = styled.div`
   height: 50px;
   width: 80%;
   background-color: #fff;
@@ -68,3 +68,15 @@ export const LogoutHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+
+const StyledHeader = {
+  Wrapper,
+  device,
+  ShadowBackground,
+  LoginForm,
+  ButtonCloseWrapper,
+  LoginHeader,
+  LogoutHeader,
+}
+
+export default StyledHeader
