@@ -5,6 +5,8 @@ import { IReplyComment } from '../CommentForm/CommentForm'
 import { useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyCommentForm.styles'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 
 interface IInputsState {
   content: string
@@ -15,7 +17,7 @@ interface IProps {
 }
 
 const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
-  const { currentUser } = useLoginContext()
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [{ content }, setInputsState] = useState<IInputsState>({
     content: '',
