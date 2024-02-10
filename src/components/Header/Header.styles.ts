@@ -49,7 +49,7 @@ const ButtonCloseWrapper = styled.div`
 
 const LoginHeader = styled.div`
   height: 50px;
-  width: 80%;
+  width: 70%;
   background-color: #fff;
   border-radius: 15px;
   padding: 10px;
@@ -60,7 +60,7 @@ const LoginHeader = styled.div`
 
 const LogoutHeader = styled.div`
   height: 50px;
-  width: 80%;
+  width: 70%;
   background-color: #fff;
   border-radius: 15px;
   padding: 10px;

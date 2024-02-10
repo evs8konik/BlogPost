@@ -5,6 +5,8 @@ import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import { IUser, useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './CommentForm.styles'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 
 export interface IReplyComment {
   id: string
@@ -30,7 +32,7 @@ interface IProps {
 }
 
 const CommentForm: FC<IProps> = ({ addComment }) => {
-  const { currentUser } = useLoginContext()
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [{ title, content }, setInputsState] = useState<IInputsState>({
     title: '',

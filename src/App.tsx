@@ -1,8 +1,5 @@
-//
-
 import React, { FC, useEffect } from 'react'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom'
-import useCommentList from './hooks/useCommentList/useCommentList'
 import LoginPage from './components/LoginPage/LoginPage'
 import { EAppRoute } from './routes/AppRoute'
 import { useAppSelector } from './app/hooks'
@@ -21,7 +18,7 @@ const App: FC = () => {
     if (currentUser !== null) {
       navigate(EAppRoute.Comments)
     }
-  }, [currentUser, navigate]) // Зависимость useEffect от currentUser и navigate
+  }, [currentUser, navigate]) // зависимость useEffect от currentUser и navigate
 
   return (
     <div className="general-wrapper">

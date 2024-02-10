@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   height: auto;
-  width: 80%;
+  width: 70%;
   display: flex;
   justify-content: center;
   align-items: center;

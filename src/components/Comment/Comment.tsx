@@ -179,7 +179,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
             {isReply ? (
               <ButtonNormal
                 preset="save"
-                // onClick={handleSave}
+                onClick={handleSave}
               >
                 Save
               </ButtonNormal>

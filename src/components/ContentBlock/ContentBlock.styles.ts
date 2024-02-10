@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  width: 80%;
+  width: 70%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -28,27 +28,10 @@ const CommentWrapper = styled.div`
   gap: 20px;
 `
 
-// const Background = styled.div`
-//   position: fixed;
-//   pointer-events: none;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   z-index: 1;
-//   display: flex;
-//   justify-content: center;
-//   align-items: end;
-// `
-
-// const CommentFormDiv = styled.div`
-//   z-index: 2;
-// `
-
-const StyledComments = {
+const StyledContentBlock = {
   Wrapper,
   Title,
   CommentWrapper,
 }
 
-export default StyledComments
+export default StyledContentBlock

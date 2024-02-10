@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import Styled from './Comments.styles'
+import Styled from './ContentBlock.styles'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
 import Comment from '../Comment/Comment'
 
-const Comments: FC = () => {
+const ContentBlock: FC = () => {
   const { commentList, handleSaveComment, handleClickRemoveButton } = useCommentList()
 
   return (
@@ -24,4 +24,4 @@ const Comments: FC = () => {
   )
 }
 
-export default Comments
+export default ContentBlock

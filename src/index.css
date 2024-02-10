@@ -25,6 +25,8 @@ code {
   border: 0 solid transparent;
 }
 .general-wrapper {
+  height: 100vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;

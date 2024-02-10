@@ -1,14 +1,20 @@
 import React, { FC } from 'react'
 import Styled from './CommentPage.styles'
-import useCommentList from '../../hooks/useCommentList/useCommentList'
 import Header from '../Header/Header'
-import Comments from '../Comments/Comments'
+import ContentBlock from '../ContentBlock/ContentBlock'
+import CommentForm from '../CommentForm/CommentForm'
+import useCommentList from '../../hooks/useCommentList/useCommentList'
 
 const CommentPage: FC = () => {
+  const { addComment } = useCommentList()
+
   return (
     <>
       <Header />
-      <Comments />
+
+      <CommentForm addComment={addComment} />
+
+      <ContentBlock />
     </>
   )
 }
