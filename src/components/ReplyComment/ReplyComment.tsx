@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { IReplyComment } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
+import { IUser, useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyComment.styles'
 

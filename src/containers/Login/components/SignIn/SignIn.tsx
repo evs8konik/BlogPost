@@ -1,7 +1,7 @@
 import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
+import { IUser, useLoginContext } from '../../../../components/context/LoginContext/LoginContext'
 import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'

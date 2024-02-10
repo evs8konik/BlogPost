@@ -1,57 +1,41 @@
-import React, { FC } from 'react'
+//
+
+import React, { FC, useEffect } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import useCommentList from './hooks/useCommentList/useCommentList'
-import LoginContext, { IUser } from './context/LoginContext/LoginContext'
-import useLogin from './hooks/useLogin/useLogin'
-import Comments from './components/Comments/Comments'
-import Header from './components/Header/Header'
+import LoginPage from './components/LoginPage/LoginPage'
+import { EAppRoute } from './routes/AppRoute'
+import { useAppSelector } from './app/hooks'
+import { AccountSelectors } from './modules/Comments/store/reducers/Account.slice'
+import CommentPage from './components/CommentPage/CommentPage'
 
 const App: FC = () => {
-  const { commentList, addComment, handleSaveComment, handleClickRemoveButton } = useCommentList()
-  const {
-    // user,
-    currentUser,
-    isShowSignIn,
-    isShowSignUp,
+  const navigate = useNavigate()
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
-    // setIsShowSignIn,
-    // setIsShowSignUp,
-    // setIsShowLoginForm,
-    closeLoginForm,
-    cleanCurrentUser,
-  } = useLogin()
+  useEffect(() => {
+    if (currentUser === null) {
+      navigate(EAppRoute.Login)
+    }
 
-  // const handleLoginClick = () => {
-  //   setIsShowSignIn(true)
-  //   setIsShowSignUp(false)
-  //   setIsShowLoginForm(true)
-  // }
-
-  // const checkIfNeedToShowLogin = (): boolean => {
-  //   if (!isShowSignIn && !isShowSignUp && !isShowLoginForm && currentUser === null) return true
-
-  //   return false
-  // }
-
-  // const checkIfNeedToShowLogoutButton = (): boolean => {
-  //   if (currentUser !== null) return true
-
-  //   return false
-  // }
-
-  // const checkIfNeedToShowCommentForm = (): boolean => {
-  //   if (currentUser !== null) return true
-
-  //   return false
-  // }
+    if (currentUser !== null) {
+      navigate(EAppRoute.Comments)
+    }
+  }, [currentUser, navigate]) // Зависимость useEffect от currentUser и navigate
 
   return (
-    <>
-      <div className="general-wrapper">
-        <Header />
-
-        <Comments />
-      </div>
-    </>
+    <div className="general-wrapper">
+      <Routes>
+        <Route
+          path={EAppRoute.Comments}
+          element={<CommentPage />}
+        />
+        <Route
+          path={EAppRoute.Login}
+          element={<LoginPage />}
+        />
+      </Routes>
+    </div>
   )
 }
 

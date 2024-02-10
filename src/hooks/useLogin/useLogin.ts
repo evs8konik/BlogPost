@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { IUser } from '../../context/LoginContext/LoginContext'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
+import { IUser } from '../../components/context/LoginContext/LoginContext'
 
 const STORAGE_KEY = 'login'
 
@@ -43,37 +43,10 @@ const saveCurrentUser = (currentUser: IUser | null): void => {
 const useLogin = () => {
   const dispatch = useAppDispatch()
 
-  // const user = useAppSelector(AccountSelectors.selectUser)
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
-  // const openedForm = useAppSelector(AccountSelectors.selectOpenForm)
-  const registrationFormForm = useAppSelector(AccountSelectors.selectRegistrationForm)
-
-  // const userList = useAppSelector(AccountSelectors.selectUserList)
-
-  // const isShowSignIn = useAppSelector((state) => state.account.openedForm === EAccountForm.SignIn)
-  // const isShowSignUp = useAppSelector((state) => state.account.openedForm === EAccountForm.SignUp)
-  // const isShowLoginForm = useAppSelector((state) => state.account.openedForm === EAccountForm.Login)
-
-  // const isShowSignIn = useAppSelector((state) => state.account.openedForm)
-  // const isShowSignUp = useAppSelector((state) => state.account.openedForm)
-  // const isShowLoginForm = useAppSelector((state) => state.account.openedForm)
-
-  const isShowSignIn = registrationFormForm === EAccountForm.SignIn
-  const isShowSignUp = registrationFormForm === EAccountForm.SignUp
-  // const isShowLoginForm = openedForm
-
-  // const isShowLoginButton = useAppSelector((state) => state.account.openedForm === EAccountForm.LoginButton)
-
-  // const [isShowSignIn, setIsShowSignIn] = useState(false)
-  // const [isShowSignUp, setIsShowSignUp] = useState(false)
-  // const [isShowLoginForm, setIsShowLoginForm] = useState(false)
-  // const [isShowLoginButton, setIsShowLoginButton] = useState(false)
 
   const closeLoginForm = () => {
     dispatch(AccountActions.closeLoginForm())
-    // setIsShowSignIn(false)
-    // setIsShowSignUp(false)
-    // setIsShowLoginForm(false)
   }
 
   useEffect(() => {
@@ -85,9 +58,6 @@ const useLogin = () => {
   const addUser = (user: IUser): void => {
     saveUser(user)
     dispatch(AccountActions.closeLoginForm())
-    // setIsShowSignIn(false)
-    // setIsShowSignUp(false)
-    // setIsShowLoginForm(false)
   }
 
   const addCurrentUser = (currentUser: IUser | null): void => {
@@ -119,14 +89,6 @@ const useLogin = () => {
     currentUser,
     addUser,
     getUser,
-    isShowSignIn,
-    isShowSignUp,
-
-    // isShowLoginButton,
-    // setIsShowSignIn,
-    // setIsShowSignUp,
-    // setIsShowLoginForm,
-    // setIsShowLoginButton,
     addCurrentUser,
     closeLoginForm,
     cleanCurrentUser,

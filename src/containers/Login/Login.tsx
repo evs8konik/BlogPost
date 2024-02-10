@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useLoginContext } from '../../context/LoginContext/LoginContext'
+import { useLoginContext } from '../../components/context/LoginContext/LoginContext'
 import SignIn from './components/SignIn/SignIn'
 import SignUp from './components/SignUp/SignUp'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -16,7 +16,7 @@ const Login: FC = () => {
       return <SignIn />
 
     default:
-      return <></>
+      return <SignIn />
   }
 }
 

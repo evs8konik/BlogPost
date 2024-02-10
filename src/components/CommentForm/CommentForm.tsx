@@ -2,7 +2,7 @@ import { FC, FormEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
+import { IUser, useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './CommentForm.styles'
 

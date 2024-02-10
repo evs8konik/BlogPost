@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
+import { EAccountForm } from '../../../modules/Comments/store/reducers/Account.slice'
 
 export interface ILoginState {
   currentUser: IUser | null

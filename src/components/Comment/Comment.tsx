@@ -5,11 +5,12 @@ import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
 import ReplyComment from '../ReplyComment/ReplyComment'
 import Styled from './Comment.styles'
-import { useLoginContext } from '../../context/LoginContext/LoginContext'
+import { useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { CommentsActions } from '../../modules/Comments/store/reducers/Comments.slice'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 
 type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
@@ -18,7 +19,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
 
   const { commentList, saveCommentList } = useCommentList()
 
-  const { currentUser } = useLoginContext()
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
   const [isReply, setIsReply] = useState(false)

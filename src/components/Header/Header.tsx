@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import Styled from './Header.styles'
-import LoginContext from '../../context/LoginContext/LoginContext'
+import LoginContext from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import useLogin from '../../hooks/useLogin/useLogin'
 import Login from '../../containers/Login/Login'
@@ -22,16 +22,11 @@ const Header: FC<TProps> = ({}) => {
   const registrationForm = useAppSelector(AccountSelectors.selectRegistrationForm)
 
   const handleLoginClick = () => {
-    // setIsShowSignIn(true)
-    // setIsShowSignUp(false)
-    // setIsShowLoginForm(true)
-
     dispatch(AccountActions.showSignInForm())
   }
 
   const checkIfNeedToShowLogin = (): boolean => {
     if (!currentUser && !registrationForm) return true
-    // if (!isShowSignIn && !isShowSignUp && !isShowLoginForm && currentUser === null) return true
 
     return false
   }
@@ -50,7 +45,7 @@ const Header: FC<TProps> = ({}) => {
 
   return (
     <>
-      {checkIfNeedToShowLogin() ? (
+      {/* {checkIfNeedToShowLogin() ? (
         <Styled.LoginHeader>
           <ButtonNormal
             preset="login"
@@ -59,7 +54,7 @@ const Header: FC<TProps> = ({}) => {
             Login
           </ButtonNormal>
         </Styled.LoginHeader>
-      ) : null}
+      ) : null} */}
 
       {checkIfNeedToShowLogoutButton() ? (
         <Styled.LogoutHeader>
