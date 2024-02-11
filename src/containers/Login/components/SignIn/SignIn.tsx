@@ -1,16 +1,14 @@
 import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import { IUser, useLoginContext } from '../../../../components/context/LoginContext/LoginContext'
 import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
 import { useAppDispatch } from '../../../../app/hooks'
+import { IUser } from '../../../../components/CommentForm/CommentForm'
 
 const SignIn: FC = () => {
   const dispatch = useAppDispatch()
-
-  // const { setIsShowSignIn, setIsShowSignUp, setIsShowLoginForm } = useLoginContext()
 
   const { getUser, addCurrentUser } = useLogin()
 
@@ -20,18 +18,11 @@ const SignIn: FC = () => {
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault()
     const ourUser: IUser | null = getUser(editableUsername, editablePassword)
-
-    // setCurrentUser(ourUser)
     addCurrentUser(ourUser)
     dispatch(AccountActions.closeLoginForm())
-    // setIsShowSignIn(false)
-    // setIsShowSignUp(false)
-    // setIsShowLoginForm(false)
   }
 
   const handleSignUpClick = () => {
-    // setIsShowSignIn(false)
-    // setIsShowSignUp(true)
     dispatch(AccountActions.showSignUpForm())
   }
 

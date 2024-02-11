@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import { IReplyComment } from '../CommentForm/CommentForm'
+import { IReplyComment, IUser } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IUser, useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyComment.styles'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 
 type TProps = {
   commentOwner: IUser
@@ -12,10 +13,9 @@ type TProps = {
 } & IReplyComment
 
 const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, onSave }) => {
-  const { currentUser } = useLoginContext()
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
-
   const [editableContent, setEditableContent] = useState('')
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
       content: editableContent,
       owner,
     })
+
     toggleEditing()
   }
 
@@ -47,6 +48,7 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
       (commentOwner.email === currentUser?.email && commentOwner.firstName === currentUser?.firstName)
     )
       return true
+
     return false
   }
 
@@ -86,6 +88,7 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
             )}
           </div>
         ) : null}
+
         {checkIfNeedToShowDeleteButton() ? (
           <ButtonNormal
             preset="delete"

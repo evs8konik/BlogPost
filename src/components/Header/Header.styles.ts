@@ -23,12 +23,17 @@ const device = {
 
 const ShadowBackground = styled.div`
   position: fixed;
+
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
+
   background: rgba(0, 0, 0, 0.3);
+
   z-index: 1;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,9 +55,12 @@ const ButtonCloseWrapper = styled.div`
 const LoginHeader = styled.div`
   height: 50px;
   width: 70%;
+
   background-color: #fff;
+
   border-radius: 15px;
   padding: 10px;
+
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -61,9 +69,13 @@ const LoginHeader = styled.div`
 const LogoutHeader = styled.div`
   height: 50px;
   width: 70%;
+
   background-color: #fff;
+
   border-radius: 15px;
+
   padding: 10px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;

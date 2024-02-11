@@ -175,18 +175,25 @@ const getPreset = (preset: string) => {
 
     case 'add':
       return addPreset
+
     case 'close':
       return closePreset
+
     case 'reply':
       return replyPreset
+
     case 'save':
       return savePreset
+
     case 'login':
       return loginPreset
+
     case 'logout':
       return logoutPreset
+
     case 'singIn':
       return singInPreset
+
     case 'singUp':
       return singUpPreset
 

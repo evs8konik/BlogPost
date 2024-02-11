@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { EAccountForm } from '../../../modules/Comments/store/reducers/Account.slice'
+import { IUser } from '../../CommentForm/CommentForm'
 
 export interface ILoginState {
   currentUser: IUser | null
@@ -16,12 +16,12 @@ export interface ILoginState {
   // setIsShowLoginForm: (value: boolean) => void
 }
 
-export interface IUser {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-}
+// export interface IUser {
+//   firstName: string
+//   lastName: string
+//   email: string
+//   password: string
+// }
 
 const initialState: ILoginState = {
   currentUser: null,

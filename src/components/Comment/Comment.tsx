@@ -5,7 +5,6 @@ import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
 import ReplyComment from '../ReplyComment/ReplyComment'
 import Styled from './Comment.styles'
-import { useLoginContext } from '../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { CommentsActions } from '../../modules/Comments/store/reducers/Comments.slice'
@@ -86,6 +85,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
                 ...replyComment,
               }
             }
+
             return reply
           }),
         }
@@ -108,7 +108,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
     )
   }
 
-  const checkIfNeedToShowEditDeletButton = () => {
+  const checkIfNeedToShowEditDeleteButton = () => {
     return owner.email === currentUser?.email
   }
 
@@ -145,7 +145,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
       <Styled.Username>{owner.firstName}</Styled.Username>
 
       <Styled.ButtonWrapper>
-        {checkIfNeedToShowEditDeletButton() ? (
+        {checkIfNeedToShowEditDeleteButton() ? (
           <>
             {isEdit ? (
               <ButtonNormal

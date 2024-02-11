@@ -18,7 +18,7 @@ const App: FC = () => {
     if (currentUser !== null) {
       navigate(EAppRoute.Comments)
     }
-  }, [currentUser, navigate]) // зависимость useEffect от currentUser и navigate
+  }, [currentUser])
 
   return (
     <div className="general-wrapper">
