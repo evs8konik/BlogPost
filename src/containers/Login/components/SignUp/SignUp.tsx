@@ -1,16 +1,23 @@
 import React, { FC, FormEvent, useState } from 'react'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import Styled from './SygnUp.styles'
+import Styled from './SignUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
-import { AccountActions, AccountSelectors } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { useAppDispatch } from '../../../../app/hooks'
+import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
 import { IUser } from '../../../../components/CommentForm/CommentForm'
+import useNotification from '../../../../hooks/useNotification/useNotification'
+
+import { ENotificationType } from '../../../../modules/Comments/store/reducers/Notification.slice'
+
+import { v4 } from 'uuid'
 
 const SignUp: FC = () => {
   const dispatch = useAppDispatch()
 
   const { addUser } = useLogin()
+
+  const { addNotification } = useNotification()
 
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -30,6 +37,8 @@ const SignUp: FC = () => {
       password,
     }
     addUser(newUser)
+
+    addNotification({ id: v4(), type: ENotificationType.Error, title: '1' })
   }
 
   return (

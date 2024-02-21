@@ -3,14 +3,19 @@ import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
-import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
-import { useAppDispatch } from '../../../../app/hooks'
+import { AccountActions, AccountSelectors } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { IUser } from '../../../../components/CommentForm/CommentForm'
+import useNotification from '../../../../hooks/useNotification/useNotification'
+
+import { NotificationSelectors } from '../../../../modules/Comments/store/reducers/Notification.slice'
 
 const SignIn: FC = () => {
   const dispatch = useAppDispatch()
 
   const { getUser, addCurrentUser } = useLogin()
+
+  // const { showNotification, closeNotification } = useNotification()
 
   const [editableUsername, setEditableUsername] = useState<string>('')
   const [editablePassword, setEditablePassword] = useState<string>('')
