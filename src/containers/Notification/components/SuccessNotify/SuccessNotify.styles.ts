@@ -24,7 +24,7 @@ const Notification = styled.div`
   border-radius: 15px;
 
   color: #fff;
-  background-color: #f44336;
+  background-color: green;
 
   pointer-events: auto;
 `

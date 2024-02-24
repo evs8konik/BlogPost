@@ -13,6 +13,10 @@ const useNotification = () => {
 
   const addNotification = (notification: INotification): void => {
     dispatch(NotificationActions.addNotification(notification))
+
+    setTimeout(() => {
+      dispatch(NotificationActions.deleteNotification(notification.id))
+    }, 3000)
   }
 
   const handleClickDeleteNotification = (notificationId: string): void => {

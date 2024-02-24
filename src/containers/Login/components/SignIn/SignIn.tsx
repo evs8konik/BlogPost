@@ -6,16 +6,13 @@ import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNorm
 import { AccountActions, AccountSelectors } from '../../../../modules/Comments/store/reducers/Account.slice'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { IUser } from '../../../../components/CommentForm/CommentForm'
-import useNotification from '../../../../hooks/useNotification/useNotification'
-
-import { NotificationSelectors } from '../../../../modules/Comments/store/reducers/Notification.slice'
+import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 
 const SignIn: FC = () => {
   const dispatch = useAppDispatch()
 
   const { getUser, addCurrentUser } = useLogin()
-
-  // const { showNotification, closeNotification } = useNotification()
+  const { checkIfExistThisUser } = useLoginValidator()
 
   const [editableUsername, setEditableUsername] = useState<string>('')
   const [editablePassword, setEditablePassword] = useState<string>('')
@@ -25,6 +22,7 @@ const SignIn: FC = () => {
     const ourUser: IUser | null = getUser(editableUsername, editablePassword)
     addCurrentUser(ourUser)
     dispatch(AccountActions.closeLoginForm())
+    checkIfExistThisUser(ourUser, editableUsername)
   }
 
   const handleSignUpClick = () => {

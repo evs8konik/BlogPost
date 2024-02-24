@@ -11,13 +11,14 @@ import useNotification from '../../../../hooks/useNotification/useNotification'
 import { ENotificationType } from '../../../../modules/Comments/store/reducers/Notification.slice'
 
 import { v4 } from 'uuid'
+import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 
 const SignUp: FC = () => {
   const dispatch = useAppDispatch()
 
-  const { addUser } = useLogin()
-
+  const { addUser, getUser } = useLogin()
   const { addNotification } = useNotification()
+  const { checkIfNeedToRegisterThisUser } = useLoginValidator()
 
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -28,6 +29,8 @@ const SignUp: FC = () => {
     dispatch(AccountActions.showSignInForm())
   }
 
+  const ourUser: IUser | null = getUser(email, password)
+
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault()
     const newUser: IUser = {
@@ -36,9 +39,8 @@ const SignUp: FC = () => {
       email,
       password,
     }
-    addUser(newUser)
 
-    addNotification({ id: v4(), type: ENotificationType.Error, title: '1' })
+    checkIfNeedToRegisterThisUser(ourUser, newUser, email)
   }
 
   return (

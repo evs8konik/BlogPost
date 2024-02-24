@@ -39,7 +39,6 @@ const useLoginStore = () => {
   }
 
   return {
-    STORAGE_KEY,
     getStoredData,
     saveUser,
     saveCurrentUser,
