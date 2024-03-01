@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import NormalInput from '../inputs/NormalInput/NormalInput'
+
 import { IComment, IReplyComment } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
@@ -10,10 +10,26 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { CommentsActions } from '../../modules/Comments/store/reducers/Comments.slice'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import NormalInput from '../inputs/NormalInput/NormalInput'
+import { saveAs } from 'file-saver'
 
 type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
-const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onClick, onSave }) => {
+const base64toBlob = (base64Data: string) => {
+  const base64String = base64Data.split(',')[1]
+
+  const byteCharacters = atob(base64String)
+  const byteNumbers = new Array(byteCharacters.length)
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i)
+  }
+
+  const byteArray = new Uint8Array(byteNumbers)
+  return new Blob([byteArray], { type: 'image/jpg' })
+}
+
+const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentList, onClick, onSave }) => {
   const dispatch = useAppDispatch()
 
   const { commentList, saveCommentList } = useCommentList()
@@ -25,6 +41,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
 
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableContent, setEditableContent] = useState(content)
+  const [editablePicture, setEditablePicture] = useState(picture)
 
   useEffect(() => {
     setEditableTitle(title)
@@ -33,6 +50,10 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   useEffect(() => {
     setEditableContent(content)
   }, [content])
+
+  useEffect(() => {
+    setEditablePicture(picture)
+  }, [picture])
 
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
@@ -49,6 +70,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
       id,
       title: editableTitle,
       content: editableContent,
+      picture,
       owner,
       replyCommentList,
     })
@@ -116,6 +138,26 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
     return currentUser !== null
   }
 
+  // const handleClickSavePictureButton = (picture: string) => {
+  //   const base64Image = picture
+
+  //   const downloadLink = document.createElement('a')
+
+  //   downloadLink.href = base64Image
+
+  //   downloadLink.download = 'image.jpg'
+
+  //   downloadLink.click()
+  // }
+
+  const handleClickSavePictureButton = (picture: string) => {
+    const base64Picture = picture
+
+    const blob = base64toBlob(base64Picture)
+
+    saveAs(blob, 'image.jpg')
+  }
+
   return (
     <Styled.Wrapper>
       <Styled.Title>
@@ -123,6 +165,7 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
           <NormalInput
             label="title"
             value={editableTitle}
+            type={'text'}
             onChange={setEditableTitle}
           />
         ) : (
@@ -143,6 +186,34 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
       </Styled.Content>
 
       <Styled.Username>{owner.firstName}</Styled.Username>
+
+      {/* {isEdit ? (
+        <InputUpload
+          label={'File'}
+          // value={picture}
+          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
+        />
+      ) : (
+        <Styled.Picture
+          src={picture}
+          alt=""
+        />
+      )} */}
+
+      <Styled.WrapperPicture>
+        <Styled.Pictures>
+          <Styled.Img
+            src={picture}
+            alt=""
+          />
+        </Styled.Pictures>
+        <Styled.Img
+          src="../inputs/InputUpload/assets/images/6711359.png"
+          alt=""
+          onClick={() => handleClickSavePictureButton(picture)}
+        />
+        <button onClick={() => handleClickSavePictureButton(picture)}>Save picture</button>
+      </Styled.WrapperPicture>
 
       <Styled.ButtonWrapper>
         {checkIfNeedToShowEditDeleteButton() ? (

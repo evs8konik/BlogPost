@@ -52,12 +52,27 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `
 
+const PictureWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
+
+const Pictures = styled.div``
+
+const Img = styled.img``
+
+const WrapperPicture = styled.div``
+
 const StyledComment = {
   Wrapper,
   ButtonWrapper,
   Username,
   Content,
   Title,
+  PictureWrapper,
+  Pictures,
+  WrapperPicture,
+  Img,
 }
 
 export default StyledComment

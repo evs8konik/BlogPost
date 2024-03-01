@@ -4,10 +4,11 @@ import Styled from './NormalInput.styles'
 interface IProps {
   label: string
   value: string
+  type: string
   onChange: (value: string) => void
 }
 
-const NormalInput: FC<IProps> = ({ label, value, onChange }) => {
+const NormalInput: FC<IProps> = ({ label, type, value, onChange }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     onChange(e.target.value)
   }
@@ -19,7 +20,7 @@ const NormalInput: FC<IProps> = ({ label, value, onChange }) => {
       <Styled.Input
         placeholder={'Enter text'}
         required
-        type="text"
+        type={type}
         value={value}
         onChange={handleChange}
       ></Styled.Input>

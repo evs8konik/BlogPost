@@ -1,5 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react'
-import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import Styled from './SignUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
@@ -12,6 +12,7 @@ import { ENotificationType } from '../../../../modules/Comments/store/reducers/N
 
 import { v4 } from 'uuid'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
+import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 
 const SignUp: FC = () => {
   const dispatch = useAppDispatch()
@@ -48,24 +49,28 @@ const SignUp: FC = () => {
       <NormalInput
         label="First name"
         value={firstName}
+        type={'text'}
         onChange={setFirstName}
       />
 
       <NormalInput
         label="Last name"
         value={lastName}
+        type={'text'}
         onChange={setLastName}
       />
 
       <NormalInput
         label="Email"
         value={email}
+        type={'email'}
         onChange={setEmail}
       />
 
       <NormalInput
         label="Password"
         value={password}
+        type={'text'}
         onChange={setPassword}
       />
 

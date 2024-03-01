@@ -7,6 +7,7 @@ import { AccountSelectors } from './modules/Comments/store/reducers/Account.slic
 import CommentPage from './components/CommentPage/CommentPage'
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
+import Styles from './App.styled'
 
 const App: FC = () => {
   const navigate = useNavigate()

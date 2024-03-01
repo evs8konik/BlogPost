@@ -1,11 +1,12 @@
 import { FC, FormEvent, useState } from 'react'
 import { v4 } from 'uuid'
-import NormalInput from '../inputs/NormalInput/NormalInput'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './CommentForm.styles'
 import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import NormalInput from '../inputs/NormalInput/NormalInput'
+import InputUpload from '../inputs/InputUpload/InputUpload'
 
 export interface IReplyComment {
   id: string
@@ -17,6 +18,7 @@ export interface IComment {
   id: string
   title: string
   content: string
+  picture: string
   owner: IUser
   replyCommentList: IReplyComment[]
 }
@@ -31,21 +33,35 @@ export interface IUser {
 interface IInputsState {
   title: string
   content: string
+  picture: string
 }
 
 interface IProps {
   addComment: (comment: IComment) => void
 }
 
+export const toBase64 = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
+
 const CommentForm: FC<IProps> = ({ addComment }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
-  const [{ title, content }, setInputsState] = useState<IInputsState>({
+  const [{ title, content, picture }, setInputsState] = useState<IInputsState>({
     title: '',
     content: '',
+    picture: '',
   })
 
   const handleChangeInput = (name: string, inputValue: string): void => {
+    setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
+  }
+
+  const handleFileChangeInput = (name: string, inputValue: string): void => {
     setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
   }
 
@@ -58,28 +74,37 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
       id: v4(),
       title: title,
       content: content,
+      picture: picture,
       owner: currentUser,
       replyCommentList: [],
     }
 
     addComment(newComment)
 
-    setInputsState({ title: '', content: '' })
+    setInputsState({ title: '', content: '', picture: '' })
   }
 
   return (
-    <Styled.Wrapper>
-      <Styled.Form onSubmit={(e) => handleSubmit(e)}>
+    <Styled.Wrapper onClick={(e) => console.log('console')}>
+      <Styled.Form
+        onSubmit={(e) => handleSubmit(e)}
+        onClick={(e) => e.stopPropagation()}
+      >
         <NormalInput
           label={'Title'}
           value={title}
+          type={'text'}
           onChange={(titleValue) => handleChangeInput('title', titleValue)}
         />
-
         <NormalTextArea
           label={'Comment'}
           value={content}
           onChange={(contentValue) => handleChangeInput('content', contentValue)}
+        />
+
+        <InputUpload
+          label={''}
+          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
         />
 
         <Styled.ButtonWrapper>

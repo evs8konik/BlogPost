@@ -1,5 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react'
-import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
@@ -7,6 +7,7 @@ import { AccountActions, AccountSelectors } from '../../../../modules/Comments/s
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { IUser } from '../../../../components/CommentForm/CommentForm'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
+import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 
 const SignIn: FC = () => {
   const dispatch = useAppDispatch()
@@ -34,12 +35,14 @@ const SignIn: FC = () => {
       <NormalInput
         label="Username"
         value={editableUsername}
+        type={'email'}
         onChange={setEditableUsername}
       />
 
       <NormalInput
         label="Password"
         value={editablePassword}
+        type={'password'}
         onChange={setEditablePassword}
       />
 
