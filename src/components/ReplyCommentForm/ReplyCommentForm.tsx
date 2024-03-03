@@ -6,9 +6,11 @@ import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyCommentForm.styles'
 import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import InputUpload from '../inputs/InputUpload/InputUpload'
 
 interface IInputsState {
   content: string
+  picture: string
 }
 
 interface IProps {
@@ -18,11 +20,16 @@ interface IProps {
 const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
-  const [{ content }, setInputsState] = useState<IInputsState>({
+  const [{ content, picture }, setInputsState] = useState<IInputsState>({
     content: '',
+    picture: '',
   })
 
   const handleChangeInput = (name: string, inputValue: string): void => {
+    setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
+  }
+
+  const handleFileChangeInput = (name: string, inputValue: string): void => {
     setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
   }
 
@@ -34,12 +41,13 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
     const newReplyComment: IReplyComment = {
       id: v4(),
       content: content,
+      picture: picture,
       owner: currentUser,
     }
 
     addReplyComment(newReplyComment)
 
-    setInputsState({ content: '' })
+    setInputsState({ content: '', picture: '' })
   }
 
   return (
@@ -49,6 +57,11 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
           label={'Comment'}
           value={content}
           onChange={(contentValue) => handleChangeInput('content', contentValue)}
+        />
+
+        <InputUpload
+          label={''}
+          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
         />
 
         <Styled.ButtonWrapper>

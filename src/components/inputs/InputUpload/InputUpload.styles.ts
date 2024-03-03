@@ -20,9 +20,6 @@ const Input = styled.input`
 `
 
 const Label = styled.span`
-  /* width: 5px;
-  height: 5px; */
-
   display: flex;
   justify-content: end;
 

@@ -43,11 +43,43 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `
 
+const WrapperImg = styled.div`
+  max-width: 100%;
+  height: auto;
+
+  position: relative;
+`
+
+const Img = styled.img`
+  max-width: 120px;
+  width: 100%;
+  height: auto;
+
+  position: relative;
+
+  z-index: 1;
+`
+
+const ImgSave = styled.img`
+  height: 15%;
+  width: 15%;
+
+  position: absolute;
+
+  right: 0;
+  bottom: 3%;
+
+  z-index: 2;
+`
+
 const StyledReplyComment = {
   Wrapper,
   ButtonWrapper,
   Username,
   Content,
+  Img,
+  WrapperImg,
+  ImgSave,
 }
 
 export default StyledReplyComment

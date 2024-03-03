@@ -11,6 +11,7 @@ import InputUpload from '../inputs/InputUpload/InputUpload'
 export interface IReplyComment {
   id: string
   content: string
+  picture: string
   owner: IUser
 }
 
@@ -102,10 +103,7 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
           onChange={(contentValue) => handleChangeInput('content', contentValue)}
         />
 
-        <InputUpload
-          label={''}
-          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
-        />
+        <InputUpload onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)} />
 
         <Styled.ButtonWrapper>
           <ButtonNormal preset="add">Add comment</ButtonNormal>

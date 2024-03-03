@@ -5,6 +5,10 @@ import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyComment.styles'
 import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import InputUpload from '../inputs/InputUpload/InputUpload'
+import { base64toBlob } from '../Comment/Comment'
+import { saveAs } from 'file-saver'
+import uploadPng from '../Comment/asset/images/6711359.png'
 
 type TProps = {
   commentOwner: IUser
@@ -12,15 +16,20 @@ type TProps = {
   onSave: (data: IReplyComment) => void
 } & IReplyComment
 
-const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, onSave }) => {
+const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, onClick, onSave }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
   const [editableContent, setEditableContent] = useState('')
+  const [editablePicture, setEditablePicture] = useState(picture)
 
   useEffect(() => {
     setEditableContent(content)
   }, [content])
+
+  useEffect(() => {
+    setEditablePicture(picture)
+  }, [picture])
 
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
@@ -30,10 +39,19 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
     onSave({
       id,
       content: editableContent,
+      picture: editablePicture,
       owner,
     })
 
     toggleEditing()
+  }
+
+  const handleClickSavePictureButton = (picture: string) => {
+    const base64Picture = picture
+
+    const blob = base64toBlob(base64Picture)
+
+    saveAs(blob, 'image.jpg')
   }
 
   const checkIfNeedToShowEditButton = () => {
@@ -67,6 +85,23 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
       </Styled.Content>
 
       <Styled.Username>{owner.firstName}</Styled.Username>
+
+      {isEdit ? (
+        <InputUpload onChange={setEditablePicture} />
+      ) : (
+        <Styled.WrapperImg>
+          <Styled.Img
+            src={picture}
+            alt=""
+          ></Styled.Img>
+
+          <Styled.ImgSave
+            src={uploadPng}
+            alt=""
+            onClick={() => handleClickSavePictureButton(picture)}
+          />
+        </Styled.WrapperImg>
+      )}
 
       <Styled.ButtonWrapper>
         {checkIfNeedToShowEditButton() ? (

@@ -6,10 +6,11 @@ import uploadPng from './assets/images/252006.png'
 interface IProps {
   label?: string
   id?: string
-  onChange: (base64String: string) => void
+  value?: string
+  onChange: (value: string) => void
 }
 
-const InputUpload: FC<IProps> = ({ label, id, onChange }) => {
+const InputUpload: FC<IProps> = ({ label, id, value, onChange }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
@@ -48,6 +49,7 @@ const InputUpload: FC<IProps> = ({ label, id, onChange }) => {
         required
         type="file"
         id={id}
+        value={value}
         onChange={handleFileChange}
       />
     </Styled.Wrapper>

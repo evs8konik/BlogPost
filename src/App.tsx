@@ -7,7 +7,7 @@ import { AccountSelectors } from './modules/Comments/store/reducers/Account.slic
 import CommentPage from './components/CommentPage/CommentPage'
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
-import Styles from './App.styled'
+import Styled from './App.styled'
 
 const App: FC = () => {
   const navigate = useNavigate()
@@ -26,8 +26,8 @@ const App: FC = () => {
   }, [currentUser])
 
   return (
-    <div className="general-wrapper">
-      <div className="notification">
+    <Styled.GeneralWrapper>
+      <Styled.Notification>
         {notificationList.map((notification) => (
           <Notification
             key={notification.id}
@@ -36,7 +36,7 @@ const App: FC = () => {
             {...notification}
           />
         ))}
-      </div>
+      </Styled.Notification>
 
       <Routes>
         <Route
@@ -49,7 +49,7 @@ const App: FC = () => {
           element={<LoginPage />}
         />
       </Routes>
-    </div>
+    </Styled.GeneralWrapper>
   )
 }
 

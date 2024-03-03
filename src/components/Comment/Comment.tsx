@@ -12,10 +12,12 @@ import useCommentList from '../../hooks/useCommentList/useCommentList'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import { saveAs } from 'file-saver'
+import uploadPng from './asset/images/6711359.png'
+import InputUpload from '../inputs/InputUpload/InputUpload'
 
 type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
-const base64toBlob = (base64Data: string) => {
+export const base64toBlob = (base64Data: string) => {
   const base64String = base64Data.split(',')[1]
 
   const byteCharacters = atob(base64String)
@@ -64,13 +66,11 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentL
   }
 
   const handleSave = (): void => {
-    console.log('TEST_DATA', replyCommentList)
-
     onSave({
       id,
       title: editableTitle,
       content: editableContent,
-      picture,
+      picture: editablePicture,
       owner,
       replyCommentList,
     })
@@ -130,32 +130,20 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentL
     )
   }
 
-  const checkIfNeedToShowEditDeleteButton = () => {
-    return owner.email === currentUser?.email
-  }
-
-  const checkIfNeedToShowReplyButton = () => {
-    return currentUser !== null
-  }
-
-  // const handleClickSavePictureButton = (picture: string) => {
-  //   const base64Image = picture
-
-  //   const downloadLink = document.createElement('a')
-
-  //   downloadLink.href = base64Image
-
-  //   downloadLink.download = 'image.jpg'
-
-  //   downloadLink.click()
-  // }
-
   const handleClickSavePictureButton = (picture: string) => {
     const base64Picture = picture
 
     const blob = base64toBlob(base64Picture)
 
     saveAs(blob, 'image.jpg')
+  }
+
+  const checkIfNeedToShowEditDeleteButton = () => {
+    return owner.email === currentUser?.email
+  }
+
+  const checkIfNeedToShowReplyButton = () => {
+    return currentUser !== null
   }
 
   return (
@@ -187,33 +175,22 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentL
 
       <Styled.Username>{owner.firstName}</Styled.Username>
 
-      {/* {isEdit ? (
-        <InputUpload
-          label={'File'}
-          // value={picture}
-          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
-        />
+      {isEdit ? (
+        <InputUpload onChange={setEditablePicture} />
       ) : (
-        <Styled.Picture
-          src={picture}
-          alt=""
-        />
-      )} */}
-
-      <Styled.WrapperPicture>
-        <Styled.Pictures>
+        <Styled.WrapperImg>
           <Styled.Img
             src={picture}
             alt=""
+          ></Styled.Img>
+
+          <Styled.ImgSave
+            src={uploadPng}
+            alt=""
+            onClick={() => handleClickSavePictureButton(picture)}
           />
-        </Styled.Pictures>
-        <Styled.Img
-          src="../inputs/InputUpload/assets/images/6711359.png"
-          alt=""
-          onClick={() => handleClickSavePictureButton(picture)}
-        />
-        <button onClick={() => handleClickSavePictureButton(picture)}>Save picture</button>
-      </Styled.WrapperPicture>
+        </Styled.WrapperImg>
+      )}
 
       <Styled.ButtonWrapper>
         {checkIfNeedToShowEditDeleteButton() ? (
