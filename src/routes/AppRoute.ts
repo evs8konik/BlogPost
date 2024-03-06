@@ -1,5 +1,6 @@
 export enum EAppRoute {
-  Login = '/login',
   Dashboard = '/',
+  Login = '/login',
   Comments = '/comments',
+  Filter = '/filter',
 }

@@ -13,6 +13,8 @@ export interface IReplyComment {
   content: string
   picture: string
   owner: IUser
+  date: IDate
+  time: ITime
 }
 
 export interface IComment {
@@ -21,6 +23,8 @@ export interface IComment {
   content: string
   picture: string
   owner: IUser
+  date: IDate
+  time: ITime
   replyCommentList: IReplyComment[]
 }
 
@@ -29,6 +33,18 @@ export interface IUser {
   lastName: string
   email: string
   password: string
+}
+
+export interface IDate {
+  dayOfMonth: number
+  month: number
+  year: number
+}
+
+export interface ITime {
+  hours: number
+  minutes: number
+  seconds: number
 }
 
 interface IInputsState {
@@ -48,6 +64,38 @@ export const toBase64 = (file: File) =>
     reader.onload = () => resolve(reader.result)
     reader.onerror = (error) => reject(error)
   })
+
+// export const todayDate = new Date()
+// export const dayOfMonth = todayDate.getDate()
+// export const month = todayDate.getMonth() + 1
+// export const year = todayDate.getFullYear()
+// export const hours = todayDate.getHours()
+// export const minutes = todayDate.getMinutes()
+// export const seconds = todayDate.getSeconds()
+
+export const currentDate = {
+  get dayOfMonth() {
+    return new Date().getDate()
+  },
+  get month() {
+    return new Date().getMonth() + 1
+  },
+  get year() {
+    return new Date().getFullYear()
+  },
+}
+
+export const currentTime = {
+  get hours() {
+    return new Date().getHours()
+  },
+  get minutes() {
+    return new Date().getMinutes()
+  },
+  get seconds() {
+    return new Date().getSeconds()
+  },
+}
 
 const CommentForm: FC<IProps> = ({ addComment }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
@@ -77,6 +125,8 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
       content: content,
       picture: picture,
       owner: currentUser,
+      date: currentDate,
+      time: currentTime,
       replyCommentList: [],
     }
 

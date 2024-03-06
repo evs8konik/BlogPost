@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import { IComment, IReplyComment } from '../CommentForm/CommentForm'
+import { IComment, IReplyComment, currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
 import ReplyComment from '../ReplyComment/ReplyComment'
@@ -14,6 +14,7 @@ import NormalInput from '../inputs/NormalInput/NormalInput'
 import { saveAs } from 'file-saver'
 import uploadPng from './asset/images/6711359.png'
 import InputUpload from '../inputs/InputUpload/InputUpload'
+import { time } from 'console'
 
 type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
 
@@ -31,7 +32,7 @@ export const base64toBlob = (base64Data: string) => {
   return new Blob([byteArray], { type: 'image/jpg' })
 }
 
-const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentList, onClick, onSave }) => {
+const Comment: FC<TProps> = ({ id, title, content, picture, owner, date, time, replyCommentList, onClick, onSave }) => {
   const dispatch = useAppDispatch()
 
   const { commentList, saveCommentList } = useCommentList()
@@ -72,6 +73,8 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentL
       content: editableContent,
       picture: editablePicture,
       owner,
+      date: currentDate,
+      time: currentTime,
       replyCommentList,
     })
 
@@ -191,6 +194,15 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, replyCommentL
           />
         </Styled.WrapperImg>
       )}
+
+      <Styled.WrapperDateAndTime>
+        <Styled.Date>
+          {date.dayOfMonth}.{date.month}.{date.year}
+        </Styled.Date>
+        <Styled.Time>
+          {time.hours}:{time.minutes}
+        </Styled.Time>
+      </Styled.WrapperDateAndTime>
 
       <Styled.ButtonWrapper>
         {checkIfNeedToShowEditDeleteButton() ? (

@@ -72,6 +72,25 @@ const ImgSave = styled.img`
   z-index: 2;
 `
 
+const WrapperDateAndTime = styled.div`
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+  align-items: end;
+
+  text-transform: capitalize;
+`
+
+const Date = styled.div`
+  font-size: 10px;
+`
+
+const Time = styled.div`
+  font-size: 10px;
+`
+
 const StyledReplyComment = {
   Wrapper,
   ButtonWrapper,
@@ -80,6 +99,9 @@ const StyledReplyComment = {
   Img,
   WrapperImg,
   ImgSave,
+  Date,
+  Time,
+  WrapperDateAndTime,
 }
 
 export default StyledReplyComment

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { IReplyComment, IUser } from '../CommentForm/CommentForm'
+import { IReplyComment, IUser, currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyComment.styles'
@@ -16,7 +16,7 @@ type TProps = {
   onSave: (data: IReplyComment) => void
 } & IReplyComment
 
-const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, onClick, onSave }) => {
+const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, date, time, onClick, onSave }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
@@ -41,6 +41,8 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, o
       content: editableContent,
       picture: editablePicture,
       owner,
+      date: currentDate,
+      time: currentTime,
     })
 
     toggleEditing()
@@ -102,6 +104,15 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, o
           />
         </Styled.WrapperImg>
       )}
+
+      <Styled.WrapperDateAndTime>
+        <Styled.Date>
+          {date.dayOfMonth}.{date.month}.{date.year}
+        </Styled.Date>
+        <Styled.Time>
+          {time.hours}:{time.minutes}
+        </Styled.Time>
+      </Styled.WrapperDateAndTime>
 
       <Styled.ButtonWrapper>
         {checkIfNeedToShowEditButton() ? (

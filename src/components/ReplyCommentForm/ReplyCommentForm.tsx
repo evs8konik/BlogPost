@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IReplyComment } from '../CommentForm/CommentForm'
+import { IDate, IReplyComment, ITime, currentDate, currentTime } from '../CommentForm/CommentForm'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyCommentForm.styles'
 import { useAppSelector } from '../../app/hooks'
@@ -43,6 +43,8 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
       content: content,
       picture: picture,
       owner: currentUser,
+      date: currentDate,
+      time: currentTime,
     }
 
     addReplyComment(newReplyComment)
