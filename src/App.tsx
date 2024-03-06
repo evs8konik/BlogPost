@@ -9,7 +9,6 @@ import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
 import Filters from './modules/common/features/Filters/Filters'
-import CommentFilterPage from './components/CommentFilterPage/CommentFilterPage'
 
 const App: FC = () => {
   const navigate = useNavigate()
@@ -51,10 +50,10 @@ const App: FC = () => {
           element={<LoginPage />}
         />
 
-        <Route
+        {/* <Route
           path={EAppRoute.Filter}
-          element={<CommentFilterPage />}
-        />
+          element={<Posts />}
+        /> */}
       </Routes>
 
       <Filters></Filters>
