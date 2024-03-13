@@ -65,14 +65,6 @@ export const toBase64 = (file: File) =>
     reader.onerror = (error) => reject(error)
   })
 
-// export const todayDate = new Date()
-// export const dayOfMonth = todayDate.getDate()
-// export const month = todayDate.getMonth() + 1
-// export const year = todayDate.getFullYear()
-// export const hours = todayDate.getHours()
-// export const minutes = todayDate.getMinutes()
-// export const seconds = todayDate.getSeconds()
-
 export const currentDate = {
   get dayOfMonth() {
     return new Date().getDate()

@@ -13,6 +13,8 @@ const addPreset = css`
 
   background-color: rgb(248, 86, 25);
   color: white;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Delete"
@@ -31,6 +33,8 @@ const deletePreset = css`
   font-weight: bold;
 
   font-size: 10px;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Edit"
@@ -49,6 +53,8 @@ const editPreset = css`
   font-weight: bold;
 
   font-size: 10px;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Close"
@@ -67,6 +73,8 @@ const closePreset = css`
   font-weight: bold;
 
   font-size: 10px;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Reply"
@@ -85,6 +93,8 @@ const replyPreset = css`
   font-weight: bold;
 
   font-size: 10px;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Save"
@@ -103,6 +113,8 @@ const savePreset = css`
   font-weight: bold;
 
   font-size: 10px;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Login"
@@ -118,6 +130,8 @@ const loginPreset = css`
   color: white;
 
   font-weight: bold;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Login"
@@ -133,6 +147,8 @@ const logoutPreset = css`
   color: white;
 
   font-weight: bold;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "Sing In"
@@ -148,6 +164,8 @@ const singInPreset = css`
   color: white;
 
   font-weight: bold;
+
+  cursor: pointer;
 `
 
 // Пресет для кнопки "SingUp"
@@ -163,6 +181,42 @@ const singUpPreset = css`
   color: white;
 
   font-weight: bold;
+
+  cursor: pointer;
+`
+
+const numberPage = css`
+  height: 20px;
+  width: 10%;
+
+  border-radius: 8px;
+
+  padding: 4px 4px;
+
+  background-color: #e74c3c;
+  color: white;
+
+  font-weight: bold;
+  font-size: 12px;
+
+  cursor: pointer;
+`
+
+const nextPrevPage = css`
+  height: 20px;
+  width: 80%;
+
+  border-radius: 8px;
+
+  padding: 4px 6px;
+
+  background-color: #e74c3c;
+  color: white;
+
+  font-weight: bold;
+  font-size: 12px;
+
+  cursor: pointer;
 `
 
 const getPreset = (preset: string) => {
@@ -196,6 +250,12 @@ const getPreset = (preset: string) => {
 
     case 'singUp':
       return singUpPreset
+
+    case 'numberPage':
+      return numberPage
+
+    case 'nextPrevPage':
+      return nextPrevPage
 
     default:
       return css``

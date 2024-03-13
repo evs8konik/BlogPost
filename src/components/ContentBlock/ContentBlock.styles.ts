@@ -29,10 +29,28 @@ const CommentWrapper = styled.div`
   gap: 20px;
 `
 
+const WrapperTitle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`
+
+const WrapperPageButtons = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+`
+
 const StyledContentBlock = {
   Wrapper,
   Title,
   CommentWrapper,
+  WrapperTitle,
+  WrapperPageButtons,
 }
 
 export default StyledContentBlock

@@ -56,7 +56,7 @@ const App: FC = () => {
         /> */}
       </Routes>
 
-      <Filters></Filters>
+      {/* <Filters></Filters> */}
     </Styled.GeneralWrapper>
   )
 }

@@ -7,10 +7,15 @@ const Dropdown = styled.div`
 `
 
 const Button = styled.button`
+  min-width: 130px;
+  max-height: 700px;
+
   background-color: white;
   color: black;
 
   padding: 10px;
+
+  border-radius: 8px;
 
   font-size: 16px;
 
@@ -25,7 +30,7 @@ const DropdownContent = styled.div`
   background-color: #f9f9f9;
 
   min-width: 130px;
-  max-height: 400px;
+  max-height: 700px;
 
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 
