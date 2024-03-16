@@ -6,24 +6,6 @@ const Dropdown = styled.div`
   display: inline-block;
 `
 
-const Button = styled.button`
-  min-width: 130px;
-  max-height: 700px;
-
-  background-color: white;
-  color: black;
-
-  padding: 10px;
-
-  border-radius: 8px;
-
-  font-size: 16px;
-
-  border: none;
-
-  cursor: pointer;
-`
-
 const DropdownContent = styled.div`
   position: absolute;
 
@@ -49,7 +31,6 @@ const Option = styled.a`
 
 const StyledSelect = {
   Dropdown,
-  Button,
   DropdownContent,
   Option,
 }

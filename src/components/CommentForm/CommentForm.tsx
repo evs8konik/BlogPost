@@ -128,30 +128,32 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
   }
 
   return (
-    <Styled.Wrapper onClick={(e) => console.log('console')}>
-      <Styled.Form
-        onSubmit={(e) => handleSubmit(e)}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <NormalInput
-          label={'Title'}
-          value={title}
-          type={'text'}
-          onChange={(titleValue) => handleChangeInput('title', titleValue)}
-        />
-        <NormalTextArea
-          label={'Comment'}
-          value={content}
-          onChange={(contentValue) => handleChangeInput('content', contentValue)}
-        />
+    <Styled.CommentFormWrapper>
+      <Styled.Wrapper onClick={(e) => console.log('console')}>
+        <Styled.Form
+          onSubmit={(e) => handleSubmit(e)}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <NormalInput
+            label={'Title'}
+            value={title}
+            type={'text'}
+            onChange={(titleValue) => handleChangeInput('title', titleValue)}
+          />
+          <NormalTextArea
+            label={'Comment'}
+            value={content}
+            onChange={(contentValue) => handleChangeInput('content', contentValue)}
+          />
 
-        <InputUpload onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)} />
+          <InputUpload onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)} />
 
-        <Styled.ButtonWrapper>
-          <ButtonNormal preset="add">Add comment</ButtonNormal>
-        </Styled.ButtonWrapper>
-      </Styled.Form>
-    </Styled.Wrapper>
+          <Styled.ButtonWrapper>
+            <ButtonNormal preset="add">Add comment</ButtonNormal>
+          </Styled.ButtonWrapper>
+        </Styled.Form>
+      </Styled.Wrapper>
+    </Styled.CommentFormWrapper>
   )
 }
 

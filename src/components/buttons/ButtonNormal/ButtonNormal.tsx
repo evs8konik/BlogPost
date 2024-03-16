@@ -15,6 +15,7 @@ interface IProps {
     | 'singUp'
     | 'nextPrevPage'
     | 'numberPage'
+    | 'select'
   color?: 'orange' | 'blue' | 'red' | 'purple'
   size?: 'big' | 'average' | 'small'
   onClick?: () => void

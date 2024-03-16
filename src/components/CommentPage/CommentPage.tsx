@@ -4,6 +4,7 @@ import Header from '../Header/Header'
 import ContentBlock from '../ContentBlock/ContentBlock'
 import CommentForm from '../CommentForm/CommentForm'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
+import Footer from '../Footer/Footer'
 
 const CommentPage: FC = () => {
   const { addComment } = useCommentList()
@@ -15,6 +16,8 @@ const CommentPage: FC = () => {
       <CommentForm addComment={addComment} />
 
       <ContentBlock />
+
+      <Footer />
     </>
   )
 }

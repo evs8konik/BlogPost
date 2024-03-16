@@ -1,25 +1,5 @@
 import styled from 'styled-components'
-
-const size = {
-  mobileS: '320px',
-  mobileM: '375px',
-  mobileL: '425px',
-  tablet: '768px',
-  laptop: '1024px',
-  laptopL: '1440px',
-  desktop: '2560px',
-}
-
-const device = {
-  mobileS: `(min-width: ${size.mobileS})`,
-  mobileM: `(min-width: ${size.mobileM})`,
-  mobileL: `(min-width: ${size.mobileL})`,
-  tablet: `(min-width: ${size.tablet})`,
-  laptop: `(min-width: ${size.laptop})`,
-  laptopL: `(min-width: ${size.laptopL})`,
-  desktop: `(min-width: ${size.desktop})`,
-  desktopL: `(min-width: ${size.desktop})`,
-}
+import { device } from '../../App.styled'
 
 const ShadowBackground = styled.div`
   position: fixed;
@@ -45,6 +25,15 @@ const LoginForm = styled.div`
 
 const Wrapper = styled.div`
   width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  background-image: linear-gradient(to right, rgb(21, 111, 233), rgb(12, 90, 220));
+
+  @media ${device.desktop} {
+    width: 70%;
+  }
 `
 
 const ButtonCloseWrapper = styled.div`
@@ -52,33 +41,72 @@ const ButtonCloseWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const LoginHeader = styled.div`
-  height: 50px;
-  width: 70%;
+// const LoginHeader = styled.div`
+//   height: 50px;
+//   width: 70%;
 
-  background-color: #fff;
+//   background-color: #fff;
 
-  border-radius: 15px;
-  padding: 10px;
+//   border-radius: 15px;
+//   padding: 10px;
 
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// `
 
 const LogoutHeader = styled.div`
-  height: 50px;
+  height: auto;
   width: 70%;
 
-  background-color: #fff;
+  flex-direction: column;
+
+  /* background-color: white; */
 
   border-radius: 15px;
-
-  padding: 10px;
+  gap: 15px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 24px;
+
+  @media ${device.mobileS} {
+    gap: 15px;
+  }
+
+  @media ${device.mobileL} {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  @media ${device.tablet} {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+`
+
+const CurrentUserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+`
+
+const UserName = styled.div`
+  color: white;
+`
+const Img = styled.img`
+  height: 90px;
+  width: auto;
+
+  border-radius: 15px;
+
+  cursor: pointer;
 `
 
 const StyledHeader = {
@@ -87,8 +115,11 @@ const StyledHeader = {
   ShadowBackground,
   LoginForm,
   ButtonCloseWrapper,
-  LoginHeader,
+  // LoginHeader,
   LogoutHeader,
+  UserName,
+  Img,
+  CurrentUserWrapper,
 }
 
 export default StyledHeader

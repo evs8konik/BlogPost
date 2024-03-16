@@ -11,7 +11,7 @@ const addPreset = css`
 
   font-weight: bold;
 
-  background-color: rgb(248, 86, 25);
+  background-color: rgb(27, 206, 80);
   color: white;
 
   cursor: pointer;
@@ -27,8 +27,10 @@ const deletePreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(164, 46, 22);
-  color: white;
+  border: 1px solid rgb(164, 46, 22);
+
+  background-color: white;
+  color: rgb(164, 46, 22);
 
   font-weight: bold;
 
@@ -47,8 +49,10 @@ const editPreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(69, 137, 199);
-  color: white;
+  border: 1px solid rgb(14, 103, 230);
+
+  background-color: white;
+  color: rgb(14, 103, 230);
 
   font-weight: bold;
 
@@ -67,8 +71,10 @@ const closePreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(200, 27, 27);
-  color: white;
+  border: 1px solid rgb(200, 27, 27);
+
+  background-color: white;
+  color: rgb(200, 27, 27);
 
   font-weight: bold;
 
@@ -87,7 +93,7 @@ const replyPreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(156, 101, 190);
+  background-color: rgb(27, 206, 80);
   color: white;
 
   font-weight: bold;
@@ -107,8 +113,10 @@ const savePreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(16, 114, 24);
-  color: white;
+  border: 1px solid rgb(27, 206, 80);
+
+  background-color: white;
+  color: rgb(27, 206, 80);
 
   font-weight: bold;
 
@@ -143,7 +151,9 @@ const logoutPreset = css`
 
   padding: 4px 6px;
 
-  background-color: #696969;
+  border: 2px solid white;
+
+  background-color: rgba(0, 0, 0, 0);
   color: white;
 
   font-weight: bold;
@@ -160,7 +170,7 @@ const singInPreset = css`
 
   padding: 4px 6px;
 
-  background-color: #34495e;
+  background-color: rgb(27, 206, 80);
   color: white;
 
   font-weight: bold;
@@ -177,7 +187,7 @@ const singUpPreset = css`
 
   padding: 4px 6px;
 
-  background-color: #e74c3c;
+  background-color: rgb(50, 66, 84);
   color: white;
 
   font-weight: bold;
@@ -186,14 +196,14 @@ const singUpPreset = css`
 `
 
 const numberPage = css`
-  height: 20px;
-  width: 10%;
+  height: 25px;
+  width: 25px;
 
   border-radius: 8px;
 
   padding: 4px 4px;
 
-  background-color: #e74c3c;
+  background-color: rgb(21, 111, 230);
   color: white;
 
   font-weight: bold;
@@ -203,20 +213,42 @@ const numberPage = css`
 `
 
 const nextPrevPage = css`
-  height: 20px;
-  width: 80%;
+  height: 25px;
+  width: 95px;
 
   border-radius: 8px;
 
   padding: 4px 6px;
 
-  background-color: #e74c3c;
+  background-color: rgb(21, 111, 230);
   color: white;
 
   font-weight: bold;
   font-size: 12px;
 
   cursor: pointer;
+`
+
+const select = css`
+  width: 100%;
+  min-width: 120px;
+
+  border: 1px solid rgb(27, 206, 80);
+
+  background-color: white;
+  color: rgb(27, 206, 80);
+
+  border-radius: 8px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  padding: 4px 6px;
+
+  font-weight: bold;
+
+  font-size: 15px;
 `
 
 const getPreset = (preset: string) => {
@@ -256,6 +288,9 @@ const getPreset = (preset: string) => {
 
     case 'nextPrevPage':
       return nextPrevPage
+
+    case 'select':
+      return select
 
     default:
       return css``

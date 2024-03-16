@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { device } from '../../App.styled'
 
 const Wrapper = styled.div`
   height: auto;
@@ -22,7 +23,11 @@ const Form = styled.form`
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-start; // changed to 'flex-start' to match your requirement
+  justify-content: center;
+
+  @media ${device.tablet} {
+    justify-content: start;
+  }
 `
 
 const StyledReplyCommentForm = {

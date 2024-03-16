@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { device } from '../../App.styled'
 
 const Wrapper = styled.div`
   height: auto;
@@ -8,12 +9,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
+  border: 1px solid rgba(21, 111, 230, 0.3);
+
   padding: 20px;
   border-radius: 15px;
 
   gap: 10px;
 
-  background-color: white;
+  background-color: rgba(240, 243, 248, 0.3);
 `
 
 const Title = styled.div`
@@ -49,7 +52,11 @@ const ButtonWrapper = styled.div`
   width: 100%;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  @media ${device.mobileL} {
+    justify-content: flex-end;
+  }
 `
 
 const WrapperImg = styled.div`
@@ -94,10 +101,14 @@ const WrapperDateAndTime = styled.div`
 
 const Date = styled.div`
   font-size: 10px;
+
+  color: rgb(154, 161, 168);
 `
 
 const Time = styled.div`
   font-size: 10px;
+
+  color: rgb(154, 161, 168);
 `
 
 const StyledComment = {

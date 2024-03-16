@@ -5,7 +5,7 @@ import useLogin from '../../hooks/useLogin/useLogin'
 import Login from '../../containers/Login/Login'
 import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
-// import Select, { ISelectOption } from '../../modules/common/components/Select/Select'
+import uploadPng from './assets/images/logo.png'
 
 const Header: FC = () => {
   const { closeLoginForm, cleanCurrentUser } = useLogin()
@@ -22,19 +22,28 @@ const Header: FC = () => {
   return (
     <>
       {checkIfNeedToShowLogoutButton() ? (
-        <Styled.LogoutHeader>
-          <div>
-            <b>Hello: </b>
-            {currentUser?.firstName}
-          </div>
+        <Styled.Wrapper>
+          <Styled.LogoutHeader>
+            <Styled.Img
+              src={uploadPng}
+              alt=""
+            />
 
-          <ButtonNormal
-            preset="logout"
-            onClick={cleanCurrentUser}
-          >
-            Logout
-          </ButtonNormal>
-        </Styled.LogoutHeader>
+            <Styled.CurrentUserWrapper>
+              <Styled.UserName>
+                <b>Hello: </b>
+                {currentUser?.firstName}
+              </Styled.UserName>
+
+              <ButtonNormal
+                preset="logout"
+                onClick={cleanCurrentUser}
+              >
+                Logout
+              </ButtonNormal>
+            </Styled.CurrentUserWrapper>
+          </Styled.LogoutHeader>
+        </Styled.Wrapper>
       ) : null}
 
       {registrationForm ? (

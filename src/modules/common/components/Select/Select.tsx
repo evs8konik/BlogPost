@@ -1,6 +1,7 @@
 import React, { FC, useState, useRef, useEffect } from 'react'
 import Styled from './Select.styles'
 import { useOnClickOutside } from '../../../../hooks/useOnClickOutside/useOnClickOutside'
+import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 
 const filterByValue = (value: ISelectOption['value'], optionList: ISelectOption[]): ISelectOption[] => {
   if (value || value === '0' || value === 0) {
@@ -58,7 +59,12 @@ const Select: FC<IProps> = ({ optionList, selectedOption, onSelect }) => {
 
   return (
     <Styled.Dropdown ref={dropdownRef}>
-      <Styled.Button onClick={toggleDropdown}>{_selectedOption ? _selectedOption.label : ''}</Styled.Button>
+      <ButtonNormal
+        preset="select"
+        onClick={toggleDropdown}
+      >
+        {_selectedOption ? _selectedOption.label : ''}
+      </ButtonNormal>
 
       {isOpen && (
         <Styled.DropdownContent>

@@ -12,14 +12,17 @@ const selectOptionsList: ISelectOption[] = [
   { label: 'Sort none', value: 'Sort none' },
 ]
 
+const COMMENTS_IN_PAGE = 2
+
 const ContentBlock: FC = () => {
   const { commentList, handleSaveComment, handleClickRemoveButton } = useCommentList()
   const [selectedOption, setSelectedOption] = useState<ISelectOption>({ label: 'Sort none', value: 'Sort none' })
   const [sortedComments, setSortedComments] = useState([...commentList])
   const [currentPage, setCurrentPage] = useState(1)
-  const commentsInPage = 2
 
   useEffect(() => {
+    console.log('COMMENT_LIST', commentList)
+
     if (selectedOption.value === 'new') {
       setSortedComments(
         [...commentList].sort((a, b) => {
@@ -49,7 +52,7 @@ const ContentBlock: FC = () => {
   const handleClickPage = (pageNumber: number) => setCurrentPage(pageNumber)
 
   const pageNumbers = []
-  for (let i = 1; i <= Math.ceil(sortedComments.length / commentsInPage); i++) {
+  for (let i = 1; i <= Math.ceil(sortedComments.length / COMMENTS_IN_PAGE); i++) {
     pageNumbers.push(i)
   }
 
@@ -58,56 +61,60 @@ const ContentBlock: FC = () => {
   }
 
   return (
-    <Styled.Wrapper>
-      <Styled.WrapperTitle>
-        <Styled.Title>COMMENTS</Styled.Title>
+    <Styled.ContentBlockWrapper>
+      <Styled.Wrapper>
+        <Styled.WrapperTitle>
+          <Styled.Title>COMMENTS</Styled.Title>
 
-        <Select
-          optionList={selectOptionsList}
-          selectedOption={selectedOption}
-          onSelect={handleSelect}
-        />
-      </Styled.WrapperTitle>
-
-      <Styled.CommentWrapper>
-        {sortedComments.slice((currentPage - 1) * commentsInPage, currentPage * commentsInPage).map((comment) => (
-          <Comment
-            key={comment.id}
-            onClick={handleClickRemoveButton}
-            onSave={handleSaveComment}
-            {...comment}
+          <Select
+            optionList={selectOptionsList}
+            selectedOption={selectedOption}
+            onSelect={handleSelect}
           />
-        ))}
-      </Styled.CommentWrapper>
+        </Styled.WrapperTitle>
 
-      <Styled.WrapperPageButtons>
-        <ButtonNormal
-          onClick={goToPrevPage}
-          preset={'nextPrevPage'}
-          // disabled={currentPage === 1}
-        >
-          Previous Page
-        </ButtonNormal>
+        <Styled.CommentWrapper>
+          {sortedComments.slice((currentPage - 1) * COMMENTS_IN_PAGE, currentPage * COMMENTS_IN_PAGE).map((comment) => (
+            <Comment
+              key={comment.id}
+              onClick={handleClickRemoveButton}
+              onSave={handleSaveComment}
+              {...comment}
+            />
+          ))}
 
-        {pageNumbers.map((number) => (
-          <ButtonNormal
-            key={number}
-            onClick={() => handleClickPage(number)}
-            preset={'numberPage'}
-          >
-            {number}
-          </ButtonNormal>
-        ))}
+          <Styled.WrapperPageButtons>
+            <Styled.WrapperButtons>
+              <ButtonNormal
+                onClick={goToPrevPage}
+                preset={'nextPrevPage'}
+                disabled={currentPage === 1}
+              >
+                Previous Page
+              </ButtonNormal>
 
-        <ButtonNormal
-          onClick={goToNextPage}
-          preset={'nextPrevPage'}
-          // disabled={currentPage === Math.ceil(sortedComments.length / commentsInPage)}
-        >
-          Next Page
-        </ButtonNormal>
-      </Styled.WrapperPageButtons>
-    </Styled.Wrapper>
+              {pageNumbers.map((number) => (
+                <ButtonNormal
+                  key={number}
+                  onClick={() => handleClickPage(number)}
+                  preset={'numberPage'}
+                >
+                  {number}
+                </ButtonNormal>
+              ))}
+
+              <ButtonNormal
+                onClick={goToNextPage}
+                preset={'nextPrevPage'}
+                disabled={currentPage === Math.ceil(sortedComments.length / COMMENTS_IN_PAGE)}
+              >
+                Next Page
+              </ButtonNormal>
+            </Styled.WrapperButtons>
+          </Styled.WrapperPageButtons>
+        </Styled.CommentWrapper>
+      </Styled.Wrapper>
+    </Styled.ContentBlockWrapper>
   )
 }
 

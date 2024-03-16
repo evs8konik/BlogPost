@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { device } from '../../App.styled'
 
 const Wrapper = styled.div`
   height: auto;
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
 
   gap: 10px;
 
-  background-color: #e1e1e1;
+  background-color: rgb(232, 243, 252);
 `
 
 const Content = styled.div`
@@ -40,7 +41,11 @@ const ButtonWrapper = styled.div`
   width: 100%;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  @media ${device.mobileL} {
+    justify-content: flex-end;
+  }
 `
 
 const WrapperImg = styled.div`

@@ -1,4 +1,20 @@
 import styled from 'styled-components'
+import { device } from '../../App.styled'
+
+const CommentFormWrapper = styled.div`
+  height: auto;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  @media ${device.desktop} {
+    width: 70%;
+  }
+`
 
 const Wrapper = styled.div`
   height: auto;
@@ -9,7 +25,7 @@ const Wrapper = styled.div`
   align-items: center;
 
   padding: 24px;
-  border-radius: 16px;
+  /* border-radius: 16px; */
 
   background-color: white;
 `
@@ -28,13 +44,18 @@ const ButtonWrapper = styled.div`
   width: 100%;
 
   display: flex;
-  justify-content: start;
+  justify-content: center;
+
+  @media ${device.tablet} {
+    justify-content: start;
+  }
 `
 
 const StyledCommentForm = {
   Wrapper,
   Form,
   ButtonWrapper,
+  CommentFormWrapper,
 }
 
 export default StyledCommentForm
