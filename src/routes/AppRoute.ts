@@ -3,4 +3,6 @@ export enum EAppRoute {
   Login = '/login',
   Comments = '/comments',
   Filter = '/filter',
+  Post = '/posts/post/:postId',
+  Posts = '/posts',
 }

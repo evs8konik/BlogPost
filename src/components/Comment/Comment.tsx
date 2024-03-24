@@ -82,56 +82,56 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, date, time, r
     isEdit ? setIsEdit(!isEdit) : setIsEdit(isEdit)
   }
 
-  const addReply = (reply: IReplyComment): void => {
-    dispatch(CommentsActions.addReplyComment({ commentId: id, reply }))
+  // const addReply = (reply: IReplyComment): void => {
+  //   dispatch(CommentsActions.addReplyComment({ commentId: id, reply }))
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
+  //   saveCommentList(
+  //     commentList.map((comment) => {
+  //       if (comment.id !== id) return comment
 
-        return { ...comment, replyCommentList: [...comment.replyCommentList, reply] }
-      }),
-    )
-  }
+  //       return { ...comment, replyCommentList: [...comment.replyCommentList, reply] }
+  //     }),
+  //   )
+  // }
 
-  const handleSaveReplyEditComment = (replyComment: IReplyComment): void => {
-    dispatch(CommentsActions.saveReplyComment({ commentId: id, replyComment, replyCommentId: replyComment.id }))
+  // const handleSaveReplyEditComment = (replyComment: IReplyComment): void => {
+  //   dispatch(CommentsActions.saveReplyComment({ commentId: id, replyComment, replyCommentId: replyComment.id }))
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
+  //   saveCommentList(
+  //     commentList.map((comment) => {
+  //       if (comment.id !== id) return comment
 
-        return {
-          ...comment,
-          replyCommentList: comment.replyCommentList.map((reply) => {
-            if (reply.id === replyComment.id) {
-              return {
-                ...reply,
-                ...replyComment,
-              }
-            }
+  //       return {
+  //         ...comment,
+  //         replyCommentList: comment.replyCommentList.map((reply) => {
+  //           if (reply.id === replyComment.id) {
+  //             return {
+  //               ...reply,
+  //               ...replyComment,
+  //             }
+  //           }
 
-            return reply
-          }),
-        }
-      }),
-    )
-  }
+  //           return reply
+  //         }),
+  //       }
+  //     }),
+  //   )
+  // }
 
-  const handleClickReplyRemoveButton = (replyCommentId: string): void => {
-    dispatch(CommentsActions.deleteReplyComment({ commentId: id, replyCommentId }))
+  // const handleClickReplyRemoveButton = (replyCommentId: string): void => {
+  //   dispatch(CommentsActions.deleteReplyComment({ commentId: id, replyCommentId }))
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
+  //   saveCommentList(
+  //     commentList.map((comment) => {
+  //       if (comment.id !== id) return comment
 
-        return {
-          ...comment,
-          replyCommentList: [...comment.replyCommentList.filter((reply) => reply.id !== replyCommentId)],
-        }
-      }),
-    )
-  }
+  //       return {
+  //         ...comment,
+  //         replyCommentList: [...comment.replyCommentList.filter((reply) => reply.id !== replyCommentId)],
+  //       }
+  //     }),
+  //   )
+  // }
 
   const handleClickSavePictureButton = (picture: string) => {
     const base64Picture = picture
@@ -255,7 +255,7 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, date, time, r
         ) : null}
       </Styled.ButtonWrapper>
 
-      {isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}
+      {/* {isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}
 
       {replyCommentList.map((reply) => {
         return (
@@ -267,7 +267,7 @@ const Comment: FC<TProps> = ({ id, title, content, picture, owner, date, time, r
             {...reply}
           />
         )
-      })}
+      })} */}
     </Styled.Wrapper>
   )
 }

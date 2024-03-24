@@ -4,11 +4,13 @@ import LoginPage from './components/LoginPage/LoginPage'
 import { EAppRoute } from './routes/AppRoute'
 import { useAppSelector } from './app/hooks'
 import { AccountSelectors } from './modules/Comments/store/reducers/Account.slice'
-import CommentPage from './components/CommentPage/CommentPage'
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
 import Filters from './modules/common/features/Filters/Filters'
+import PostsPage from './PostsPage/PostsPage'
+
+import SinglePostPage from './components/SinglePostPage/SinglePostPage'
 
 const App: FC = () => {
   const navigate = useNavigate()
@@ -22,9 +24,9 @@ const App: FC = () => {
     }
 
     if (currentUser !== null) {
-      navigate(EAppRoute.Comments)
+      navigate(EAppRoute.Posts)
     }
-  }, [currentUser])
+  }, [currentUser?.email])
 
   return (
     <Styled.GeneralWrapper>
@@ -41,8 +43,8 @@ const App: FC = () => {
 
       <Routes>
         <Route
-          path={EAppRoute.Comments}
-          element={<CommentPage />}
+          path={EAppRoute.Posts}
+          element={<PostsPage />}
         />
 
         <Route
@@ -50,13 +52,11 @@ const App: FC = () => {
           element={<LoginPage />}
         />
 
-        {/* <Route
-          path={EAppRoute.Filter}
-          element={<Posts />}
-        /> */}
+        <Route
+          path={EAppRoute.Post}
+          element={<SinglePostPage />}
+        />
       </Routes>
-
-      {/* <Filters></Filters> */}
     </Styled.GeneralWrapper>
   )
 }

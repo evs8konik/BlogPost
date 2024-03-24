@@ -14,15 +14,17 @@ const selectOptionsList: ISelectOption[] = [
 
 const COMMENTS_IN_PAGE = 2
 
-const ContentBlock: FC = () => {
+interface IProps {
+  postId: string
+}
+
+const ContentBlock: FC<IProps> = ({ postId }) => {
   const { commentList, handleSaveComment, handleClickRemoveButton } = useCommentList()
   const [selectedOption, setSelectedOption] = useState<ISelectOption>({ label: 'Sort none', value: 'Sort none' })
   const [sortedComments, setSortedComments] = useState([...commentList])
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
-    console.log('COMMENT_LIST', commentList)
-
     if (selectedOption.value === 'new') {
       setSortedComments(
         [...commentList].sort((a, b) => {

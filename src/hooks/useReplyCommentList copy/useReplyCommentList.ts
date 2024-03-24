@@ -7,6 +7,8 @@ import {
   selectCommentsByPostId,
 } from '../../modules/Comments/store/reducers/Comments.slice'
 
+// const STORAGE_KEY = 'commentList'
+
 const STORAGE_KEY = 'commentByPostId'
 
 interface IStoredCommentList {
@@ -31,7 +33,7 @@ const saveCommentList = (commentList: IComment[]): void => {
   localStorage.setItem(STORAGE_KEY, formattedStoreData)
 }
 
-const useCommentList = () => {
+const useReplyCommentList = () => {
   const dispatch = useAppDispatch()
 
   const commentList = useAppSelector(selectCommentList)
@@ -74,4 +76,4 @@ const useCommentList = () => {
   return { commentList, addComment, handleSaveComment, handleClickRemoveButton, saveCommentList }
 }
 
-export default useCommentList
+export default useReplyCommentList
