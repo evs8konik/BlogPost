@@ -9,5 +9,4 @@ export interface IPost {
   date?: IDate
   time?: ITime
   picture?: string
-  commentIdList?: string[]
 }

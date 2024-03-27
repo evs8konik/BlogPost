@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { IPost } from '../../modules/common/models/Post/Post'
 import Footer from '../Footer/Footer'
@@ -6,8 +6,8 @@ import Header from '../Header/Header'
 import Post from '../Post/Post'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
 import CommentForm from '../CommentForm/CommentForm'
-import ContentBlock from '../ContentBlock/ContentBlock'
 import usePostList from '../../hooks/usePostList copy/usePostList'
+import CommentBlock from '../CommentBlock/CommentBlock'
 
 const SinglePostPage: FC = () => {
   const { postId } = useParams<{ postId?: string }>()
@@ -17,13 +17,21 @@ const SinglePostPage: FC = () => {
   const { postByUserId, handleSavePost, handleClickRemoveButton } = usePostList()
   const [post, setPost] = useState<IPost>()
 
-  console.log('POST_ID', postId)
+  const postList = useMemo(() => {
+    console.log('RENDERED')
 
-  // useEffect(() => {
-  //   const foundPost = postList.find((post) => post.id === postId)
+    return Object.values(postByUserId).reduce<IPost[]>((acc, posts) => {
+      acc.push(...posts)
 
-  //   setPost(foundPost)
-  // }, [postId, postList])
+      return acc
+    }, [])
+  }, [postByUserId])
+
+  useEffect(() => {
+    const foundPost = postList.find((post) => post.id === postId)
+
+    setPost(foundPost)
+  }, [postId, postList])
 
   return (
     <>
@@ -40,9 +48,14 @@ const SinglePostPage: FC = () => {
             {...post}
           />
 
-          {postId && <CommentForm addComment={(comment) => addComment(postId, comment)} />}
+          {postId && (
+            <CommentForm
+              addComment={addComment}
+              postId={postId}
+            />
+          )}
 
-          {postId && <ContentBlock postId={postId} />}
+          {postId && <CommentBlock postId={postId} />}
         </>
       )}
 

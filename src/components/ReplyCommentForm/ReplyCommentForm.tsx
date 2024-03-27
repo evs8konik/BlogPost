@@ -14,10 +14,11 @@ interface IInputsState {
 }
 
 interface IProps {
-  addReplyComment: (comment: IReplyComment) => void
+  addReplyComment: (commentId: string, reply: IReplyComment) => void
+  commentId: string
 }
 
-const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
+const ReplyCommentForm: FC<IProps> = ({ addReplyComment, commentId }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [{ content, picture }, setInputsState] = useState<IInputsState>({
@@ -40,6 +41,7 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
 
     const newReplyComment: IReplyComment = {
       id: v4(),
+      commentId,
       content: content,
       picture: picture,
       owner: currentUser,
@@ -47,7 +49,7 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
       time: currentTime,
     }
 
-    addReplyComment(newReplyComment)
+    addReplyComment(commentId, newReplyComment)
 
     setInputsState({ content: '', picture: '' })
   }

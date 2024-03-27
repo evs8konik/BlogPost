@@ -8,7 +8,14 @@ import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import InputUpload from '../inputs/InputUpload/InputUpload'
 
+interface IProps {
+  addComment: (postId: string, comment: IComment) => void
+  postId: string
+}
+
 export interface IReplyComment {
+  // commentId: string
+  commentId: string
   id: string
   content: string
   picture: string
@@ -18,6 +25,7 @@ export interface IReplyComment {
 }
 
 export interface IComment {
+  postId: string
   id: string
   title: string
   content: string
@@ -25,7 +33,7 @@ export interface IComment {
   owner: IUser
   date: IDate
   time: ITime
-  replyCommentList: IReplyComment[]
+  // replyCommentList: IReplyComment[]
 }
 
 export interface IUser {
@@ -51,10 +59,6 @@ interface IInputsState {
   title: string
   content: string
   picture: string
-}
-
-interface IProps {
-  addComment: (comment: IComment) => void
 }
 
 export const toBase64 = (file: File) =>
@@ -89,7 +93,7 @@ export const currentTime = {
   },
 }
 
-const CommentForm: FC<IProps> = ({ addComment }) => {
+const CommentForm: FC<IProps> = ({ addComment, postId }) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [{ title, content, picture }, setInputsState] = useState<IInputsState>({
@@ -112,6 +116,7 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
     if (!currentUser) return
 
     const newComment: IComment = {
+      postId,
       id: v4(),
       title: title,
       content: content,
@@ -119,10 +124,9 @@ const CommentForm: FC<IProps> = ({ addComment }) => {
       owner: currentUser,
       date: currentDate,
       time: currentTime,
-      replyCommentList: [],
     }
 
-    addComment(newComment)
+    addComment(postId, newComment)
 
     setInputsState({ title: '', content: '', picture: '' })
   }

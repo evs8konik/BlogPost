@@ -39,7 +39,7 @@ const PostSlice = createSlice({
       }
     },
 
-    addPostByUserId: (state, { payload }: PayloadAction<{ userId: string; posts: IPost[] }>) => {
+    addPostsByUserId: (state, { payload }: PayloadAction<{ userId: string; posts: IPost[] }>) => {
       const { userId, posts } = payload
       state.postByUserId[userId] = posts
     },

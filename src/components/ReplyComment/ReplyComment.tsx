@@ -12,11 +12,22 @@ import uploadPng from '../Comment/asset/images/6711359.png'
 
 type TProps = {
   commentOwner: IUser
-  onClick: (id: string) => void
-  onSave: (data: IReplyComment) => void
+  onClick: (commentId: string, id: string) => void
+  onSave: (userId: string, data: IReplyComment) => void
 } & IReplyComment
 
-const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, date, time, onClick, onSave }) => {
+const ReplyComment: FC<TProps> = ({
+  commentOwner,
+  id,
+  content,
+  picture,
+  owner,
+  date,
+  time,
+  commentId,
+  onClick,
+  onSave,
+}) => {
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
@@ -36,8 +47,9 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, d
   }
 
   const handleSave = (): void => {
-    onSave({
+    onSave(commentId, {
       id,
+      commentId,
       content: editableContent,
       picture: editablePicture,
       owner,
@@ -138,7 +150,7 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, picture, owner, d
         {checkIfNeedToShowDeleteButton() ? (
           <ButtonNormal
             preset="delete"
-            onClick={() => onClick(id)}
+            onClick={() => onClick(commentId, id)}
           >
             Delete
           </ButtonNormal>

@@ -7,9 +7,7 @@ import { AccountSelectors } from './modules/Comments/store/reducers/Account.slic
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
-import Filters from './modules/common/features/Filters/Filters'
 import PostsPage from './PostsPage/PostsPage'
-
 import SinglePostPage from './components/SinglePostPage/SinglePostPage'
 
 const App: FC = () => {

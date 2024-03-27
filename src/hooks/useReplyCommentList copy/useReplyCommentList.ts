@@ -1,32 +1,28 @@
 import { useEffect } from 'react'
-import { IComment } from '../../components/CommentForm/CommentForm'
+import { IReplyComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  CommentsActions,
-  selectCommentList,
-  selectCommentsByPostId,
-} from '../../modules/Comments/store/reducers/Comments.slice'
+import { RepliesActions, selectReplyByCommentId } from '../../modules/Comments/store/reducers/ReplyComments.slice'
 
-// const STORAGE_KEY = 'commentList'
+const STORAGE_KEY = 'replyByPostId'
 
-const STORAGE_KEY = 'commentByPostId'
-
-interface IStoredCommentList {
-  commentList: IComment[]
+interface IStoredReplyByCommentId {
+  replyByCommentId: {
+    [commentId: string]: IReplyComment[]
+  }
 }
 
-const getStoredCommentList = (): IComment[] => {
+const getStoredRepliesByCommentID = (): { [commentId: string]: IReplyComment[] } => {
   const storedData = localStorage.getItem(STORAGE_KEY)
 
-  if (!storedData) return []
+  if (!storedData) return {}
 
-  const { commentList } = JSON.parse(storedData) as IStoredCommentList
+  const { replyByCommentId } = JSON.parse(storedData) as IStoredReplyByCommentId
 
-  return commentList
+  return replyByCommentId
 }
 
-const saveCommentList = (commentList: IComment[]): void => {
-  const storedData: IStoredCommentList = { commentList: [...commentList] }
+const saveReplyByCommentId = (replyByCommentId: { [commentId: string]: IReplyComment[] }): void => {
+  const storedData: IStoredReplyByCommentId = { replyByCommentId: { ...replyByCommentId } }
 
   const formattedStoreData = JSON.stringify(storedData)
 
@@ -36,44 +32,55 @@ const saveCommentList = (commentList: IComment[]): void => {
 const useReplyCommentList = () => {
   const dispatch = useAppDispatch()
 
-  const commentList = useAppSelector(selectCommentList)
+  const repliesByCommentId = useAppSelector(selectReplyByCommentId)
 
-  const commentByPostId = useAppSelector(selectCommentsByPostId)
-
-  console.log('commentByPostId', commentByPostId)
+  console.log('commentByPostId', repliesByCommentId)
 
   useEffect(() => {
-    const storedCommentList = getStoredCommentList()
+    const storedRepliesByCommentId = getStoredRepliesByCommentID()
 
-    dispatch(CommentsActions.addCommentList(storedCommentList))
-  }, [])
-
-  const addComment = (postId: string, comment: IComment): void => {
-    dispatch(CommentsActions.addComment({ postId, comment }))
-
-    saveCommentList([...commentList, comment])
-  }
-
-  const handleClickRemoveButton = (commentId: string): void => {
-    dispatch(CommentsActions.deleteComment(commentId))
-
-    saveCommentList(commentList.filter((comment) => comment.id !== commentId))
-  }
-
-  const handleSaveComment = (data: IComment): void => {
-    dispatch(CommentsActions.saveComment(data))
-
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id === data.id) {
-          return { ...comment, ...data }
+    if (storedRepliesByCommentId) {
+      const commentIds = Object.keys(storedRepliesByCommentId)
+      if (commentIds.length > 0) {
+        const payload = {
+          commentId: commentIds[0],
+          replies: storedRepliesByCommentId[commentIds[0]],
         }
-        return comment
-      }),
-    )
+        dispatch(RepliesActions.addRepliesByCommentId(payload))
+      }
+    }
+  }, [dispatch])
+
+  const addReply = (commentId: string, reply: IReplyComment): void => {
+    dispatch(RepliesActions.addReply({ commentId, reply }))
+
+    const updatedRepliesByCommentId = { ...repliesByCommentId }
+    updatedRepliesByCommentId[commentId] = [...(updatedRepliesByCommentId[commentId] || []), reply]
+
+    saveReplyByCommentId(updatedRepliesByCommentId)
   }
 
-  return { commentList, addComment, handleSaveComment, handleClickRemoveButton, saveCommentList }
+  const handleClickRemoveButton = (commentId: string, replyId: string): void => {
+    dispatch(RepliesActions.deleteReply({ commentId, replyId }))
+
+    const updatedRepliesByCommentId = { ...repliesByCommentId }
+    updatedRepliesByCommentId[commentId] = updatedRepliesByCommentId[commentId].filter((reply) => reply.id !== replyId)
+
+    saveReplyByCommentId(updatedRepliesByCommentId)
+  }
+
+  const handleSaveReply = (commentId: string, reply: IReplyComment): void => {
+    dispatch(RepliesActions.saveReply(reply))
+
+    const updatedRepliesByCommentId = { ...repliesByCommentId }
+    updatedRepliesByCommentId[commentId] = updatedRepliesByCommentId[commentId].map((p) =>
+      p.id === reply.id ? { ...reply } : p,
+    )
+
+    saveReplyByCommentId(updatedRepliesByCommentId)
+  }
+
+  return { repliesByCommentId, addReply, handleSaveReply, handleClickRemoveButton, saveReplyByCommentId }
 }
 
 export default useReplyCommentList

@@ -1,30 +1,28 @@
 import { useEffect } from 'react'
 import { IComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  CommentsActions,
-  selectCommentList,
-  selectCommentsByPostId,
-} from '../../modules/Comments/store/reducers/Comments.slice'
+import { CommentsActions, selectCommentsByPostId } from '../../modules/Comments/store/reducers/Comments.slice'
 
 const STORAGE_KEY = 'commentByPostId'
 
-interface IStoredCommentList {
-  commentList: IComment[]
+interface IStoredCommentsByPostId {
+  commentsByPostId: {
+    [postId: string]: IComment[]
+  }
 }
 
-const getStoredCommentList = (): IComment[] => {
+const getStoredCommentByPostID = (): { [postId: string]: IComment[] } => {
   const storedData = localStorage.getItem(STORAGE_KEY)
 
-  if (!storedData) return []
+  if (!storedData) return {}
 
-  const { commentList } = JSON.parse(storedData) as IStoredCommentList
+  const { commentsByPostId } = JSON.parse(storedData) as IStoredCommentsByPostId
 
-  return commentList
+  return commentsByPostId
 }
 
-const saveCommentList = (commentList: IComment[]): void => {
-  const storedData: IStoredCommentList = { commentList: [...commentList] }
+const saveCommentsByPostId = (commentByPostId: { [postId: string]: IComment[] }): void => {
+  const storedData: IStoredCommentsByPostId = { commentsByPostId: { ...commentByPostId } }
 
   const formattedStoreData = JSON.stringify(storedData)
 
@@ -34,44 +32,48 @@ const saveCommentList = (commentList: IComment[]): void => {
 const useCommentList = () => {
   const dispatch = useAppDispatch()
 
-  const commentList = useAppSelector(selectCommentList)
+  const commentsByPostId = useAppSelector(selectCommentsByPostId)
 
-  const commentByPostId = useAppSelector(selectCommentsByPostId)
-
-  console.log('commentByPostId', commentByPostId)
+  console.log('commentByPostId', commentsByPostId)
 
   useEffect(() => {
-    const storedCommentList = getStoredCommentList()
-
-    dispatch(CommentsActions.addCommentList(storedCommentList))
+    const storedCommentList = getStoredCommentByPostID()
+    Object.keys(storedCommentList).forEach((postId) => {
+      const comments = storedCommentList[postId]
+      dispatch(CommentsActions.addCommentsByPostId({ postId, comments }))
+    })
   }, [])
 
   const addComment = (postId: string, comment: IComment): void => {
     dispatch(CommentsActions.addComment({ postId, comment }))
 
-    saveCommentList([...commentList, comment])
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = [...(updatedCommentByPostId[postId] || []), comment]
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  const handleClickRemoveButton = (commentId: string): void => {
-    dispatch(CommentsActions.deleteComment(commentId))
+  const handleClickRemoveButton = (postId: string, commentId: string): void => {
+    dispatch(CommentsActions.deleteComment({ commentId, postId }))
 
-    saveCommentList(commentList.filter((comment) => comment.id !== commentId))
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = updatedCommentByPostId[postId].filter((comment) => comment.id !== commentId)
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  const handleSaveComment = (data: IComment): void => {
-    dispatch(CommentsActions.saveComment(data))
+  const handleSaveComment = (postId: string, comment: IComment): void => {
+    dispatch(CommentsActions.saveComment(comment))
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id === data.id) {
-          return { ...comment, ...data }
-        }
-        return comment
-      }),
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = updatedCommentByPostId[postId].map((p) =>
+      p.id === comment.id ? { ...comment } : p,
     )
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  return { commentList, addComment, handleSaveComment, handleClickRemoveButton, saveCommentList }
+  return { commentsByPostId, addComment, handleSaveComment, handleClickRemoveButton, saveCommentsByPostId }
 }
 
 export default useCommentList

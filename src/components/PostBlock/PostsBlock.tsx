@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, useMemo } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'
 import Styled from './PostsBlock.styles'
 
@@ -20,30 +20,28 @@ const selectOptionsList: ISelectOption[] = [
   { label: 'Sort none', value: 'Sort none' },
 ]
 
-function getAllPosts(postByUserId: IPostByUserId): IPost[] {
-  let postList: IPost[] = []
-
-  Object.values(postByUserId).forEach((posts) => {
-    postList = postList.concat(posts)
-  })
-
-  return postList
-}
-
 const POST_IN_PAGE = 2
 
 const PostsBlock: FC = () => {
   const { postByUserId, handleSavePost, handleClickRemoveButton } = usePostList()
-  const postList = getAllPosts(postByUserId)
+
   const [selectedOption, setSelectedOption] = useState<ISelectOption>({ label: 'Sort none', value: 'Sort none' })
-  const [sortedPosts, setSortedPosts] = useState([...postList])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [sortedPosts, setSortedPosts] = useState<IPost[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // console.log('POST_LIST', postList)
+  const postList = useMemo(() => {
+    console.log('RENDERED')
 
+    return Object.values(postByUserId).reduce<IPost[]>((acc, posts) => {
+      acc.push(...posts)
+
+      return acc
+    }, [])
+  }, [postByUserId])
+
+  useEffect(() => {
     if (selectedOption.value === 'new') {
       setSortedPosts(
         [...postList].sort((a, b) => {
@@ -89,7 +87,7 @@ const PostsBlock: FC = () => {
     } else {
       setSortedPosts([...postList])
     }
-  }, [selectedOption])
+  }, [selectedOption, postList])
 
   const goToNextPage = () => setCurrentPage((prevPage) => prevPage + 1)
   const goToPrevPage = () => setCurrentPage((prevPage) => prevPage - 1)

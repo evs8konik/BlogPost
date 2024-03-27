@@ -1,9 +1,10 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, useMemo } from 'react'
 import Styled from './ContentBlock.styles'
 import useCommentList from '../../hooks/useCommentList/useCommentList'
 import Comment from '../Comment/Comment'
 import Select, { ISelectOption } from '../../modules/common/components/Select/Select'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
+import { IComment } from '../CommentForm/CommentForm'
 
 const selectOptionsList: ISelectOption[] = [
   { label: 'Sort by new', value: 'new' },
@@ -18,11 +19,22 @@ interface IProps {
   postId: string
 }
 
-const ContentBlock: FC<IProps> = ({ postId }) => {
-  const { commentList, handleSaveComment, handleClickRemoveButton } = useCommentList()
+const CommentBlock: FC<IProps> = ({ postId }) => {
+  const { commentsByPostId, handleSaveComment, handleClickRemoveButton } = useCommentList()
+
+  const commentList: IComment[] = useMemo(() => {
+    if (commentsByPostId && commentsByPostId[postId]) {
+      return commentsByPostId[postId] || []
+    } else {
+      return []
+    }
+  }, [commentsByPostId, postId])
+
+  console.log('POST_ID', postId)
+
   const [selectedOption, setSelectedOption] = useState<ISelectOption>({ label: 'Sort none', value: 'Sort none' })
-  const [sortedComments, setSortedComments] = useState([...commentList])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [sortedComments, setSortedComments] = useState<IComment[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   useEffect(() => {
     if (selectedOption.value === 'new') {
@@ -120,4 +132,4 @@ const ContentBlock: FC<IProps> = ({ postId }) => {
   )
 }
 
-export default ContentBlock
+export default CommentBlock

@@ -54,7 +54,6 @@ const PostForm: FC<IProps> = ({ addPost }) => {
       owner: currentUser,
       date: currentDate,
       time: currentTime,
-      commentIdList: [],
     }
 
     addPost(currentUser.email, newPost)
