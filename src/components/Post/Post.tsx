@@ -1,22 +1,16 @@
 import { FC, useEffect, useState } from 'react'
-
-import { IComment, IReplyComment, currentDate, currentTime } from '../CommentForm/CommentForm'
+import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import Styled from './Post.styles'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import { saveAs } from 'file-saver'
 import uploadPng from './asset/images/6711359.png'
 import InputUpload from '../inputs/InputUpload/InputUpload'
-import { time } from 'console'
-import usePostList from '../../hooks/usePostList copy/usePostList'
 import { base64toBlob } from '../Comment/Comment'
 import { IPost } from '../../modules/common/models/Post/Post'
-import { v4 } from 'uuid'
-import { generatePath, useNavigate } from 'react-router-dom'
-import { EAppRoute } from '../../routes/AppRoute'
+import { useAppSelector } from '../../app/hooks'
 
 type TProps = {
   onClick: (userId: string, id: string) => void
@@ -43,7 +37,6 @@ const Post: FC<TProps> = ({
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
-  const [isReply, setIsReply] = useState(false)
 
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableBody, setEditableBody] = useState(body)
@@ -65,14 +58,10 @@ const Post: FC<TProps> = ({
     setIsEdit(!isEdit)
   }
 
-  const toggleReplay = (): void => {
-    setIsReply(!isReply)
-  }
-
   const handleSave = (): void => {
     onSave(userId, {
       id,
-      // commentIdList: [],
+
       userId,
       title: editableTitle,
       body: editableBody,
@@ -80,10 +69,8 @@ const Post: FC<TProps> = ({
       owner,
       date: currentDate,
       time: currentTime,
-      // replyCommentList,
     })
 
-    isReply ? setIsReply(!isReply) : setIsReply(isReply)
     isEdit ? setIsEdit(!isEdit) : setIsEdit(isEdit)
   }
 
@@ -97,10 +84,6 @@ const Post: FC<TProps> = ({
 
   const checkIfNeedToShowEditDeleteButton = () => {
     return owner?.email === currentUser?.email
-  }
-
-  const checkIfNeedToShowReplyButton = () => {
-    return currentUser !== null
   }
 
   return (
@@ -160,6 +143,7 @@ const Post: FC<TProps> = ({
             <Styled.Date>
               {date?.dayOfMonth}.{date?.month}.{date?.year}
             </Styled.Date>
+
             <Styled.Time>
               {time?.hours}:{time?.minutes}
             </Styled.Time>
@@ -193,8 +177,6 @@ const Post: FC<TProps> = ({
               </>
             ) : null}
           </Styled.ButtonWrapper>
-
-          {/* Часть с ответом на комментарий */}
         </Styled.Wrapper>
       ) : (
         <Styled.PrevWrapper onClick={onClickPost}>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { IPost } from '../../modules/common/models/Post/Post'
-import { PostsActions, selectPostByUserId } from '../../modules/Comments/store/reducers/Post.slice copy'
+import { PostsActions, fetchPosts, selectPostByUserId } from '../../modules/Comments/store/reducers/Post.slice'
 
 const STORAGE_KEY = 'postByUserId'
 
@@ -37,12 +37,15 @@ const usePostList = () => {
   useEffect(() => {
     const storedPostByUserId = getStoredPostList()
 
-    const payload = {
-      userId: Object.keys(storedPostByUserId)[0],
-      posts: storedPostByUserId[Object.keys(storedPostByUserId)[0]],
+    if (Object.keys(storedPostByUserId).length > 0) {
+      const payload = {
+        userId: Object.keys(storedPostByUserId)[0],
+        posts: storedPostByUserId[Object.keys(storedPostByUserId)[0]],
+      }
+      dispatch(PostsActions.addPostsByUserId(payload))
     }
 
-    dispatch(PostsActions.addPostsByUserId(payload))
+    // dispatch(fetchPosts())
   }, [dispatch])
 
   const addPost = (userId: string, post: IPost): void => {

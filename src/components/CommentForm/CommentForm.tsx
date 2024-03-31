@@ -14,7 +14,6 @@ interface IProps {
 }
 
 export interface IReplyComment {
-  // commentId: string
   commentId: string
   id: string
   content: string

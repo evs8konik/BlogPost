@@ -127,7 +127,7 @@ const PostsBlock: FC = () => {
               onClick={handleClickRemoveButton}
               onSave={handleSavePost}
               onClickPost={() => handlePostClick(post.id)}
-              prevVersion={true}
+              prevVersion={false}
               {...post}
             />
           ))}

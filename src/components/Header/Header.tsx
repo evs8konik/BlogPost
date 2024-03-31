@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Styled from './Header.styles'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import useLogin from '../../hooks/useLogin/useLogin'
@@ -6,28 +6,66 @@ import Login from '../../containers/Login/Login'
 import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 import uploadPng from './assets/images/logo.png'
+import PostForm from '../PostForm/PostForm'
+import usePostList from '../../hooks/usePostList copy/usePostList'
 
 const Header: FC = () => {
-  const { closeLoginForm, cleanCurrentUser } = useLogin()
+  const { cleanCurrentUser } = useLogin()
+
+  const { addPost } = usePostList()
 
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
-  const registrationForm = useAppSelector(AccountSelectors.selectRegistrationForm)
+  // const registrationForm = useAppSelector(AccountSelectors.selectRegistrationForm)
 
-  const checkIfNeedToShowLogoutButton = (): boolean => {
+  const [isOpenPostForm, setIsOpenPostForm] = useState<boolean>(false)
+
+  const checkIfNeedToShowLogout = (): boolean => {
     if (currentUser !== null) return true
 
     return false
   }
 
+  const handleClickOpenPostForm = () => {
+    setIsOpenPostForm(true)
+  }
+
+  const handleClickClosePostForm = () => {
+    setIsOpenPostForm(false)
+  }
+
   return (
     <>
-      {checkIfNeedToShowLogoutButton() ? (
+      {checkIfNeedToShowLogout() ? (
         <Styled.Wrapper>
           <Styled.LogoutHeader>
             <Styled.Img
               src={uploadPng}
               alt=""
             />
+
+            {!isOpenPostForm ? (
+              <ButtonNormal
+                preset="add"
+                onClick={handleClickOpenPostForm}
+              >
+                Add Post
+              </ButtonNormal>
+            ) : (
+              <Styled.ShadowBackground onClick={handleClickClosePostForm}>
+                <Styled.LoginForm onClick={(e) => e.stopPropagation()}>
+                  <Styled.ButtonCloseWrapper>
+                    <ButtonNormal
+                      preset="close"
+                      onClick={handleClickClosePostForm}
+                    >
+                      Close
+                    </ButtonNormal>
+                  </Styled.ButtonCloseWrapper>
+
+                  <PostForm addPost={addPost} />
+                </Styled.LoginForm>
+              </Styled.ShadowBackground>
+            )}
 
             <Styled.CurrentUserWrapper>
               <Styled.UserName>
@@ -46,7 +84,7 @@ const Header: FC = () => {
         </Styled.Wrapper>
       ) : null}
 
-      {registrationForm ? (
+      {/* {registrationForm ? (
         <Styled.ShadowBackground onClick={closeLoginForm}>
           <Styled.LoginForm onClick={(e) => e.stopPropagation()}>
             <Styled.ButtonCloseWrapper>
@@ -61,7 +99,7 @@ const Header: FC = () => {
             <Login />
           </Styled.LoginForm>
         </Styled.ShadowBackground>
-      ) : null}
+      ) : null} */}
     </>
   )
 }

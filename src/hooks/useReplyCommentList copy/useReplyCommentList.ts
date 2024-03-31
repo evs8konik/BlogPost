@@ -38,18 +38,11 @@ const useReplyCommentList = () => {
 
   useEffect(() => {
     const storedRepliesByCommentId = getStoredRepliesByCommentID()
-
-    if (storedRepliesByCommentId) {
-      const commentIds = Object.keys(storedRepliesByCommentId)
-      if (commentIds.length > 0) {
-        const payload = {
-          commentId: commentIds[0],
-          replies: storedRepliesByCommentId[commentIds[0]],
-        }
-        dispatch(RepliesActions.addRepliesByCommentId(payload))
-      }
-    }
-  }, [dispatch])
+    Object.keys(storedRepliesByCommentId).forEach((commentId) => {
+      const replies = storedRepliesByCommentId[commentId]
+      dispatch(RepliesActions.addRepliesByCommentId({ commentId, replies }))
+    })
+  }, [])
 
   const addReply = (commentId: string, reply: IReplyComment): void => {
     dispatch(RepliesActions.addReply({ commentId, reply }))
