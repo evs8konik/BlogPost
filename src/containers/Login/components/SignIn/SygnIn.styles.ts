@@ -17,8 +17,17 @@ const Form = styled.form`
   gap: 10px;
 `
 
+const backToHomePage = styled.div`
+  font-size: 80%;
+
+  color: blue;
+
+  cursor: pointer;
+`
+
 const StyledSignIn = {
   Form,
+  backToHomePage,
 }
 
 export default StyledSignIn

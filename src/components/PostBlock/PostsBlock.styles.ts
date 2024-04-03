@@ -18,7 +18,7 @@ const PostBlockWrapper = styled.div`
 `
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 90%;
 
   display: flex;
   align-items: center;

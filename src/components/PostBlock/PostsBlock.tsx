@@ -21,6 +21,7 @@ const selectOptionsList: ISelectOption[] = [
 ]
 
 const POST_IN_PAGE = 2
+const MAX_DISPLAY_PAGES = 6
 
 const PostsBlock: FC = () => {
   const { postByUserId, handleSavePost, handleClickRemoveButton } = usePostList()
@@ -32,11 +33,8 @@ const PostsBlock: FC = () => {
   const navigate = useNavigate()
 
   const postList = useMemo(() => {
-    console.log('RENDERED')
-
     return Object.values(postByUserId).reduce<IPost[]>((acc, posts) => {
       acc.push(...posts)
-
       return acc
     }, [])
   }, [postByUserId])
@@ -94,17 +92,18 @@ const PostsBlock: FC = () => {
 
   const handleClickPage = (pageNumber: number) => setCurrentPage(pageNumber)
 
-  const pageNumbers = []
-  for (let i = 1; i <= Math.ceil(sortedPosts.length / POST_IN_PAGE); i++) {
-    pageNumbers.push(i)
-  }
+  const totalPages = Math.ceil(sortedPosts.length / POST_IN_PAGE)
+  const startPage = Math.max(1, currentPage - Math.floor(MAX_DISPLAY_PAGES / 2))
+  const endPage = Math.min(totalPages, startPage + MAX_DISPLAY_PAGES - 1)
 
   const handleSelect = (value: any, option: ISelectOption) => {
     setSelectedOption(option)
   }
 
-  const handlePostClick = (postId: string) => {
-    navigate(generatePath(EAppRoute.Post, { postId }))
+  const handlePostClick = (postId: string | number) => {
+    const postIdToString = postId.toString()
+
+    navigate(generatePath(EAppRoute.Post, { postId: postIdToString }))
   }
 
   return (
@@ -112,14 +111,12 @@ const PostsBlock: FC = () => {
       <Styled.Wrapper>
         <Styled.WrapperTitle>
           <Styled.Title>POSTS</Styled.Title>
-
           <Select
             optionList={selectOptionsList}
             selectedOption={selectedOption}
             onSelect={handleSelect}
           />
         </Styled.WrapperTitle>
-
         <Styled.PostWrapper>
           {sortedPosts.slice((currentPage - 1) * POST_IN_PAGE, currentPage * POST_IN_PAGE).map((post) => (
             <Post
@@ -131,36 +128,73 @@ const PostsBlock: FC = () => {
               {...post}
             />
           ))}
-
-          <Styled.WrapperPageButtons>
-            <Styled.WrapperButtons>
-              <ButtonNormal
-                onClick={goToPrevPage}
-                preset={'nextPrevPage'}
-                disabled={currentPage === 1}
-              >
-                Previous Page
-              </ButtonNormal>
-
-              {pageNumbers.map((number) => (
+          {sortedPosts.length > POST_IN_PAGE && (
+            <Styled.WrapperPageButtons>
+              <Styled.WrapperButtons>
                 <ButtonNormal
-                  key={number}
-                  onClick={() => handleClickPage(number)}
-                  preset={'numberPage'}
+                  onClick={goToPrevPage}
+                  preset={'nextPrevPage'}
+                  disabled={currentPage === 1}
                 >
-                  {number}
+                  Previous Page
                 </ButtonNormal>
-              ))}
-
-              <ButtonNormal
-                onClick={goToNextPage}
-                preset={'nextPrevPage'}
-                disabled={currentPage === Math.ceil(sortedPosts.length / POST_IN_PAGE)}
-              >
-                Next Page
-              </ButtonNormal>
-            </Styled.WrapperButtons>
-          </Styled.WrapperPageButtons>
+                {startPage > 1 && (
+                  <>
+                    <ButtonNormal
+                      onClick={() => handleClickPage(1)}
+                      preset={'numberPage'}
+                    >
+                      1
+                    </ButtonNormal>
+                    {startPage > 2 && (
+                      <ButtonNormal
+                        preset={'numberPage'}
+                        disabled={true}
+                      >
+                        ...
+                      </ButtonNormal>
+                    )}
+                  </>
+                )}
+                {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map((number) => (
+                  <ButtonNormal
+                    key={number}
+                    onClick={() => handleClickPage(number)}
+                    preset={'numberPage'}
+                    disabled={number === currentPage}
+                  >
+                    {number}
+                  </ButtonNormal>
+                ))}
+                {endPage < totalPages && (
+                  <>
+                    {endPage < totalPages - 1 && (
+                      <ButtonNormal
+                        preset={'numberPage'}
+                        disabled={true}
+                      >
+                        ...
+                      </ButtonNormal>
+                    )}
+                    <ButtonNormal
+                      onClick={() => handleClickPage(totalPages)}
+                      preset={'numberPage'}
+                      disabled={currentPage === totalPages}
+                    >
+                      {totalPages}
+                    </ButtonNormal>
+                  </>
+                )}
+                <ButtonNormal
+                  onClick={goToNextPage}
+                  preset={'nextPrevPage'}
+                  disabled={currentPage === totalPages}
+                >
+                  Next Page
+                </ButtonNormal>
+              </Styled.WrapperButtons>
+            </Styled.WrapperPageButtons>
+          )}
         </Styled.PostWrapper>
       </Styled.Wrapper>
     </Styled.PostBlockWrapper>

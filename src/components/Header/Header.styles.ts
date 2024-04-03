@@ -16,10 +16,14 @@ const ShadowBackground = styled.div`
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 `
 
 const LoginForm = styled.div`
+  width: 100%;
+
+  border-radius: 100px;
+
   z-index: 2;
 `
 
@@ -57,19 +61,21 @@ const ButtonCloseWrapper = styled.div`
 
 const LogoutHeader = styled.div`
   height: auto;
-  width: 70%;
+  width: 90%;
 
   flex-direction: column;
 
   /* background-color: white; */
 
-  border-radius: 15px;
+  /* border-radius: 15px; */
   gap: 15px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px;
+  padding: 10px;
+
+  font-size: 80%;
 
   @media ${device.mobileS} {
     gap: 15px;
@@ -101,7 +107,7 @@ const UserName = styled.div`
   color: white;
 `
 const Img = styled.img`
-  height: 90px;
+  height: 60px;
   width: auto;
 
   border-radius: 15px;

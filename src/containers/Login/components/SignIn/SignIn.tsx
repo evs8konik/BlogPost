@@ -37,6 +37,10 @@ const SignIn: FC = () => {
     dispatch(AccountActions.showSignUpForm())
   }
 
+  const handleClickToHomePage = () => {
+    navigate(EAppRoute.Posts)
+  }
+
   return (
     <Styled.Form onSubmit={handleSubmit}>
       <NormalInput
@@ -61,6 +65,8 @@ const SignIn: FC = () => {
       >
         Create Account
       </ButtonNormal>
+
+      <Styled.backToHomePage onClick={handleClickToHomePage}>Back to home page...</Styled.backToHomePage>
     </Styled.Form>
   )
 }

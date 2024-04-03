@@ -2,14 +2,15 @@ import styled, { css } from 'styled-components'
 
 // Пресет для кнопки "Add"
 const addPreset = css`
-  height: 30px;
-  width: 200px;
+  height: 30%;
+  width: 100px;
 
   border-radius: 8px;
 
   padding: 4px 6px;
 
   font-weight: bold;
+  font-size: 80%;
 
   background-color: rgb(27, 206, 80);
   color: white;
@@ -127,25 +128,26 @@ const savePreset = css`
 
 // Пресет для кнопки "Login"
 const loginPreset = css`
-  height: 30px;
-  width: 150px;
+  height: 30%;
+  width: 100px;
 
   border-radius: 8px;
 
   padding: 4px 6px;
 
-  background-color: #314f8a;
+  background-color: rgb(27, 206, 80);
   color: white;
 
   font-weight: bold;
+  font-size: 80%;
 
   cursor: pointer;
 `
 
-// Пресет для кнопки "Login"
+// Пресет для кнопки "Logout"
 const logoutPreset = css`
-  height: 30px;
-  width: 150px;
+  height: 30%;
+  width: 100px;
 
   border-radius: 8px;
 
@@ -157,6 +159,7 @@ const logoutPreset = css`
   color: white;
 
   font-weight: bold;
+  font-size: 80%;
 
   cursor: pointer;
 `

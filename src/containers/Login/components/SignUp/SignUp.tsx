@@ -13,9 +13,12 @@ import { ENotificationType } from '../../../../modules/Comments/store/reducers/N
 import { v4 } from 'uuid'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+import { useNavigate } from 'react-router-dom'
+import { EAppRoute } from '../../../../routes/AppRoute'
 
 const SignUp: FC = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const { addUser, getUser } = useLogin()
   const { addNotification } = useNotification()
@@ -28,6 +31,10 @@ const SignUp: FC = () => {
 
   const handleSignInClick = () => {
     dispatch(AccountActions.showSignInForm())
+  }
+
+  const handleClickToHomePage = () => {
+    navigate(EAppRoute.Posts)
   }
 
   const ourUser: IUser | null = getUser(email, password)
@@ -82,6 +89,8 @@ const SignUp: FC = () => {
       >
         Sing In
       </ButtonNormal>
+
+      <Styled.backToHomePage onClick={handleClickToHomePage}>Back to home page...</Styled.backToHomePage>
     </Styled.Form>
   )
 }

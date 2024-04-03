@@ -7,7 +7,6 @@ import { AccountSelectors } from './modules/Comments/store/reducers/Account.slic
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
-// import { PostsPage } from './modules/index'
 import SinglePostPage from './components/SinglePostPage/SinglePostPage'
 import { PostsPage } from './modules'
 
@@ -19,7 +18,7 @@ const App: FC = () => {
 
   useEffect(() => {
     if (currentUser === null) {
-      navigate(EAppRoute.Login)
+      navigate(EAppRoute.Posts)
     }
 
     if (currentUser !== null) {

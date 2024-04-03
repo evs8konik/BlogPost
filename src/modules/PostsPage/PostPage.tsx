@@ -10,7 +10,7 @@ const PostsPage: FC = () => {
 
   return (
     <>
-      <Header />
+      <Header homeHeader={true} />
 
       {/* <PostForm addPost={addPost} /> */}
 

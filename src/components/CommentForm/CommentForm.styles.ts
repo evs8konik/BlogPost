@@ -18,13 +18,14 @@ const CommentFormWrapper = styled.div`
 
 const Wrapper = styled.div`
   height: auto;
-  width: 70%;
+  width: 90%;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  padding: 24px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   /* border-radius: 16px; */
 
   background-color: white;

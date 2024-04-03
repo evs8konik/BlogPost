@@ -42,11 +42,12 @@ const usePostList = () => {
         userId: Object.keys(storedPostByUserId)[0],
         posts: storedPostByUserId[Object.keys(storedPostByUserId)[0]],
       }
+
       dispatch(PostsActions.addPostsByUserId(payload))
     }
 
-    // dispatch(fetchPosts())
-  }, [dispatch])
+    dispatch(fetchPosts())
+  }, [])
 
   const addPost = (userId: string, post: IPost): void => {
     dispatch(PostsActions.addPost({ userId, post }))

@@ -8,6 +8,7 @@ import useCommentList from '../../hooks/useCommentList/useCommentList'
 import CommentForm from '../CommentForm/CommentForm'
 import usePostList from '../../hooks/usePostList copy/usePostList'
 import CommentBlock from '../CommentBlock/CommentBlock'
+import Styled from './SinglePostPage.styles'
 
 const SinglePostPage: FC = () => {
   const { postId } = useParams<{ postId?: string }>()
@@ -28,7 +29,7 @@ const SinglePostPage: FC = () => {
   }, [postByUserId])
 
   useEffect(() => {
-    const foundPost = postList.find((post) => post.id === postId)
+    const foundPost = postList.find((post) => post.id.toString() === postId)
 
     setPost(foundPost)
   }, [postId, postList])
@@ -37,16 +38,20 @@ const SinglePostPage: FC = () => {
     <>
       {post && (
         <>
-          <Header />
+          <Header homeHeader={false} />
 
-          <Post
-            key={post.id}
-            onClick={handleClickRemoveButton}
-            onSave={handleSavePost}
-            onClickPost={() => post.id}
-            prevVersion={true}
-            {...post}
-          />
+          <Styled.Wrapper>
+            <Styled.PostWrapper>
+              <Post
+                key={post.id}
+                onClick={handleClickRemoveButton}
+                onSave={handleSavePost}
+                onClickPost={() => post.id}
+                prevVersion={true}
+                {...post}
+              />
+            </Styled.PostWrapper>
+          </Styled.Wrapper>
 
           {postId && (
             <CommentForm
@@ -54,7 +59,6 @@ const SinglePostPage: FC = () => {
               postId={postId}
             />
           )}
-
           {postId && <CommentBlock postId={postId} />}
         </>
       )}

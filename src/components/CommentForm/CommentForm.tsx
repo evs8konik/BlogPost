@@ -32,7 +32,6 @@ export interface IComment {
   owner: IUser
   date: IDate
   time: ITime
-  // replyCommentList: IReplyComment[]
 }
 
 export interface IUser {
