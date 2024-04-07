@@ -11,39 +11,49 @@ interface IStoredPostList {
   }
 }
 
-const getStoredPostList = (): { [userId: string]: IPost[] } => {
+const getStoredPostList = (): IStoredPostList => {
   const storedData = localStorage.getItem(STORAGE_KEY)
 
-  if (!storedData) return {}
+  if (!storedData) return { postByUserId: {} }
 
-  const { postByUserId } = JSON.parse(storedData) as IStoredPostList
-
-  return postByUserId
+  return JSON.parse(storedData) as IStoredPostList
 }
 
-const savePostByUserId = (postByUserId: { [userId: string]: IPost[] }): void => {
-  const storedData: IStoredPostList = { postByUserId: { ...postByUserId } }
+const savePostByUserId = (updatedPosts: { [userId: string]: IPost[] }): void => {
+  const storedData = getStoredPostList()
+  const updatedPostByUserId = {
+    ...storedData.postByUserId,
+    ...updatedPosts,
+  }
+  const formattedStoreData = JSON.stringify({ postByUserId: updatedPostByUserId })
+  localStorage.setItem(STORAGE_KEY, formattedStoreData)
+}
 
-  const formattedStoreData = JSON.stringify(storedData)
-
+const deletePostByUserId = (userId: string, postId: string): void => {
+  const storedData = getStoredPostList()
+  const updatedPostByUserId = {
+    ...storedData.postByUserId,
+    [userId]: storedData.postByUserId[userId].filter((post) => post.id !== postId),
+  }
+  const formattedStoreData = JSON.stringify({ postByUserId: updatedPostByUserId })
   localStorage.setItem(STORAGE_KEY, formattedStoreData)
 }
 
 const usePostList = () => {
   const dispatch = useAppDispatch()
-
   const postByUserId = useAppSelector(selectPostByUserId)
 
   useEffect(() => {
     const storedPostByUserId = getStoredPostList()
 
-    if (Object.keys(storedPostByUserId).length > 0) {
-      const payload = {
-        userId: Object.keys(storedPostByUserId)[0],
-        posts: storedPostByUserId[Object.keys(storedPostByUserId)[0]],
+    if (Object.keys(storedPostByUserId.postByUserId).length > 0) {
+      for (const userId in storedPostByUserId.postByUserId) {
+        const payload = {
+          userId,
+          posts: storedPostByUserId.postByUserId[userId],
+        }
+        dispatch(PostsActions.addPostsByUserId(payload))
       }
-
-      dispatch(PostsActions.addPostsByUserId(payload))
     }
 
     dispatch(fetchPosts())
@@ -51,32 +61,28 @@ const usePostList = () => {
 
   const addPost = (userId: string, post: IPost): void => {
     dispatch(PostsActions.addPost({ userId, post }))
-
-    const updatedPostByUserId = { ...postByUserId }
-    updatedPostByUserId[userId] = [...(updatedPostByUserId[userId] || []), post]
-
-    savePostByUserId(updatedPostByUserId)
+    savePostByUserId({ [userId]: [post] }) // Обновлено здесь
   }
 
   const handleClickRemoveButton = (userId: string, postId: string): void => {
     dispatch(PostsActions.deletePost({ postId, userId }))
-
-    const updatedPostByUserId = { ...postByUserId }
-    updatedPostByUserId[userId] = updatedPostByUserId[userId].filter((post) => post.id !== postId)
-
-    savePostByUserId(updatedPostByUserId)
+    deletePostByUserId(userId, postId)
   }
 
   const handleSavePost = (userId: string, post: IPost): void => {
     dispatch(PostsActions.savePost(post))
 
-    const updatedPostByUserId = { ...postByUserId }
-    updatedPostByUserId[userId] = updatedPostByUserId[userId].map((p) => (p.id === post.id ? { ...post } : p))
+    const updatedPostsByUserId = { ...postByUserId }
 
-    savePostByUserId(updatedPostByUserId)
+    if (updatedPostsByUserId[userId]) {
+      const updatedPosts = updatedPostsByUserId[userId].map((p) => (p.id === post.id ? { ...post } : p))
+
+      updatedPostsByUserId[userId] = updatedPosts
+      savePostByUserId({ [userId]: updatedPosts })
+    }
   }
 
-  return { postByUserId, addPost, handleSavePost, handleClickRemoveButton, savePostByUserId }
+  return { postByUserId, addPost, handleSavePost, handleClickRemoveButton }
 }
 
 export default usePostList
