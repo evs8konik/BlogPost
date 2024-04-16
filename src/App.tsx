@@ -7,7 +7,7 @@ import { AccountSelectors } from './modules/Comments/store/reducers/Account.slic
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
-import SinglePostPage from './components/SinglePostPage/SinglePostPage'
+import SinglePostPage from './modules/SinglePostPage/SinglePostPage'
 import { PostsPage } from './modules'
 import { UserPostsPage } from './modules/UserPostsPage'
 import { FiltersPage } from './modules/FiltersPage'
