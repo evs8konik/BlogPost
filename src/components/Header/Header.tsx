@@ -48,6 +48,14 @@ const Header: FC<IProps> = ({ homeHeader }) => {
     navigate(EAppRoute.Posts)
   }
 
+  const goToUserPostsPage = () => {
+    navigate(EAppRoute.UserPosts)
+  }
+
+  const goToFiltersPage = () => {
+    navigate(EAppRoute.Filter)
+  }
+
   return (
     <>
       {homeHeader ? (
@@ -59,10 +67,32 @@ const Header: FC<IProps> = ({ homeHeader }) => {
                 alt=""
                 onClick={goToHomePage}
               />
+              <Styled.ButtonWrapper>
+                <ButtonNormal
+                  preset="header"
+                  onClick={goToHomePage}
+                >
+                  Home
+                </ButtonNormal>
+
+                <ButtonNormal
+                  preset="header"
+                  onClick={goToFiltersPage}
+                >
+                  Filters
+                </ButtonNormal>
+
+                <ButtonNormal
+                  preset="header"
+                  onClick={goToUserPostsPage}
+                >
+                  My posts
+                </ButtonNormal>
+              </Styled.ButtonWrapper>
 
               {!isOpenPostForm ? (
                 <ButtonNormal
-                  preset="add"
+                  preset="addHeader"
                   onClick={handleClickOpenPostForm}
                 >
                   Add Post
@@ -101,13 +131,27 @@ const Header: FC<IProps> = ({ homeHeader }) => {
           </Styled.Wrapper>
         ) : (
           <Styled.Wrapper>
-            <Styled.LogoutHeader>
+            <Styled.LoginHeader>
               <Styled.Img
                 src={uploadPng}
                 alt=""
                 onClick={goToHomePage}
               />
+              <Styled.ButtonWrapper>
+                <ButtonNormal
+                  preset="header"
+                  onClick={goToHomePage}
+                >
+                  Home
+                </ButtonNormal>
 
+                <ButtonNormal
+                  preset="header"
+                  onClick={goToFiltersPage}
+                >
+                  Filters
+                </ButtonNormal>
+              </Styled.ButtonWrapper>
               <Styled.CurrentUserWrapper>
                 <ButtonNormal
                   preset="login"
@@ -116,10 +160,10 @@ const Header: FC<IProps> = ({ homeHeader }) => {
                   LogIn
                 </ButtonNormal>
               </Styled.CurrentUserWrapper>
-            </Styled.LogoutHeader>
+            </Styled.LoginHeader>
           </Styled.Wrapper>
         )
-      ) : (
+      ) : checkIfNeedToShowLogout() ? (
         <Styled.Wrapper>
           <Styled.LogoutHeader>
             <Styled.Img
@@ -127,6 +171,28 @@ const Header: FC<IProps> = ({ homeHeader }) => {
               alt=""
               onClick={goToHomePage}
             />
+            <Styled.ButtonWrapper>
+              <ButtonNormal
+                preset="header"
+                onClick={goToHomePage}
+              >
+                Home
+              </ButtonNormal>
+
+              <ButtonNormal
+                preset="header"
+                onClick={goToFiltersPage}
+              >
+                Filters
+              </ButtonNormal>
+
+              <ButtonNormal
+                preset="header"
+                onClick={goToUserPostsPage}
+              >
+                My posts
+              </ButtonNormal>
+            </Styled.ButtonWrapper>
 
             <Styled.CurrentUserWrapper>
               <Styled.UserName>
@@ -142,6 +208,39 @@ const Header: FC<IProps> = ({ homeHeader }) => {
               </ButtonNormal>
             </Styled.CurrentUserWrapper>
           </Styled.LogoutHeader>
+        </Styled.Wrapper>
+      ) : (
+        <Styled.Wrapper>
+          <Styled.LoginHeader>
+            <Styled.Img
+              src={uploadPng}
+              alt=""
+              onClick={goToHomePage}
+            />
+            <Styled.ButtonWrapper>
+              <ButtonNormal
+                preset="header"
+                onClick={goToHomePage}
+              >
+                Home
+              </ButtonNormal>
+
+              <ButtonNormal
+                preset="header"
+                onClick={goToFiltersPage}
+              >
+                Filters
+              </ButtonNormal>
+            </Styled.ButtonWrapper>
+            <Styled.CurrentUserWrapper>
+              <ButtonNormal
+                preset="login"
+                onClick={handleClickLogin}
+              >
+                LogIn
+              </ButtonNormal>
+            </Styled.CurrentUserWrapper>
+          </Styled.LoginHeader>
         </Styled.Wrapper>
       )}
     </>

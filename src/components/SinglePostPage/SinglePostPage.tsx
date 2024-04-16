@@ -38,9 +38,9 @@ const SinglePostPage: FC = () => {
     <>
       {post && (
         <>
-          <Header homeHeader={false} />
-
           <Styled.Wrapper>
+            <Header homeHeader={false} />
+
             <Styled.PostWrapper>
               <Post
                 key={post.id}
@@ -51,19 +51,19 @@ const SinglePostPage: FC = () => {
                 {...post}
               />
             </Styled.PostWrapper>
-          </Styled.Wrapper>
 
-          {postId && (
-            <CommentForm
-              addComment={addComment}
-              postId={postId}
-            />
-          )}
-          {postId && <CommentBlock postId={postId} />}
+            {postId && (
+              <CommentForm
+                addComment={addComment}
+                postId={postId}
+              />
+            )}
+            {postId && <CommentBlock postId={postId} />}
+
+            <Footer />
+          </Styled.Wrapper>
         </>
       )}
-
-      <Footer />
     </>
   )
 }

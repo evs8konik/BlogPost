@@ -60,8 +60,14 @@ const usePostList = () => {
   }, [])
 
   const addPost = (userId: string, post: IPost): void => {
+    const storedData = getStoredPostList()
+    const updatedPosts = [...(storedData.postByUserId[userId] || []), post]
+    const updatedPostByUserId = {
+      ...storedData.postByUserId,
+      [userId]: updatedPosts,
+    }
+    savePostByUserId(updatedPostByUserId)
     dispatch(PostsActions.addPost({ userId, post }))
-    savePostByUserId({ [userId]: [post] }) // Обновлено здесь
   }
 
   const handleClickRemoveButton = (userId: string, postId: string): void => {

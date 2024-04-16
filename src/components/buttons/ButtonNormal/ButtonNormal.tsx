@@ -6,6 +6,7 @@ interface IProps {
     | 'edit'
     | 'delete'
     | 'add'
+    | 'addHeader'
     | 'reply'
     | 'save'
     | 'close'
@@ -16,20 +17,27 @@ interface IProps {
     | 'nextPrevPage'
     | 'numberPage'
     | 'select'
-  color?: 'orange' | 'blue' | 'red' | 'purple'
-  size?: 'big' | 'average' | 'small'
+    | 'header'
+  // color?: 'orange' | 'blue' | 'red' | 'purple'
+  // size?: 'big' | 'average' | 'small'
   onClick?: () => void
   disabled?: any
 }
 
-const ButtonNormal: FC<PropsWithChildren<IProps>> = ({ color, size, children, preset, onClick, disabled }) => {
+const ButtonNormal: FC<PropsWithChildren<IProps>> = ({
+  // color, size,
+  children,
+  preset,
+  onClick,
+  disabled,
+}) => {
   return (
     <Styled.Button
       type={'submit'}
       onClick={onClick}
       disabled={disabled}
-      $color={color ?? 'orange'}
-      $size={size ?? 'big'}
+      // $color={color ?? 'orange'}
+      // $size={size ?? 'big'}
       $preset={preset ?? ''}
     >
       {children}

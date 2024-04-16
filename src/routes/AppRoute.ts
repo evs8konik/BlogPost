@@ -5,4 +5,5 @@ export enum EAppRoute {
   Filter = '/filter',
   Post = '/posts/post/:postId',
   Posts = '/posts',
+  UserPosts = '/userPosts',
 }

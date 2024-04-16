@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useMemo } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'
-import Styled from './PostsBlock.styles'
+import Styled from './UserPostsBlock.styles'
 
 import Select, { ISelectOption } from '../../modules/common/components/Select/Select'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
@@ -8,10 +8,12 @@ import usePostList from '../../hooks/usePostList copy/usePostList'
 import Post from '../Post/Post'
 import { EAppRoute } from '../../routes/AppRoute'
 import { IPost } from '../../modules/common/models/Post/Post'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
 
-interface IPostByUserId {
-  [userId: string]: IPost[]
-}
+// interface IPostByUserId {
+//   [userId: string]: IPost[]
+// }
 
 const selectOptionsList: ISelectOption[] = [
   { label: 'Sort by new', value: 'new' },
@@ -23,8 +25,10 @@ const selectOptionsList: ISelectOption[] = [
 const POST_IN_PAGE = 8
 const MAX_DISPLAY_PAGES = 6
 
-const PostsBlock: FC = () => {
+const UserPostsBlock: FC = () => {
   const { postByUserId, handleSavePost, handleClickRemoveButton } = usePostList()
+
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [selectedOption, setSelectedOption] = useState<ISelectOption>({ label: 'Sort none', value: 'Sort none' })
   const [sortedPosts, setSortedPosts] = useState<IPost[]>([])
@@ -33,11 +37,18 @@ const PostsBlock: FC = () => {
   const navigate = useNavigate()
 
   const postList = useMemo(() => {
-    return Object.values(postByUserId).reduce<IPost[]>((acc, posts) => {
-      acc.push(...posts)
-      return acc
-    }, [])
-  }, [postByUserId])
+    const userEmail = currentUser?.email
+    if (userEmail) {
+      const userPosts = postByUserId[userEmail]
+      if (userPosts) {
+        return Object.values(userPosts).reduce<IPost[]>((acc, post) => {
+          acc.push(post)
+          return acc
+        }, [])
+      }
+    }
+    return []
+  }, [postByUserId, currentUser])
 
   useEffect(() => {
     if (selectedOption.value === 'new') {
@@ -196,9 +207,10 @@ const PostsBlock: FC = () => {
             </Styled.WrapperButtons>
           </Styled.WrapperPageButtons>
         )}
+        {/* </Styled.PostWrapper> */}
       </Styled.Wrapper>
     </Styled.PostBlockWrapper>
   )
 }
 
-export default PostsBlock
+export default UserPostsBlock

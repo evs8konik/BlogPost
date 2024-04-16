@@ -9,6 +9,8 @@ import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
 import SinglePostPage from './components/SinglePostPage/SinglePostPage'
 import { PostsPage } from './modules'
+import { UserPostsPage } from './modules/UserPostsPage'
+import { FiltersPage } from './modules/FiltersPage'
 
 const App: FC = () => {
   const navigate = useNavigate()
@@ -53,6 +55,16 @@ const App: FC = () => {
         <Route
           path={EAppRoute.Post}
           element={<SinglePostPage />}
+        />
+
+        <Route
+          path={EAppRoute.UserPosts}
+          element={<UserPostsPage />}
+        />
+
+        <Route
+          path={EAppRoute.Filter}
+          element={<FiltersPage />}
         />
       </Routes>
     </Styled.GeneralWrapper>

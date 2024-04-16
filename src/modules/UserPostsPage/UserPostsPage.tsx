@@ -1,19 +1,16 @@
 import React, { FC } from 'react'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import PostsBlock from '../../components/PostBlock/PostsBlock'
-import Title from '../../components/Title/Title'
-import Styled from './PostPage.styles'
+import Styled from './UserPostsPage.styles'
+import UserPostsBlock from '../../components/UserPostBlock/UserPostsBlock'
 
-const PostsPage: FC = () => {
+const UserPostsPage: FC = () => {
   return (
     <>
       <Styled.Wrapper>
         <Header homeHeader={true} />
 
-        <Title />
-
-        <PostsBlock />
+        <UserPostsBlock />
 
         <Footer />
       </Styled.Wrapper>
@@ -21,4 +18,4 @@ const PostsPage: FC = () => {
   )
 }
 
-export default PostsPage
+export default UserPostsPage
