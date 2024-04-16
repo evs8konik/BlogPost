@@ -11,8 +11,8 @@ const CommentFormWrapper = styled.div`
 
   background-color: white;
 
-  @media ${device.desktop} {
-    width: 70%;
+  @media ${device.laptopL} {
+    max-width: 1024px;
   }
 `
 
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   padding-bottom: 24px;
   /* border-radius: 16px; */
 
-  background-color: white;
+  /* background-color: white; */
 `
 
 const Form = styled.form`

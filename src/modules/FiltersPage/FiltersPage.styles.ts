@@ -17,8 +17,13 @@ const Wrapper = styled.div`
   }
 `
 
-const StyledPostPage = {
+const Footer = styled.footer`
+  width: 100%;
+`
+
+const StyledUserPostsPage = {
   Wrapper,
+  Footer,
 }
 
-export default StyledPostPage
+export default StyledUserPostsPage

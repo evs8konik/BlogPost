@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import { device } from '../../App.styled'
 
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   height: 20px;
   width: 100%;
 
   display: flex;
+
   justify-content: center;
 
   background-color: rgb(3, 21, 42);

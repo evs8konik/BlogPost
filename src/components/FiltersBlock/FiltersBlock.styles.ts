@@ -4,14 +4,16 @@ import { device } from '../../App.styled'
 const PostBlockWrapper = styled.div`
   width: 100%;
 
+  /* background-color: white; */
+
   display: flex;
   align-items: center;
   flex-direction: column;
 
   gap: 30px;
 
-  @media ${device.laptopL} {
-    max-width: 1024px;
+  @media ${device.desktop} {
+    width: 70%;
   }
 `
 
@@ -31,7 +33,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
 
-  font-size: 100%;
+  font-size: 20px;
   font-weight: bold;
 
   @media ${device.mobileL} {
@@ -42,22 +44,17 @@ const Title = styled.div`
 const PostWrapper = styled.div`
   width: 100%;
 
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
 
+  display: grid;
+  grid-template-rows: auto auto repeat(3, 1fr);
+
+  grid-template-columns: auto auto;
   gap: 10px;
 
-  font-size: 100%;
-
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-rows: auto auto repeat(3, 1fr);
-
-    grid-template-columns: auto auto;
-
-    :nth-child(-n + 2) {
-      grid-column: span 2;
-    }
+  :nth-child(-n + 2) {
+    grid-column: span 2;
   }
 `
 
@@ -80,15 +77,22 @@ const WrapperTitle = styled.div`
 `
 
 const WrapperPageButtons = styled.div`
-  width: 100%;
+  background-color: white;
 
+  width: 100%;
+  height: 30%;
   display: flex;
   justify-content: center;
+
+  padding: 20px;
+  border-radius: 15px;
 `
 
 const WrapperButtons = styled.div`
-  width: 100%;
-  height: 10%;
+  background-color: white;
+
+  width: auto;
+  height: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

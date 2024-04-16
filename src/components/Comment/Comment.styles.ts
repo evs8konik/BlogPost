@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
   gap: 10px;
 
-  background-color: rgba(240, 243, 248, 0.3);
+  background-color: white;
 `
 
 const Title = styled.div`

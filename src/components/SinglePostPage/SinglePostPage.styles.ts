@@ -2,17 +2,19 @@ import styled from 'styled-components'
 import { device } from '../../App.styled'
 
 const Wrapper = styled.div`
-  height: auto;
+  height: 100vh;
   width: 100%;
 
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
-  padding-top: 24px;
-  padding-bottom: 24px;
+  gap: 10px;
 
-  background-color: white;
+  @media ${device.laptopL} {
+    max-width: 1024px;
+  }
 `
 
 const PostWrapper = styled.div`
@@ -23,11 +25,11 @@ const PostWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: white;
+  /* background-color: white; */
 
-  @media ${device.desktop} {
-    width: 70%;
-  }
+  /* @media ${device.laptopL} {
+    max-width: 1024px;
+  } */
 `
 
 const StyledSinglePostPage = {

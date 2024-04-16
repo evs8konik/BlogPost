@@ -21,15 +21,17 @@ export const device = {
 }
 
 const GeneralWrapper = styled.div`
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
 
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 
-  position: relative;
+  align-items: baseline;
 
-  gap: 15px;
+  /* position: relative;
+
+  gap: 15px; */
 `
 
 const Notification = styled.div`

@@ -12,7 +12,50 @@ const addPreset = css`
   font-weight: bold;
   font-size: 80%;
 
-  background-color: rgb(27, 206, 80);
+  background-color: #1fa8ad;
+  color: white;
+
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0),
+    0 6px 20px 0 rgba(0, 0, 0, 0);
+
+  cursor: pointer;
+
+  &:hover {
+    box-shadow:
+      0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+`
+
+const addHeaderPreset = css`
+  height: 30%;
+  width: 100px;
+
+  border-radius: 2px;
+
+  /* padding: 6px; */
+
+  font-weight: bold;
+  font-size: 100%;
+
+  background-color: white;
+  color: #1fa8ad;
+
+  cursor: pointer;
+`
+
+// Пресет для кнопок "Header"
+const headerPreset = css`
+  height: 30%;
+  width: auto;
+
+  border-radius: 8px;
+
+  font-weight: bold;
+  font-size: 100%;
+
+  background-color: rgba(0, 0, 0, 0);
   color: white;
 
   cursor: pointer;
@@ -94,7 +137,7 @@ const replyPreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  background-color: rgb(27, 206, 80);
+  background-color: #1fa8ad;
   color: white;
 
   font-weight: bold;
@@ -114,10 +157,10 @@ const savePreset = css`
   padding: 4px 6px;
   margin: 3px;
 
-  border: 1px solid rgb(27, 206, 80);
+  border: 1px solid #1fa8ad;
 
   background-color: white;
-  color: rgb(27, 206, 80);
+  color: #1fa8ad;
 
   font-weight: bold;
 
@@ -128,15 +171,15 @@ const savePreset = css`
 
 // Пресет для кнопки "Login"
 const loginPreset = css`
-  height: 30%;
+  height: 20px;
   width: 100px;
 
   border-radius: 8px;
 
   padding: 4px 6px;
 
-  background-color: rgb(27, 206, 80);
-  color: white;
+  background-color: white;
+  color: #1fa8ad;
 
   font-weight: bold;
   font-size: 80%;
@@ -146,8 +189,12 @@ const loginPreset = css`
 
 // Пресет для кнопки "Logout"
 const logoutPreset = css`
-  height: 30%;
+  height: 20px;
   width: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   border-radius: 8px;
 
@@ -199,35 +246,43 @@ const singUpPreset = css`
 `
 
 const numberPage = css`
-  height: 25px;
+  height: 50%;
   width: 25px;
 
   border-radius: 8px;
 
-  padding: 4px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  background-color: rgb(21, 111, 230);
+  padding: 10px;
+
+  background-color: #1fa8ad;
   color: white;
 
   font-weight: bold;
-  font-size: 12px;
+  font-size: 70%;
 
   cursor: pointer;
 `
 
 const nextPrevPage = css`
-  height: 25px;
-  width: 95px;
+  height: 50%;
+  width: 100px;
 
   border-radius: 8px;
 
-  padding: 4px 6px;
+  padding: 10px;
 
-  background-color: rgb(21, 111, 230);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #1fa8ad;
   color: white;
 
   font-weight: bold;
-  font-size: 12px;
+  font-size: 70%;
 
   cursor: pointer;
 `
@@ -236,10 +291,10 @@ const select = css`
   width: 100%;
   min-width: 120px;
 
-  border: 1px solid rgb(27, 206, 80);
+  border: 1px solid #1fa8ad;
 
   background-color: white;
-  color: rgb(27, 206, 80);
+  color: #1fa8ad;
 
   border-radius: 8px;
 
@@ -264,6 +319,12 @@ const getPreset = (preset: string) => {
 
     case 'add':
       return addPreset
+
+    case 'addHeader':
+      return addHeaderPreset
+
+    case 'header':
+      return headerPreset
 
     case 'close':
       return closePreset
@@ -301,78 +362,10 @@ const getPreset = (preset: string) => {
 }
 
 const Button = styled.button<{
-  $color: 'orange' | 'blue' | 'red' | 'purple'
-  $size: 'big' | 'average' | 'small'
+  // $color: 'orange' | 'blue' | 'red' | 'purple'
+  // $size: 'big' | 'average' | 'small'
   $preset: string
 }>`
-  ${({ $color }) => {
-    switch ($color) {
-      case 'orange':
-        return css`
-          background-color: rgb(248, 86, 25);
-          color: white;
-        `
-
-      case 'red':
-        return css`
-          background-color: rgb(164, 46, 22);
-          color: white;
-        `
-
-      case 'purple':
-        return css`
-          background-color: rgb(248, 86, 25);
-          color: black;
-        `
-
-      case 'blue':
-        return css`
-          background-color: rgb(69, 137, 199);
-          color: white;
-        `
-
-      default:
-    }
-  }};
-
-  ${({ $size }) => {
-    switch ($size) {
-      case 'big':
-        return css`
-          height: 30px;
-          width: 200px;
-
-          border-radius: 8px;
-
-          padding: 4px 6px;
-
-          font-weight: bold;
-        `
-
-      case 'small':
-        return css`
-          height: 20px;
-          width: 50px;
-
-          border-radius: 8px;
-
-          padding: 4px 6px;
-          margin: 3px;
-
-          font-weight: bold;
-
-          font-size: 10px;
-        `
-
-      case 'average':
-        return css`
-          background-color: rgb(248, 86, 25);
-          color: black;
-        `
-
-      default:
-    }
-  }};
   ${({ $preset }) => getPreset($preset)};
 `
 

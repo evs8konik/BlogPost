@@ -4,7 +4,7 @@ import { device } from '../../App.styled'
 const ContentBlockWrapper = styled.div`
   width: 100%;
 
-  background-color: white;
+  /* background-color: white; */
 
   display: flex;
   align-items: center;
@@ -12,8 +12,8 @@ const ContentBlockWrapper = styled.div`
 
   gap: 30px;
 
-  @media ${device.desktop} {
-    width: 70%;
+  @media ${device.laptopL} {
+    max-width: 1024px;
   }
 `
 

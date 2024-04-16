@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
   gap: 10px;
 
-  background-color: rgba(240, 243, 248, 0.3);
+  background-color: white;
 `
 
 const PrevWrapper = styled.div`
@@ -27,16 +27,21 @@ const PrevWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  border: 1px solid rgba(21, 111, 230, 0.3);
+  border: 1px solid #1fa8ad;
 
   padding: 20px;
   border-radius: 15px;
 
   gap: 10px;
 
-  background-color: rgba(240, 243, 248, 0.3);
+  background-color: white;
 
   cursor: pointer;
+
+  &:hover {
+    background-color: #1fa8ad;
+    color: white;
+  }
 `
 
 const Title = styled.div`
