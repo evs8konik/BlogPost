@@ -118,7 +118,7 @@ const PostsBlock: FC = () => {
           />
         </Styled.WrapperTitle>
         <Styled.PostWrapper>
-          {sortedPosts.slice((currentPage - 1) * POST_IN_PAGE, currentPage * POST_IN_PAGE).map((post) => (
+          {/* {sortedPosts.slice((currentPage - 1) * POST_IN_PAGE, currentPage * POST_IN_PAGE).map((post) => (
             <Post
               key={post.id}
               onClick={handleClickRemoveButton}
@@ -127,7 +127,21 @@ const PostsBlock: FC = () => {
               prevVersion={false}
               {...post}
             />
-          ))}
+          ))} */}
+
+          {sortedPosts
+            .slice((currentPage - 1) * POST_IN_PAGE, currentPage * POST_IN_PAGE)
+            .filter((post) => post.isShow !== false)
+            .map((post) => (
+              <Post
+                key={post.id}
+                onClick={handleClickRemoveButton}
+                onSave={handleSavePost}
+                onClickPost={() => handlePostClick(post.id)}
+                prevVersion={false}
+                {...post}
+              />
+            ))}
         </Styled.PostWrapper>
         {sortedPosts.length > POST_IN_PAGE && (
           <Styled.WrapperPageButtons>

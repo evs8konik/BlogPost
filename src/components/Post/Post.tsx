@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import Styled from './Post.styles'
@@ -29,6 +29,7 @@ const Post: FC<TProps> = ({
   date,
   time,
   prevVersion,
+  isShow,
   // replyCommentList,
   onClickPost,
   onClick,
@@ -37,6 +38,8 @@ const Post: FC<TProps> = ({
   const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
+
+  const [isShowPost, setIsShowPost] = useState(isShow)
 
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableBody, setEditableBody] = useState(body)
@@ -54,6 +57,14 @@ const Post: FC<TProps> = ({
     setEditablePicture(picture)
   }, [picture])
 
+  useEffect(() => {
+    setIsShowPost(isShow)
+  }, [isShow])
+
+  useEffect(() => {
+    handleSave()
+  }, [isShowPost])
+
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
   }
@@ -69,6 +80,7 @@ const Post: FC<TProps> = ({
       owner,
       date: currentDate,
       time: currentTime,
+      isShow: isShowPost,
     })
 
     isEdit ? setIsEdit(!isEdit) : setIsEdit(isEdit)
@@ -80,6 +92,14 @@ const Post: FC<TProps> = ({
     const blob = base64toBlob(base64Picture)
 
     saveAs(blob, 'image.jpg')
+  }
+
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsShowPost(e.target.checked)
+
+    if (!isEdit) {
+      handleSave()
+    }
   }
 
   const checkIfNeedToShowEditDeleteButton = () => {
@@ -149,34 +169,45 @@ const Post: FC<TProps> = ({
             </Styled.Time>
           </Styled.WrapperDateAndTime>
 
-          <Styled.ButtonWrapper>
-            {checkIfNeedToShowEditDeleteButton() ? (
-              <>
-                {isEdit ? (
-                  <ButtonNormal
-                    preset="save"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </ButtonNormal>
-                ) : (
-                  <ButtonNormal
-                    preset="edit"
-                    onClick={toggleEditing}
-                  >
-                    Edit
-                  </ButtonNormal>
-                )}
+          {checkIfNeedToShowEditDeleteButton() ? (
+            <>
+              <Styled.SelectionPanel>
+                <Styled.ButtonWrapper>
+                  {isEdit ? (
+                    <>
+                      <ButtonNormal
+                        preset="save"
+                        onClick={handleSave}
+                      >
+                        Save
+                      </ButtonNormal>
+                    </>
+                  ) : (
+                    <ButtonNormal
+                      preset="edit"
+                      onClick={toggleEditing}
+                    >
+                      Edit
+                    </ButtonNormal>
+                  )}
 
-                <ButtonNormal
-                  preset="delete"
-                  onClick={() => onClick(currentUser?.email || '', id)}
-                >
-                  Delete
-                </ButtonNormal>
-              </>
-            ) : null}
-          </Styled.ButtonWrapper>
+                  <ButtonNormal
+                    preset="delete"
+                    onClick={() => onClick(currentUser?.email || '', id)}
+                  >
+                    Delete
+                  </ButtonNormal>
+                </Styled.ButtonWrapper>
+
+                <Styled.CheckBox
+                  type="checkbox"
+                  checked={isShowPost}
+                  id="isShow"
+                  onChange={handleCheckboxChange}
+                />
+              </Styled.SelectionPanel>
+            </>
+          ) : null}
         </Styled.Wrapper>
       ) : (
         <Styled.PrevWrapper onClick={onClickPost}>

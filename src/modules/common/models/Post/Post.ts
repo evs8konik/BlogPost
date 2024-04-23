@@ -9,4 +9,5 @@ export interface IPost {
   date?: IDate
   time?: ITime
   picture?: string
+  isShow?: boolean
 }

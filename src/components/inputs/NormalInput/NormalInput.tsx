@@ -2,8 +2,8 @@ import { ChangeEvent, FC } from 'react'
 import Styled from './NormalInput.styles'
 
 interface IProps {
-  label: string
-  value: string
+  label?: string
+  value?: string
   type: string
   onChange: (value: string) => void
 }

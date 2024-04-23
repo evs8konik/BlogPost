@@ -135,6 +135,18 @@ const Time = styled.div`
 
   color: rgb(154, 161, 168);
 `
+const SelectionPanel = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.mobileL} {
+    align-items: flex-end;
+  }
+`
+
+const CheckBox = styled.input``
 
 const StyledPost = {
   Wrapper,
@@ -149,6 +161,8 @@ const StyledPost = {
   Date,
   Time,
   PrevWrapper,
+  SelectionPanel,
+  CheckBox,
 }
 
 export default StyledPost
