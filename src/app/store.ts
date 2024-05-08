@@ -4,6 +4,7 @@ import AccountReducer from '../modules/Comments/store/reducers/Account.slice'
 import NotificationReducer from '../modules/Comments/store/reducers/Notification.slice'
 import PostsReducer from '../modules/Comments/store/reducers/Post.slice'
 import RepliesReducer from '../modules/Comments/store/reducers/ReplyComments.slice'
+import FiltersReducer from '../modules/common/features/Filters/store/reducers/Filters.slice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     account: AccountReducer,
     notification: NotificationReducer,
     replies: RepliesReducer,
+    filters: FiltersReducer,
   },
 })
 

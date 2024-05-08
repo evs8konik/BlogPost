@@ -64,7 +64,7 @@ const CommentBlock: FC<IProps> = ({ postId }) => {
     setShownCommentsCount((prevCount) => prevCount + COMMENTS_IN_PAGE)
   }
 
-  const handleSelect = (value: any, option: ISelectOption) => {
+  const handleSelect = (option: ISelectOption) => {
     setSelectedOption(option)
   }
 

@@ -96,7 +96,7 @@ const PostsBlock: FC = () => {
   const startPage = Math.max(1, currentPage - Math.floor(MAX_DISPLAY_PAGES / 2))
   const endPage = Math.min(totalPages, startPage + MAX_DISPLAY_PAGES - 1)
 
-  const handleSelect = (value: any, option: ISelectOption) => {
+  const handleSelect = (option: ISelectOption) => {
     setSelectedOption(option)
   }
 

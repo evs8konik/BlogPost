@@ -18,7 +18,7 @@ export interface ISelectOption {
 interface IProps {
   optionList: ISelectOption[]
   selectedOption: ISelectOption
-  onSelect: (value: ISelectOption['value'], option: ISelectOption) => void
+  onSelect: (option: ISelectOption) => void
 }
 
 const Select: FC<IProps> = ({ optionList, selectedOption, onSelect }) => {
@@ -46,7 +46,7 @@ const Select: FC<IProps> = ({ optionList, selectedOption, onSelect }) => {
   }
 
   const handleSelect = (option: ISelectOption) => {
-    onSelect(option.value, option)
+    onSelect(option)
     _setSelectedOption(option)
     setIsOpen(false)
   }
@@ -54,8 +54,6 @@ const Select: FC<IProps> = ({ optionList, selectedOption, onSelect }) => {
   useOnClickOutside(dropdownRef as React.MutableRefObject<HTMLDivElement>, () => {
     setIsOpen(false)
   })
-
-  // const filteredOptions = optionList.filter((option) => option.label !== selectedOption)
 
   return (
     <Styled.Dropdown ref={dropdownRef}>

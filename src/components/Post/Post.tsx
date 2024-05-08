@@ -39,7 +39,7 @@ const Post: FC<TProps> = ({
 
   const [isEdit, setIsEdit] = useState(false)
 
-  const [isShowPost, setIsShowPost] = useState(isShow)
+  const [isShowPost, setIsShowPost] = useState<boolean | undefined>(isShow)
 
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableBody, setEditableBody] = useState(body)
