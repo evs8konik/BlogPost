@@ -5,7 +5,7 @@ import { IDate, IReplyComment, ITime, currentDate, currentTime } from '../Commen
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyCommentForm.styles'
 import { useAppSelector } from '../../app/hooks'
-import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import InputUpload from '../inputs/InputUpload/InputUpload'
 
 interface IInputsState {

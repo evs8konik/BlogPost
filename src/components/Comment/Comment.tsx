@@ -4,7 +4,7 @@ import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 
 import Styled from './Comment.styles'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import { saveAs } from 'file-saver'
 import uploadPng from './asset/images/6711359.png'

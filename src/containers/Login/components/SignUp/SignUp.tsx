@@ -1,16 +1,11 @@
 import React, { FC, FormEvent, useState } from 'react'
-
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import Styled from './SignUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 import { useAppDispatch } from '../../../../app/hooks'
-import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { AccountActions } from '../../../../modules/store/reducers/Account.slice'
 import { IUser } from '../../../../components/CommentForm/CommentForm'
 import useNotification from '../../../../hooks/useNotification/useNotification'
-
-import { ENotificationType } from '../../../../modules/Comments/store/reducers/Notification.slice'
-
-import { v4 } from 'uuid'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import { useNavigate } from 'react-router-dom'

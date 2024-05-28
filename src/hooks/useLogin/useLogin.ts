@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/store/reducers/Account.slice'
 import { IUser } from '../../components/CommentForm/CommentForm'
 import useLoginStore from './hooks/useLoginStore/useLoginStore'
 

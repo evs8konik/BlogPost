@@ -1,10 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import CommentsReducer from '../modules/Comments/store/reducers/Comments.slice'
-import AccountReducer from '../modules/Comments/store/reducers/Account.slice'
-import NotificationReducer from '../modules/Comments/store/reducers/Notification.slice'
-import PostsReducer from '../modules/Comments/store/reducers/Post.slice'
-import RepliesReducer from '../modules/Comments/store/reducers/ReplyComments.slice'
-import FiltersReducer from '../modules/common/features/Filters/store/reducers/Filters.slice'
+import CommentsReducer from '../modules/store/reducers/Comments.slice'
+import AccountReducer from '../modules/store/reducers/Account.slice'
+import NotificationReducer from '../modules/store/reducers/Notification.slice'
+import PostsReducer from '../modules/store/reducers/Post.slice'
+import RepliesReducer from '../modules/store/reducers/ReplyComments.slice'
+import FiltersReducer from '../modules/store/reducers/FiltersState.slice'
 
 export const store = configureStore({
   reducer: {

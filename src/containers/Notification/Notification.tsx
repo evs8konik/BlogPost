@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import ErrorNotify from './components/ErrorNotify/ErrorNotify'
 import SuccessNotify from './components/SuccessNotify/SuccessNotify'
-import { ENotificationType, INotification } from '../../modules/Comments/store/reducers/Notification.slice'
+import { ENotificationType, INotification } from '../../modules/store/reducers/Notification.slice'
 
 interface IProps {
   notification: INotification

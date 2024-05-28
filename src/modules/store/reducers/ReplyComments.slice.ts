@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IReplyComment } from '../../../../components/CommentForm/CommentForm'
-import { TRootState } from '../../../../app/store'
+import { IReplyComment } from '../../../components/CommentForm/CommentForm'
+import { TRootState } from '../../../app/store'
+// import { IReplyComment } from '../../../../components/CommentForm/CommentForm'
+// import { TRootState } from '../../../../app/store'
 
 interface IReplyCommentsReduxState {
   replyByCommentId: {

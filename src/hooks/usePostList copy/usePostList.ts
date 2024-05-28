@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { IPost } from '../../modules/common/models/Post/Post'
-import { PostsActions, fetchPosts, selectPostByUserId } from '../../modules/Comments/store/reducers/Post.slice'
+import { PostsActions, fetchPosts, selectPostByUserId } from '../../modules/store/reducers/Post.slice'
 
 const STORAGE_KEY = 'postByUserId'
 

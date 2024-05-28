@@ -1,16 +1,16 @@
 import React, { FC, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import LoginPage from './components/LoginPage/LoginPage'
+import LoginPage from './modules/LoginPage/LoginPage'
 import { EAppRoute } from './routes/AppRoute'
 import { useAppSelector } from './app/hooks'
-import { AccountSelectors } from './modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from './modules/store/reducers/Account.slice'
 import Notification from './containers/Notification/Notification'
 import useNotification from './hooks/useNotification/useNotification'
 import Styled from './App.styled'
 import SinglePostPage from './modules/SinglePostPage/SinglePostPage'
 import { PostsPage } from './modules'
 import { UserPostsPage } from './modules/UserPostsPage'
-import { FiltersPage } from './modules/FiltersPage'
+import { FiltersPage } from './modules/FiltersPage/index'
 
 const App: FC = () => {
   const navigate = useNavigate()

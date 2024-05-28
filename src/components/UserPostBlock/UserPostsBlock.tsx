@@ -9,7 +9,7 @@ import Post from '../Post/Post'
 import { EAppRoute } from '../../routes/AppRoute'
 import { IPost } from '../../modules/common/models/Post/Post'
 import { useAppSelector } from '../../app/hooks'
-import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 
 // interface IPostByUserId {
 //   [userId: string]: IPost[]
