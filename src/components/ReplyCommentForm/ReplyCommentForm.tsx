@@ -1,27 +1,36 @@
 import { FC, FormEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IReplyComment } from '../CommentForm/CommentForm'
-import { useLoginContext } from '../../context/LoginContext/LoginContext'
+import { IDate, IReplyComment, ITime, currentDate, currentTime } from '../CommentForm/CommentForm'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { Wrapper, Form, ButtonWrapper } from './ReplyCommentForm.styles'
+import Styled from './ReplyCommentForm.styles'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import InputUpload from '../inputs/InputUpload/InputUpload'
 
 interface IInputsState {
   content: string
+  picture: string
 }
 
 interface IProps {
-  addReplyComment: (comment: IReplyComment) => void
+  addReplyComment: (commentId: string, reply: IReplyComment) => void
+  commentId: string
 }
 
-const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
-  const { currentUser } = useLoginContext()
+const ReplyCommentForm: FC<IProps> = ({ addReplyComment, commentId }) => {
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
-  const [{ content }, setInputsState] = useState<IInputsState>({
+  const [{ content, picture }, setInputsState] = useState<IInputsState>({
     content: '',
+    picture: '',
   })
 
   const handleChangeInput = (name: string, inputValue: string): void => {
+    setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
+  }
+
+  const handleFileChangeInput = (name: string, inputValue: string): void => {
     setInputsState((prevState) => ({ ...prevState, [name]: inputValue }))
   }
 
@@ -32,29 +41,38 @@ const ReplyCommentForm: FC<IProps> = ({ addReplyComment }) => {
 
     const newReplyComment: IReplyComment = {
       id: v4(),
+      commentId,
       content: content,
+      picture: picture,
       owner: currentUser,
+      date: currentDate,
+      time: currentTime,
     }
 
-    addReplyComment(newReplyComment)
+    addReplyComment(commentId, newReplyComment)
 
-    setInputsState({ content: '' })
+    setInputsState({ content: '', picture: '' })
   }
 
   return (
-    <Wrapper>
-      <Form onSubmit={(e) => handleSubmit(e)}>
+    <Styled.Wrapper>
+      <Styled.Form onSubmit={(e) => handleSubmit(e)}>
         <NormalTextArea
           label={'Comment'}
           value={content}
           onChange={(contentValue) => handleChangeInput('content', contentValue)}
         />
 
-        <ButtonWrapper>
+        <InputUpload
+          label={''}
+          onChange={(pictureValue) => handleFileChangeInput('picture', pictureValue)}
+        />
+
+        <Styled.ButtonWrapper>
           <ButtonNormal preset="add">Add comment</ButtonNormal>
-        </ButtonWrapper>
-      </Form>
-    </Wrapper>
+        </Styled.ButtonWrapper>
+      </Styled.Form>
+    </Styled.Wrapper>
   )
 }
 

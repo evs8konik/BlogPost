@@ -1,17 +1,22 @@
 import React, { FC } from 'react'
-import { useLoginContext } from '../../context/LoginContext/LoginContext'
 import SignIn from './components/SignIn/SignIn'
 import SignUp from './components/SignUp/SignUp'
-import styles from './Login.module.css'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
 
 const Login: FC = () => {
-  const { isShowSignIn, isShowSignUp } = useLoginContext()
+  const registrationForm = useAppSelector(AccountSelectors.selectRegistrationForm)
 
-  return (
-    <>
-      {isShowSignIn ? <SignIn /> : null}
-      {isShowSignUp ? <SignUp /> : null}
-    </>
-  )
+  switch (registrationForm) {
+    case EAccountForm.SignUp:
+      return <SignUp />
+
+    case EAccountForm.SignIn:
+      return <SignIn />
+
+    default:
+      return <SignIn />
+  }
 }
+
 export default Login

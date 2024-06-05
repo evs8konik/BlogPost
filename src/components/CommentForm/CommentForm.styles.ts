@@ -1,26 +1,62 @@
 import styled from 'styled-components'
+import { device } from '../../App.styled'
 
-export const Wrapper = styled.div`
+const CommentFormWrapper = styled.div`
   height: auto;
-  width: 80%;
+  width: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  border-radius: 16px;
+
   background-color: white;
+
+  @media ${device.laptopL} {
+    max-width: 1024px;
+  }
 `
 
-export const Form = styled.form`
+const Wrapper = styled.div`
+  height: auto;
+  width: 90%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 24px;
+  padding-bottom: 24px;
+  /* border-radius: 16px; */
+
+  /* background-color: white; */
+`
+
+const Form = styled.form`
   width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 10px;
 `
 
-export const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
+
   display: flex;
-  justify-content: start;
+  justify-content: center;
+
+  @media ${device.tablet} {
+    justify-content: start;
+  }
 `
+
+const StyledCommentForm = {
+  Wrapper,
+  Form,
+  ButtonWrapper,
+  CommentFormWrapper,
+}
+
+export default StyledCommentForm

@@ -1,79 +1,42 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
-
-const STORAGE_KEY = 'login'
-
-interface IStoredData {
-  userList: IUser[]
-  currentUser: IUser | null
-}
-
-const getStoredData = (): IStoredData => {
-  const storedData = localStorage.getItem(STORAGE_KEY)
-
-  if (!storedData) return { userList: [], currentUser: null }
-
-  return JSON.parse(storedData) as IStoredData
-}
-
-const saveUser = (user: IUser): void => {
-  const storedData = getStoredData()
-
-  const formattedStoreData = JSON.stringify({
-    ...storedData,
-    userList: [...storedData.userList, user],
-  })
-
-  localStorage.setItem(STORAGE_KEY, formattedStoreData)
-}
-
-const saveCurrentUser = (currentUser: IUser | null): void => {
-  const storedData = getStoredData()
-
-  const formattedStoreData = JSON.stringify({
-    ...storedData,
-    currentUser: currentUser,
-  })
-
-  localStorage.setItem(STORAGE_KEY, formattedStoreData)
-}
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
+import { IUser } from '../../components/CommentForm/CommentForm'
+import useLoginStore from './hooks/useLoginStore/useLoginStore'
 
 const useLogin = () => {
-  const [user, setUser] = useState<IUser | null>(null)
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null)
+  const { getStoredData, saveUser, saveCurrentUser } = useLoginStore()
 
-  const [isShowSignIn, setIsShowSignIn] = useState(false)
-  const [isShowSignUp, setIsShowSignUp] = useState(false)
-  const [isShowLoginForm, setIsShowLoginForm] = useState(false)
-  const [isShowLoginButton, setIsShowLoginButton] = useState(false)
+  const dispatch = useAppDispatch()
+
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const closeLoginForm = () => {
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    dispatch(AccountActions.closeLoginForm())
   }
 
   useEffect(() => {
     const storedData = getStoredData()
-    setCurrentUser(storedData.currentUser)
+
+    dispatch(AccountActions.addCurrentUser(storedData.currentUser))
   }, [])
 
   const addUser = (user: IUser): void => {
     saveUser(user)
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    dispatch(AccountActions.closeLoginForm())
   }
 
   const addCurrentUser = (currentUser: IUser | null): void => {
+    dispatch(AccountActions.addCurrentUser(currentUser))
+
     saveCurrentUser(currentUser)
   }
 
   const cleanCurrentUser = (): void => {
     setTimeout(() => {
-      const currentUser = null
-      saveCurrentUser(currentUser)
-      setCurrentUser(currentUser)
+      saveCurrentUser(null)
+
+      dispatch(AccountActions.addCurrentUser(null))
     }, 0)
   }
 
@@ -89,20 +52,9 @@ const useLogin = () => {
   }
 
   return {
-    user,
     currentUser,
-    setCurrentUser,
-    setUser,
     addUser,
     getUser,
-    isShowSignIn,
-    isShowSignUp,
-    isShowLoginForm,
-    isShowLoginButton,
-    setIsShowSignIn,
-    setIsShowSignUp,
-    setIsShowLoginForm,
-    setIsShowLoginButton,
     addCurrentUser,
     closeLoginForm,
     cleanCurrentUser,

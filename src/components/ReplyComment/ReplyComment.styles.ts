@@ -1,36 +1,112 @@
 import styled from 'styled-components'
+import { device } from '../../App.styled'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   height: auto;
   width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   padding: 20px;
-  /* margin-bottom: 20px;
-  margin: 10px; */
+
   border-radius: 15px;
+
   gap: 10px;
-  background-color: #e1e1e1;
+
+  background-color: rgb(232, 243, 252);
 `
 
-export const Content = styled.div`
+const Content = styled.div`
   width: 100%;
+
   display: flex;
   justify-content: start;
+
   text-align: justify;
 `
 
-export const Username = styled.div`
+const Username = styled.div`
   width: 100%;
+
   display: flex;
   justify-content: flex-end;
+
   font-style: italic;
   text-transform: capitalize;
 `
 
-export const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
+
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  @media ${device.mobileL} {
+    justify-content: flex-end;
+  }
 `
+
+const WrapperImg = styled.div`
+  max-width: 100%;
+  height: auto;
+
+  position: relative;
+`
+
+const Img = styled.img`
+  max-width: 120px;
+  width: 100%;
+  height: auto;
+
+  position: relative;
+
+  z-index: 1;
+`
+
+const ImgSave = styled.img`
+  height: 15%;
+  width: 15%;
+
+  position: absolute;
+
+  right: 0;
+  bottom: 3%;
+
+  z-index: 2;
+`
+
+const WrapperDateAndTime = styled.div`
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+  align-items: end;
+
+  text-transform: capitalize;
+`
+
+const Date = styled.div`
+  font-size: 10px;
+`
+
+const Time = styled.div`
+  font-size: 10px;
+`
+
+const StyledReplyComment = {
+  Wrapper,
+  ButtonWrapper,
+  Username,
+  Content,
+  Img,
+  WrapperImg,
+  ImgSave,
+  Date,
+  Time,
+  WrapperDateAndTime,
+}
+
+export default StyledReplyComment

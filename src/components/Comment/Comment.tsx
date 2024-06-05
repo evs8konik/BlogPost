@@ -1,32 +1,55 @@
-import { FC, useEffect, useState } from 'react'
-// import styles from './Comment.module.css'
-import NormalInput from '../inputs/NormalInput/NormalInput'
-import { IComment, IReplyComment } from '../CommentForm/CommentForm'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { IComment, IReplyComment, currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
-import ReplyComment from '../ReplyComment/ReplyComment'
+
 import Styled from './Comment.styles'
-import { useLoginContext } from '../../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { CommentsActions } from '../../modules/Comments/store/redusers/Comments.slice'
-import useCommentList from '../../hooks/useCommentList/useCommentList'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import NormalInput from '../inputs/NormalInput/NormalInput'
+import { saveAs } from 'file-saver'
+import uploadPng from './asset/images/6711359.png'
+import InputUpload from '../inputs/InputUpload/InputUpload'
+import useReplyCommentList from '../../hooks/useReplyCommentList copy/useReplyCommentList'
+import { useAppSelector } from '../../app/hooks'
+import ReplyComment from '../ReplyComment/ReplyComment'
+import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
 
-type TProps = { onClick: (id: string) => void; onSave: (data: IComment) => void } & IComment
+type TProps = {
+  onClick: (postId: string, id: string) => void
+  onSave: (userId: string, content: IComment) => void
+} & IComment
 
-const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onClick, onSave }) => {
-  const dispatch = useAppDispatch()
+export const base64toBlob = (base64Data: string) => {
+  const base64String = base64Data.split(',')[1]
 
-  const { commentList, saveCommentList } = useCommentList()
+  const byteCharacters = atob(base64String)
+  const byteNumbers = new Array(byteCharacters.length)
 
-  const { currentUser } = useLoginContext()
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i)
+  }
+
+  const byteArray = new Uint8Array(byteNumbers)
+  return new Blob([byteArray], { type: 'image/jpg' })
+}
+
+const Comment: FC<TProps> = ({ id, title, content, picture, owner, date, time, postId, onClick, onSave }) => {
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
+  const { repliesByCommentId, addReply, handleSaveReply, handleClickRemoveButton } = useReplyCommentList()
+
+  const replyCommentList: IReplyComment[] = useMemo(() => {
+    if (repliesByCommentId && repliesByCommentId[id]) {
+      return repliesByCommentId[id] || []
+    } else {
+      return []
+    }
+  }, [repliesByCommentId, id])
 
   const [isEdit, setIsEdit] = useState(false)
   const [isReply, setIsReply] = useState(false)
-
   const [editableTitle, setEditableTitle] = useState(title)
   const [editableContent, setEditableContent] = useState(content)
-  // const [replyList, setReplayList] = useState<IReplyComment[]>([])
+  const [editablePicture, setEditablePicture] = useState(picture)
 
   useEffect(() => {
     setEditableTitle(title)
@@ -35,6 +58,10 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   useEffect(() => {
     setEditableContent(content)
   }, [content])
+
+  useEffect(() => {
+    setEditablePicture(picture)
+  }, [picture])
 
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
@@ -45,91 +72,30 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   }
 
   const handleSave = (): void => {
-    console.log('TEST_DATA', replyCommentList)
-
-    onSave({
+    onSave(postId, {
       id,
+      postId,
       title: editableTitle,
       content: editableContent,
+      picture: editablePicture,
       owner,
-      replyCommentList,
+      date: currentDate,
+      time: currentTime,
     })
 
     isReply ? setIsReply(!isReply) : setIsReply(isReply)
     isEdit ? setIsEdit(!isEdit) : setIsEdit(isEdit)
   }
 
-  const addReply = (reply: IReplyComment): void => {
-    dispatch(CommentsActions.addReplyComment({ commentId: id, reply }))
+  const handleClickSavePictureButton = (picture: string) => {
+    const base64Picture = picture
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
+    const blob = base64toBlob(base64Picture)
 
-        return { ...comment, replyCommentList: [...comment.replyCommentList, reply] }
-      }),
-    )
-    // const newCommentList = [...replyList, reply]
-
-    // setEditableReplayList((prevReplyList) => [...prevReplyList, reply])
-    // setReplayList(newCommentList)
-    // handleSave()
+    saveAs(blob, 'image.jpg')
   }
 
-  const handleSaveReplyEditComment = (replyComment: IReplyComment): void => {
-    dispatch(CommentsActions.saveReplyComment({ commentId: id, replyComment, replyCommentId: replyComment.id }))
-
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
-
-        return {
-          ...comment,
-          replyCommentList: comment.replyCommentList.map((reply) => {
-            if (reply.id === replyComment.id) {
-              return {
-                ...reply,
-                ...replyComment,
-              }
-            }
-            return reply
-          }),
-        }
-      }),
-    )
-
-    // dispatch(CommentsActions.saveReplyComment(data))
-    // const newReplyCommentList = replyCommentList.map((reply) => {
-    //   if (reply.id === data.id) {
-    //     return { ...reply, ...data }
-    //   }
-    //   return reply
-    // })
-    // // setReplayList(newReplyCommentList)
-    // handleSave()
-    // // saveReplyCommentList(replyId, newReplyCommentList)
-  }
-
-  const handleClickReplyRemoveButton = (replyCommentId: string): void => {
-    dispatch(CommentsActions.deleteReplyComment({ commentId: id, replyCommentId }))
-
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id !== id) return comment
-
-        return {
-          ...comment,
-          replyCommentList: [...comment.replyCommentList.filter((reply) => reply.id !== replyCommentId)],
-        }
-      }),
-    )
-    // const newReplyCommentList = replyCommentList.filter((reply) => reply.id !== replyCommentId)
-    // setReplayList(newReplyCommentList)
-    // handleSave()
-    // // saveReplyCommentList(replyId, newReplyCommentList)
-  }
-
-  const checkIfNeedToShowEditDeletButton = () => {
+  const checkIfNeedToShowEditDeleteButton = () => {
     return owner.email === currentUser?.email
   }
 
@@ -138,23 +104,21 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
   }
 
   return (
-    <Styled.Div
-      $preset={'wrapper'}
-      $color="red"
-    >
-      <Styled.Div $preset={'title'}>
+    <Styled.Wrapper>
+      <Styled.Title>
         {isEdit ? (
           <NormalInput
             label="title"
             value={editableTitle}
+            type={'text'}
             onChange={setEditableTitle}
           />
         ) : (
           <div className={'title'}>{title}</div>
         )}
-      </Styled.Div>
+      </Styled.Title>
 
-      <Styled.Div $preset={'content'}>
+      <Styled.Content>
         {isEdit ? (
           <NormalTextArea
             label="Comment"
@@ -164,12 +128,38 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
         ) : (
           <div className={'content'}>{content}</div>
         )}
-      </Styled.Div>
+      </Styled.Content>
 
-      <Styled.Div $preset={'username'}>{owner.firstName}</Styled.Div>
+      <Styled.Username>{owner.firstName}</Styled.Username>
 
-      <Styled.Div $preset={'buttonWrapper'}>
-        {checkIfNeedToShowEditDeletButton() ? (
+      {isEdit ? (
+        <InputUpload onChange={setEditablePicture} />
+      ) : (
+        <Styled.WrapperImg>
+          <Styled.Img
+            src={picture}
+            alt=""
+          ></Styled.Img>
+
+          <Styled.ImgSave
+            src={uploadPng}
+            alt=""
+            onClick={() => handleClickSavePictureButton(picture)}
+          />
+        </Styled.WrapperImg>
+      )}
+
+      <Styled.WrapperDateAndTime>
+        <Styled.Date>
+          {date.dayOfMonth}.{date.month}.{date.year}
+        </Styled.Date>
+        <Styled.Time>
+          {time.hours}:{time.minutes}
+        </Styled.Time>
+      </Styled.WrapperDateAndTime>
+
+      <Styled.ButtonWrapper>
+        {checkIfNeedToShowEditDeleteButton() ? (
           <>
             {isEdit ? (
               <ButtonNormal
@@ -189,21 +179,19 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
 
             <ButtonNormal
               preset="delete"
-              onClick={() => onClick(id)}
+              onClick={() => onClick(postId || '', id)}
             >
               Delete
             </ButtonNormal>
           </>
         ) : null}
 
-        {/* Часть с ответом на комментарий */}
-
         {checkIfNeedToShowReplyButton() ? (
           <>
             {isReply ? (
               <ButtonNormal
                 preset="save"
-                // onClick={handleSave}
+                onClick={handleSave}
               >
                 Save
               </ButtonNormal>
@@ -217,22 +205,27 @@ const Comment: FC<TProps> = ({ id, title, content, owner, replyCommentList, onCl
             )}
           </>
         ) : null}
-      </Styled.Div>
+      </Styled.ButtonWrapper>
 
-      {isReply ? <ReplyCommentForm addReplyComment={addReply} /> : null}
+      {isReply ? (
+        <ReplyCommentForm
+          addReplyComment={addReply}
+          commentId={id}
+        />
+      ) : null}
 
       {replyCommentList.map((reply) => {
         return (
           <ReplyComment
             key={reply.id}
             commentOwner={owner}
-            onClick={handleClickReplyRemoveButton}
-            onSave={handleSaveReplyEditComment}
+            onClick={handleClickRemoveButton}
+            onSave={handleSaveReply}
             {...reply}
           />
         )
       })}
-    </Styled.Div>
+    </Styled.Wrapper>
   )
 }
 

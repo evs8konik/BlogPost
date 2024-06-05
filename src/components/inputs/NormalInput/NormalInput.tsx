@@ -1,29 +1,30 @@
 import { ChangeEvent, FC } from 'react'
-import { Wrapper, Input, Label } from './NormalInput.styles'
+import Styled from './NormalInput.styles'
 
 interface IProps {
-  label: string
-  value: string
+  label?: string
+  value?: string
+  type: string
   onChange: (value: string) => void
 }
 
-const NormalInput: FC<IProps> = ({ label, value, onChange }) => {
+const NormalInput: FC<IProps> = ({ label, type, value, onChange }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     onChange(e.target.value)
   }
 
   return (
-    <Wrapper>
-      <Label>{label}</Label>
+    <Styled.Wrapper>
+      <Styled.Label>{label}</Styled.Label>
 
-      <Input
+      <Styled.Input
         placeholder={'Enter text'}
         required
-        type="text"
+        type={type}
         value={value}
         onChange={handleChange}
-      ></Input>
-    </Wrapper>
+      ></Styled.Input>
+    </Styled.Wrapper>
   )
 }
 

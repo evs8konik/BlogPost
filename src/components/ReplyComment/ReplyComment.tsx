@@ -1,38 +1,71 @@
 import { FC, useEffect, useState } from 'react'
-import { IReplyComment } from '../CommentForm/CommentForm'
+import { IReplyComment, IUser, currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IUser, useLoginContext } from '../../context/LoginContext/LoginContext'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { Wrapper, Content, Username, ButtonWrapper } from './ReplyComment.styles'
+import Styled from './ReplyComment.styles'
+import { useAppSelector } from '../../app/hooks'
+import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import InputUpload from '../inputs/InputUpload/InputUpload'
+import { base64toBlob } from '../Comment/Comment'
+import { saveAs } from 'file-saver'
+import uploadPng from '../Comment/asset/images/6711359.png'
 
 type TProps = {
   commentOwner: IUser
-  onClick: (id: string) => void
-  onSave: (data: IReplyComment) => void
+  onClick: (commentId: string, id: string) => void
+  onSave: (userId: string, data: IReplyComment) => void
 } & IReplyComment
 
-const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, onSave }) => {
-  const { currentUser } = useLoginContext()
+const ReplyComment: FC<TProps> = ({
+  commentOwner,
+  id,
+  content,
+  picture,
+  owner,
+  date,
+  time,
+  commentId,
+  onClick,
+  onSave,
+}) => {
+  const currentUser = useAppSelector(AccountSelectors.selectCurrentUser)
 
   const [isEdit, setIsEdit] = useState(false)
-
   const [editableContent, setEditableContent] = useState('')
+  const [editablePicture, setEditablePicture] = useState(picture)
 
   useEffect(() => {
     setEditableContent(content)
   }, [content])
+
+  useEffect(() => {
+    setEditablePicture(picture)
+  }, [picture])
 
   const toggleEditing = (): void => {
     setIsEdit(!isEdit)
   }
 
   const handleSave = (): void => {
-    onSave({
+    onSave(commentId, {
       id,
+      commentId,
       content: editableContent,
+      picture: editablePicture,
       owner,
+      date: currentDate,
+      time: currentTime,
     })
+
     toggleEditing()
+  }
+
+  const handleClickSavePictureButton = (picture: string) => {
+    const base64Picture = picture
+
+    const blob = base64toBlob(base64Picture)
+
+    saveAs(blob, 'image.jpg')
   }
 
   const checkIfNeedToShowEditButton = () => {
@@ -47,12 +80,13 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
       (commentOwner.email === currentUser?.email && commentOwner.firstName === currentUser?.firstName)
     )
       return true
+
     return false
   }
 
   return (
-    <Wrapper>
-      <Content>
+    <Styled.Wrapper>
+      <Styled.Content>
         {isEdit ? (
           <NormalTextArea
             label="Comment"
@@ -60,13 +94,39 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
             onChange={setEditableContent}
           />
         ) : (
-          <Content>{content}</Content>
+          <Styled.Content>{content}</Styled.Content>
         )}
-      </Content>
+      </Styled.Content>
 
-      <Username>{owner.firstName}</Username>
+      <Styled.Username>{owner.firstName}</Styled.Username>
 
-      <ButtonWrapper>
+      {isEdit ? (
+        <InputUpload onChange={setEditablePicture} />
+      ) : (
+        <Styled.WrapperImg>
+          <Styled.Img
+            src={picture}
+            alt=""
+          ></Styled.Img>
+
+          <Styled.ImgSave
+            src={uploadPng}
+            alt=""
+            onClick={() => handleClickSavePictureButton(picture)}
+          />
+        </Styled.WrapperImg>
+      )}
+
+      <Styled.WrapperDateAndTime>
+        <Styled.Date>
+          {date.dayOfMonth}.{date.month}.{date.year}
+        </Styled.Date>
+        <Styled.Time>
+          {time.hours}:{time.minutes}
+        </Styled.Time>
+      </Styled.WrapperDateAndTime>
+
+      <Styled.ButtonWrapper>
         {checkIfNeedToShowEditButton() ? (
           <div>
             {isEdit ? (
@@ -86,16 +146,17 @@ const ReplyComment: FC<TProps> = ({ commentOwner, id, content, owner, onClick, o
             )}
           </div>
         ) : null}
+
         {checkIfNeedToShowDeleteButton() ? (
           <ButtonNormal
             preset="delete"
-            onClick={() => onClick(id)}
+            onClick={() => onClick(commentId, id)}
           >
             Delete
           </ButtonNormal>
         ) : null}
-      </ButtonWrapper>
-    </Wrapper>
+      </Styled.ButtonWrapper>
+    </Styled.Wrapper>
   )
 }
 

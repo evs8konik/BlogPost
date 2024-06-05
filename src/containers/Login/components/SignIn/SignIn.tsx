@@ -1,13 +1,22 @@
 import React, { FC, FormEvent, useState } from 'react'
-import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import LoginContext, { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import { Form } from './SygnIn.styles'
+import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
+import { AccountActions, AccountSelectors } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
+import { IUser } from '../../../../components/CommentForm/CommentForm'
+import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
+import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+import { useNavigate } from 'react-router-dom'
+import { EAppRoute } from '../../../../routes/AppRoute'
 
 const SignIn: FC = () => {
-  const { setIsShowSignIn, setIsShowSignUp, setUser, setCurrentUser, setIsShowLoginForm } = useLoginContext()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const { getUser, addCurrentUser } = useLogin()
+  const { checkIfExistThisUser } = useLoginValidator()
 
   const [editableUsername, setEditableUsername] = useState<string>('')
   const [editablePassword, setEditablePassword] = useState<string>('')
@@ -15,31 +24,36 @@ const SignIn: FC = () => {
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault()
     const ourUser: IUser | null = getUser(editableUsername, editablePassword)
-
-    setCurrentUser(ourUser)
     addCurrentUser(ourUser)
+    dispatch(AccountActions.closeLoginForm())
+    checkIfExistThisUser(ourUser, editableUsername)
 
-    setIsShowSignIn(false)
-    setIsShowSignUp(false)
-    setIsShowLoginForm(false)
+    if (ourUser !== null) {
+      navigate(EAppRoute.Posts)
+    }
   }
 
   const handleSignUpClick = () => {
-    setIsShowSignIn(false)
-    setIsShowSignUp(true)
+    dispatch(AccountActions.showSignUpForm())
+  }
+
+  const handleClickToHomePage = () => {
+    navigate(EAppRoute.Posts)
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Styled.Form onSubmit={handleSubmit}>
       <NormalInput
         label="Username"
         value={editableUsername}
+        type={'email'}
         onChange={setEditableUsername}
       />
 
       <NormalInput
         label="Password"
         value={editablePassword}
+        type={'password'}
         onChange={setEditablePassword}
       />
 
@@ -51,7 +65,9 @@ const SignIn: FC = () => {
       >
         Create Account
       </ButtonNormal>
-    </Form>
+
+      <Styled.backToHomePage onClick={handleClickToHomePage}>Back to home page...</Styled.backToHomePage>
+    </Styled.Form>
   )
 }
 

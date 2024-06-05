@@ -1,14 +1,28 @@
 import React, { FC, FormEvent, useState } from 'react'
-import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+
 import useLogin from '../../../../hooks/useLogin/useLogin'
-import { IUser, useLoginContext } from '../../../../context/LoginContext/LoginContext'
-import { Form } from './SygnUp.styles'
+import Styled from './SignUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
+import { useAppDispatch } from '../../../../app/hooks'
+import { AccountActions } from '../../../../modules/Comments/store/reducers/Account.slice'
+import { IUser } from '../../../../components/CommentForm/CommentForm'
+import useNotification from '../../../../hooks/useNotification/useNotification'
+
+import { ENotificationType } from '../../../../modules/Comments/store/reducers/Notification.slice'
+
+import { v4 } from 'uuid'
+import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
+import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
+import { useNavigate } from 'react-router-dom'
+import { EAppRoute } from '../../../../routes/AppRoute'
 
 const SignUp: FC = () => {
-  const { setIsShowSignIn, setIsShowSignUp } = useLoginContext()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  const { addUser } = useLogin()
+  const { addUser, getUser } = useLogin()
+  const { addNotification } = useNotification()
+  const { checkIfNeedToRegisterThisUser } = useLoginValidator()
 
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -16,9 +30,14 @@ const SignUp: FC = () => {
   const [password, setPassword] = useState<string>('')
 
   const handleSignInClick = () => {
-    setIsShowSignIn(true)
-    setIsShowSignUp(false)
+    dispatch(AccountActions.showSignInForm())
   }
+
+  const handleClickToHomePage = () => {
+    navigate(EAppRoute.Posts)
+  }
+
+  const ourUser: IUser | null = getUser(email, password)
 
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault()
@@ -28,32 +47,37 @@ const SignUp: FC = () => {
       email,
       password,
     }
-    addUser(newUser)
+
+    checkIfNeedToRegisterThisUser(ourUser, newUser, email)
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Styled.Form onSubmit={handleSubmit}>
       <NormalInput
         label="First name"
         value={firstName}
+        type={'text'}
         onChange={setFirstName}
       />
 
       <NormalInput
         label="Last name"
         value={lastName}
+        type={'text'}
         onChange={setLastName}
       />
 
       <NormalInput
         label="Email"
         value={email}
+        type={'email'}
         onChange={setEmail}
       />
 
       <NormalInput
         label="Password"
         value={password}
+        type={'text'}
         onChange={setPassword}
       />
 
@@ -65,7 +89,9 @@ const SignUp: FC = () => {
       >
         Sing In
       </ButtonNormal>
-    </Form>
+
+      <Styled.backToHomePage onClick={handleClickToHomePage}>Back to home page...</Styled.backToHomePage>
+    </Styled.Form>
   )
 }
 

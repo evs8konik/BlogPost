@@ -1,79 +1,79 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { IComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { CommentsActions, selectCommentList } from '../../modules/Comments/store/redusers/Comments.slice'
+import { CommentsActions, selectCommentsByPostId } from '../../modules/Comments/store/reducers/Comments.slice'
 
-// Ключ для хранения списка комментариев в localStorage
-const STORAGE_KEY = 'commentList'
+const STORAGE_KEY = 'commentByPostId'
 
-// Интерфейс формата хранения списка комментариев в localStorage
-interface IStoredCommentList {
-  commentList: IComment[]
+interface IStoredCommentsByPostId {
+  commentsByPostId: {
+    [postId: string]: IComment[]
+  }
 }
 
-// Функция для получения списка комментариев из localStorage
-const getStoredCommentList = (): IComment[] => {
+const getStoredCommentByPostID = (): { [postId: string]: IComment[] } => {
   const storedData = localStorage.getItem(STORAGE_KEY)
 
-  if (!storedData) return []
+  if (!storedData) return {}
 
-  const { commentList } = JSON.parse(storedData) as IStoredCommentList
+  const { commentsByPostId } = JSON.parse(storedData) as IStoredCommentsByPostId
 
-  return commentList
+  return commentsByPostId
 }
 
-//Функция сохранения изменений в localStorage
-const saveCommentList = (commentList: IComment[]): void => {
-  const storedData: IStoredCommentList = { commentList: [...commentList] }
+const saveCommentsByPostId = (commentByPostId: { [postId: string]: IComment[] }): void => {
+  const storedData: IStoredCommentsByPostId = { commentsByPostId: { ...commentByPostId } }
 
   const formattedStoreData = JSON.stringify(storedData)
 
   localStorage.setItem(STORAGE_KEY, formattedStoreData)
 }
 
-// Хук взаимодействия со списком комментариев
-// Хук взаимодействия со списком комментариев
 const useCommentList = () => {
   const dispatch = useAppDispatch()
 
-  const commentList = useAppSelector(selectCommentList)
+  const commentsByPostId = useAppSelector(selectCommentsByPostId)
+
+  console.log('commentByPostId', commentsByPostId)
 
   useEffect(() => {
-    // Получение списка комментариев из localStorage при загрузке компонента
-    const storedCommentList = getStoredCommentList()
-    // Если вы хотите установить список комментариев из localStorage при загрузке, раскомментируйте следующую строку:
-    dispatch(CommentsActions.addCommentList(storedCommentList))
+    const storedCommentList = getStoredCommentByPostID()
+    Object.keys(storedCommentList).forEach((postId) => {
+      const comments = storedCommentList[postId]
+      dispatch(CommentsActions.addCommentsByPostId({ postId, comments }))
+    })
   }, [])
 
-  // Функция добавления нового комментария
-  const addComment = (comment: IComment): void => {
-    dispatch(CommentsActions.addComment(comment))
+  const addComment = (postId: string, comment: IComment): void => {
+    dispatch(CommentsActions.addComment({ postId, comment }))
 
-    saveCommentList([...commentList, comment])
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = [...(updatedCommentByPostId[postId] || []), comment]
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  // Функция обработки нажатия на кнопку удаления комментария
-  const handleClickRemoveButton = (commentId: string): void => {
-    dispatch(CommentsActions.deleteComment(commentId))
+  const handleClickRemoveButton = (postId: string, commentId: string): void => {
+    dispatch(CommentsActions.deleteComment({ commentId, postId }))
 
-    saveCommentList(commentList.filter((comment) => comment.id !== commentId))
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = updatedCommentByPostId[postId].filter((comment) => comment.id !== commentId)
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  // Функция обновления комментария
-  const handleSaveComment = (data: IComment): void => {
-    dispatch(CommentsActions.saveComment(data))
+  const handleSaveComment = (postId: string, comment: IComment): void => {
+    dispatch(CommentsActions.saveComment(comment))
 
-    saveCommentList(
-      commentList.map((comment) => {
-        if (comment.id === data.id) {
-          return { ...comment, ...data }
-        }
-        return comment
-      }),
+    const updatedCommentByPostId = { ...commentsByPostId }
+    updatedCommentByPostId[postId] = updatedCommentByPostId[postId].map((p) =>
+      p.id === comment.id ? { ...comment } : p,
     )
+
+    saveCommentsByPostId(updatedCommentByPostId)
   }
 
-  return { commentList, addComment, handleSaveComment, handleClickRemoveButton, saveCommentList }
+  return { commentsByPostId, addComment, handleSaveComment, handleClickRemoveButton, saveCommentsByPostId }
 }
 
 export default useCommentList
