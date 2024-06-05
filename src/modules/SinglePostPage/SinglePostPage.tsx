@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { IPost } from '../common/models/Post/Post'
+import { IPost } from '../../interfaces/Post'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import Post from '../../components/Post/Post'

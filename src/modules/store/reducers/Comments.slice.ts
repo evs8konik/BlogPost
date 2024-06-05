@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IComment } from '../../../../components/CommentForm/CommentForm'
-import { TRootState } from '../../../../app/store'
+import { TRootState } from '../../../app/store'
+import { IComment } from '../../../interfaces/Comment'
 
 interface ICommentsReduxState {
   commentsByPostId: {

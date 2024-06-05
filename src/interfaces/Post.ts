@@ -1,4 +1,6 @@
-import { IDate, ITime, IUser } from '../../../../components/CommentForm/CommentForm'
+import { IDate } from './Date'
+import { ITime } from './Time'
+import { IUser } from './User'
 
 export interface IPost {
   userId: string

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { IReplyComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { RepliesActions, selectReplyByCommentId } from '../../modules/Comments/store/reducers/ReplyComments.slice'
+import { RepliesActions, selectReplyByCommentId } from '../../modules/store/reducers/ReplyComments.slice'
+import { IReplyComment } from '../../interfaces/ReplyComment'
 
 const STORAGE_KEY = 'replyByPostId'
 

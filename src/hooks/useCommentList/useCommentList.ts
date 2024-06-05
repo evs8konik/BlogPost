@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { IComment } from '../../components/CommentForm/CommentForm'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { CommentsActions, selectCommentsByPostId } from '../../modules/Comments/store/reducers/Comments.slice'
+import { CommentsActions, selectCommentsByPostId } from '../../modules/store/reducers/Comments.slice'
+import { IComment } from '../../interfaces/Comment'
 
 const STORAGE_KEY = 'commentByPostId'
 

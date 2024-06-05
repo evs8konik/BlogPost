@@ -1,10 +1,10 @@
 import { FC, useEffect, useMemo, useState } from 'react'
-import { IComment, IReplyComment, currentDate, currentTime } from '../CommentForm/CommentForm'
+import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 
 import Styled from './Comment.styles'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import { saveAs } from 'file-saver'
 import uploadPng from './asset/images/6711359.png'
@@ -13,6 +13,8 @@ import useReplyCommentList from '../../hooks/useReplyCommentList copy/useReplyCo
 import { useAppSelector } from '../../app/hooks'
 import ReplyComment from '../ReplyComment/ReplyComment'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
+import { IComment } from '../../interfaces/Comment'
+import { IReplyComment } from '../../interfaces/ReplyComment'
 
 type TProps = {
   onClick: (postId: string, id: string) => void

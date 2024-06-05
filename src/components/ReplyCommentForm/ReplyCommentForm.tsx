@@ -1,12 +1,13 @@
 import { FC, FormEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
-import { IDate, IReplyComment, ITime, currentDate, currentTime } from '../CommentForm/CommentForm'
+import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyCommentForm.styles'
 import { useAppSelector } from '../../app/hooks'
-import { AccountSelectors } from '../../modules/Comments/store/reducers/Account.slice'
+import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import InputUpload from '../inputs/InputUpload/InputUpload'
+import { IReplyComment } from '../../interfaces/ReplyComment'
 
 interface IInputsState {
   content: string

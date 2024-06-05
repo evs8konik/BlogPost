@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/Comments/store/reducers/Account.slice'
-import { IUser } from '../../components/CommentForm/CommentForm'
+import { AccountActions, AccountSelectors, EAccountForm } from '../../modules/store/reducers/Account.slice'
 import useLoginStore from './hooks/useLoginStore/useLoginStore'
+import { IUser } from '../../interfaces/User'
 
 const useLogin = () => {
   const { getStoredData, saveUser, saveCurrentUser } = useLoginStore()

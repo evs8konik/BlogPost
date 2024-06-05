@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { TRootState } from '../../../../app/store'
-import { IUser } from '../../../../components/CommentForm/CommentForm'
+import { TRootState } from '../../../app/store'
+import { IUser } from '../../../interfaces/User'
 
 export enum EAccountForm {
   SignIn = 'signIn',

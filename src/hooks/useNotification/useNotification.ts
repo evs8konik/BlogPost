@@ -3,7 +3,7 @@ import {
   INotification,
   NotificationActions,
   NotificationSelectors,
-} from '../../modules/Comments/store/reducers/Notification.slice'
+} from '../../modules/store/reducers/Notification.slice'
 import { useAppSelector } from '../../app/hooks'
 
 const useNotification = () => {

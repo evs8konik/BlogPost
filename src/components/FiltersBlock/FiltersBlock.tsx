@@ -1,44 +1,25 @@
 import React, { FC } from 'react'
-import Filters from '../../modules/common/features/Filters/Filters/Filters'
-import { IFiltersLocalData } from '../../modules/common/features/Filters/interfaces/FiltersLocalData/FiltersLocalData'
-import { v4 } from 'uuid'
+import FiltersComponent from '../../modules/common/features/Filters/Filters'
+import { IFiltersConfig } from '../../modules/common/features/Filters/interfaces/FiltersLocalData/FiltersLocalData'
 
-const filterConfigData: IFiltersLocalData = {
+const postsFiltersConfig: IFiltersConfig = {
   posts: {
     filters: [
-      {
-        id: v4(),
-        type: 'select',
-        filterState: 'Sort none',
-        optionsList: [
-          { label: 'Sort none', value: 'Sort none' },
-          { label: 'Sort A-Z', value: 'az' },
-          { label: 'Sort Z-A', value: 'za' },
-        ],
-      },
-      {
-        id: v4(),
-        type: 'select',
-        filterState: 'Sort none',
-        optionsList: [
-          { label: 'Sort none', value: 'Sort none' },
-          { label: 'Sort by new', value: 'new' },
-          { label: 'Sort by old', value: 'old' },
-        ],
-      },
-      { id: v4(), type: 'checkbox', label: 'Show hidden', value: 'show hidden', filterState: false },
-      { id: v4(), type: 'checkbox', label: 'Show only my posts', value: 'show hidden', filterState: false },
+      { id: 'byAlphabetId', name: 'Alphabet', type: 'select' },
+      { id: 'byNewId', name: 'New', type: 'select' },
+      { id: 'hiddenId', name: 'Hidden', type: 'checkbox' },
+      { id: 'onlyUserPostId', name: 'Only user post', type: 'checkbox' },
     ],
-    isShow: true,
   },
 }
 
 const FiltersBlock: FC = () => {
   return (
     <div>
-      <Filters
-        filtersConfig={filterConfigData}
-        filterKey={'posts'}
+      <h1>Filters Test</h1>
+      <FiltersComponent
+        filtersLocalDataConfig={postsFiltersConfig}
+        filtersId="posts"
       />
     </div>
   )

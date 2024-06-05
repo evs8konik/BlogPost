@@ -7,7 +7,7 @@ import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import usePostList from '../../hooks/usePostList copy/usePostList'
 import Post from '../Post/Post'
 import { EAppRoute } from '../../routes/AppRoute'
-import { IPost } from '../../modules/common/models/Post/Post'
+import { IPost } from '../../interfaces/Post'
 
 interface IPostByUserId {
   [userId: string]: IPost[]

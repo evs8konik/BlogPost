@@ -4,7 +4,7 @@ import useCommentList from '../../hooks/useCommentList/useCommentList'
 import Comment from '../Comment/Comment'
 import Select, { ISelectOption } from '../../modules/common/components/Select/Select'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
-import { IComment } from '../CommentForm/CommentForm'
+import { IComment } from '../../interfaces/Comment'
 
 const selectOptionsList: ISelectOption[] = [
   { label: 'Sort by new', value: 'new' },
