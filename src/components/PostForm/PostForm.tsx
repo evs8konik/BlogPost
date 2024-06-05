@@ -7,7 +7,7 @@ import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import InputUpload from '../inputs/InputUpload/InputUpload'
-import { IPost } from '../../modules/common/models/Post/Post'
+import { IPost } from '../../interfaces/Post'
 import { currentDate, currentTime } from '../CommentForm/CommentForm'
 
 interface IInputsState {

@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import FiltersComponent from '../../modules/common/features/Filters/Filters'
-import { IFiltersLocalDataConfig } from '../../modules/common/features/Filters/interfaces/FiltersLocalData/FiltersLocalData'
+import { IFiltersConfig } from '../../modules/common/features/Filters/interfaces/FiltersLocalData/FiltersLocalData'
 
-const postsFiltersConfig: IFiltersLocalDataConfig = {
+const postsFiltersConfig: IFiltersConfig = {
   posts: {
     filters: [
       { id: 'byAlphabetId', name: 'Alphabet', type: 'select' },
@@ -10,7 +10,6 @@ const postsFiltersConfig: IFiltersLocalDataConfig = {
       { id: 'hiddenId', name: 'Hidden', type: 'checkbox' },
       { id: 'onlyUserPostId', name: 'Only user post', type: 'checkbox' },
     ],
-    isShow: true,
   },
 }
 

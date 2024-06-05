@@ -4,12 +4,12 @@ import Styled from './SignUp.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 import { useAppDispatch } from '../../../../app/hooks'
 import { AccountActions } from '../../../../modules/store/reducers/Account.slice'
-import { IUser } from '../../../../components/CommentForm/CommentForm'
 import useNotification from '../../../../hooks/useNotification/useNotification'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import { useNavigate } from 'react-router-dom'
 import { EAppRoute } from '../../../../routes/AppRoute'
+import { IUser } from '../../../../interfaces/User'
 
 const SignUp: FC = () => {
   const dispatch = useAppDispatch()

@@ -1,4 +1,4 @@
-import { IUser } from '../../../../components/CommentForm/CommentForm'
+import { IUser } from '../../../../interfaces/User'
 
 export interface IStoredData {
   userList: IUser[]

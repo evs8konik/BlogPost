@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { IUser } from '../../CommentForm/CommentForm'
+import { IUser } from '../../../interfaces/User'
 
 export interface ILoginState {
   currentUser: IUser | null

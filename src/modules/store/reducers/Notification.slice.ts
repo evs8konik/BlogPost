@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TRootState } from '../../../app/store'
-// import { TRootState } from '../../../../app/store'
 
 export enum ENotificationType {
   Error = 'error',

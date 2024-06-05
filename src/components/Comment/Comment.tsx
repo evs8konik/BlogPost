@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from 'react'
-import { IComment, IReplyComment, currentDate, currentTime } from '../CommentForm/CommentForm'
+import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 
 import Styled from './Comment.styles'
@@ -13,6 +13,8 @@ import useReplyCommentList from '../../hooks/useReplyCommentList copy/useReplyCo
 import { useAppSelector } from '../../app/hooks'
 import ReplyComment from '../ReplyComment/ReplyComment'
 import ReplyCommentForm from '../ReplyCommentForm/ReplyCommentForm'
+import { IComment } from '../../interfaces/Comment'
+import { IReplyComment } from '../../interfaces/ReplyComment'
 
 type TProps = {
   onClick: (postId: string, id: string) => void

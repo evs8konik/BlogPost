@@ -1,15 +1,14 @@
 import React, { FC, FormEvent, useState } from 'react'
-
 import useLogin from '../../../../hooks/useLogin/useLogin'
 import Styled from './SygnIn.styles'
 import ButtonNormal from '../../../../components/buttons/ButtonNormal/ButtonNormal'
 import { AccountActions, AccountSelectors } from '../../../../modules/store/reducers/Account.slice'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
-import { IUser } from '../../../../components/CommentForm/CommentForm'
 import useLoginValidator from '../../../../hooks/useLogin/hooks/useLoginValidator/useLoginValidator'
 import NormalInput from '../../../../components/inputs/NormalInput/NormalInput'
 import { useNavigate } from 'react-router-dom'
 import { EAppRoute } from '../../../../routes/AppRoute'
+import { IUser } from '../../../../interfaces/User'
 
 const SignIn: FC = () => {
   const dispatch = useAppDispatch()

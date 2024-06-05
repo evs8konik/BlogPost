@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { IFiltersLocalData } from '../interfaces/FiltersLocalData/FiltersLocalData'
-import { useAppSelector } from '../../../../../app/hooks'
+import { useDispatch } from 'react-redux'
 import {
-  initialFiltersState,
-  selectFiltersState,
-  addFiltersState,
-  updateFilterState,
+  addFilters,
+  appliesFilterValue,
+  selectFilters,
+  selectedFilterValue,
 } from '../../../../store/reducers/FiltersState.slice'
+import { useAppSelector } from '../../../../../app/hooks'
 
 const STORAGE_KEY = 'filtersState'
 
@@ -36,33 +36,27 @@ const saveFilters = (newFilters: IFiltersLocalData): void => {
 const useFiltersTest = () => {
   const dispatch = useDispatch()
 
-  const filtersState = useAppSelector(selectFiltersState)
+  const filters = useAppSelector(selectFilters)
 
   useEffect(() => {
     const storedFilters = getStoredFilters()
+
     if (Object.keys(storedFilters).length > 0) {
-      dispatch(addFiltersState(storedFilters))
+      dispatch(addFilters(storedFilters))
     }
   }, [])
 
-  // const initialFiltersState = (filtersId: string, newFilters: IFilterDataItem[], isShow: boolean) => {
-  //   dispatch(FiltersActions.addFilter({ filtersId, newFilters, isShow }))
-
-  //   saveFilters(filtersState)
-  // }
-
-  // const updateFilter = (filtersId: string, filterId: string, newState: boolean | string) => {
-  //   dispatch(updateFilterState(filtersId, filterId, newState))
-
-  //   saveFilters(filtersState)
-  // }
-
   const updateFilter = (payload: { filtersId: string; filterId: string; newState: string | boolean }): void => {
-    dispatch(updateFilterState(payload))
-    saveFilters(filtersState)
+    dispatch(selectedFilterValue(payload))
+    saveFilters(filters)
   }
 
-  return { initialFiltersState, updateFilter }
+  const applyFilterValue = (payload: { filtersId: string; filterId: string; newState: string | boolean }): void => {
+    dispatch(appliesFilterValue(payload))
+    saveFilters(filters)
+  }
+
+  return { filters, updateFilter, applyFilterValue }
 }
 
 export default useFiltersTest

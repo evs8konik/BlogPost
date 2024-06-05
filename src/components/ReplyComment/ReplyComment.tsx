@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { IReplyComment, IUser, currentDate, currentTime } from '../CommentForm/CommentForm'
+import { currentDate, currentTime } from '../CommentForm/CommentForm'
 import NormalTextArea from '../textAreas/NormalTextArea/NormalTextArea'
 import ButtonNormal from '../buttons/ButtonNormal/ButtonNormal'
 import Styled from './ReplyComment.styles'
@@ -9,6 +9,8 @@ import InputUpload from '../inputs/InputUpload/InputUpload'
 import { base64toBlob } from '../Comment/Comment'
 import { saveAs } from 'file-saver'
 import uploadPng from '../Comment/asset/images/6711359.png'
+import { IReplyComment } from '../../interfaces/ReplyComment'
+import { IUser } from '../../interfaces/User'
 
 type TProps = {
   commentOwner: IUser

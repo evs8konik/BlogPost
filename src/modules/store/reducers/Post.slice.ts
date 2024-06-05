@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { IPost } from '../../common/models/Post/Post'
+import { IPost } from '../../../interfaces/Post'
 import { TRootState } from '../../../app/store'
-// import { IPost } from '../../../common/models/Post/Post'
-// import { TRootState } from '../../../../app/store'
 
 interface IPostReduxState {
   postByUserId: {

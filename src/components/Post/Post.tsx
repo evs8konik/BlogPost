@@ -9,7 +9,7 @@ import { saveAs } from 'file-saver'
 import uploadPng from './asset/images/6711359.png'
 import InputUpload from '../inputs/InputUpload/InputUpload'
 import { base64toBlob } from '../Comment/Comment'
-import { IPost } from '../../modules/common/models/Post/Post'
+import { IPost } from '../../interfaces/Post'
 import { useAppSelector } from '../../app/hooks'
 
 type TProps = {

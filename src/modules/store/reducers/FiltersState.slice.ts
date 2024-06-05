@@ -1,28 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
-  IFilter,
-  IFiltersLocalDataConfig,
+  IFiltersConfig,
   IFiltersLocalData,
 } from '../../common/features/Filters/interfaces/FiltersLocalData/FiltersLocalData'
 import { TRootState } from '../../../app/store'
 
-const initialState: { filtersState: IFiltersLocalData; filtersConfig: IFiltersLocalDataConfig } = {
-  filtersState: {},
-  filtersConfig: {},
+interface IFiltersReduxState {
+  filters: IFiltersLocalData
+}
+
+const initialState: IFiltersReduxState = {
+  filters: {},
 }
 
 const FiltersSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
-    initialFiltersState: (state, action: PayloadAction<IFiltersLocalDataConfig>) => {
+    initialFilters: (state, action: PayloadAction<IFiltersConfig>) => {
       Object.keys(action.payload).forEach((filtersId) => {
-        state.filtersState[filtersId] = {
+        state.filters[filtersId] = {
           filters: {},
-          isShow: action.payload[filtersId].isShow ?? true,
+          applyValues: {},
+          selectedValues: {},
         }
 
-        action.payload[filtersId].filters.forEach(function (filter) {
+        action.payload[filtersId].filters.forEach((filter) => {
           let initialValue: string | boolean = ''
 
           if (filter.type === 'select') {
@@ -30,43 +33,53 @@ const FiltersSlice = createSlice({
           } else if (filter.type === 'checkbox') {
             initialValue = false
           }
-          state.filtersState[filtersId].filters[filter.name] = initialValue
+
+          state.filters[filtersId].filters[filter.id] = filter
+          state.filters[filtersId].selectedValues[filter.id] = initialValue
+          state.filters[filtersId].applyValues[filter.id] = initialValue
         })
       })
     },
 
-    updateFilterState: (
+    selectedFilterValue: (
       state,
       {
         payload: { filtersId, filterId, newState },
       }: PayloadAction<{ filtersId: string; filterId: string; newState: boolean | string }>,
     ) => {
-      if (state.filtersState[filtersId]) {
-        state.filtersState[filtersId].filters[filterId] = newState
+      if (state.filters[filtersId]) {
+        state.filters[filtersId].selectedValues[filterId] = newState
       }
     },
 
-    addFiltersState(state, action: PayloadAction<IFiltersLocalData>) {
-      const filtersData = action.payload
-      Object.keys(filtersData).forEach((filtersId) => {
-        const { filters, isShow } = filtersData[filtersId]
-        state.filtersState[filtersId] = {
-          filters,
-          isShow,
-        }
-      })
+    appliesFilterValue: (
+      state,
+      {
+        payload: { filtersId, filterId, newState },
+      }: PayloadAction<{ filtersId: string; filterId: string; newState: boolean | string }>,
+    ) => {
+      if (state.filters[filtersId]) {
+        state.filters[filtersId].applyValues[filterId] = newState
+      }
     },
 
-    initialFiltersConfig: (state, action: PayloadAction<IFiltersLocalDataConfig>) => {
-      state.filtersConfig = action.payload
+    addFilters: (state, action: PayloadAction<IFiltersLocalData>) => {
+      const filtersData = action.payload
+      Object.keys(filtersData).forEach((filtersId) => {
+        const { filters, applyValues, selectedValues } = filtersData[filtersId]
+        state.filters[filtersId] = {
+          filters,
+          applyValues,
+          selectedValues,
+        }
+      })
     },
   },
 })
 
-export const selectFiltersState = (state: TRootState) => state.filters.filtersState
-export const selectFiltersConfig = (state: TRootState) => state.filters.filtersConfig
+export const selectFilters = (state: TRootState) => state.filters.filters
 
-export const { initialFiltersState, updateFilterState, addFiltersState, initialFiltersConfig } = FiltersSlice.actions
+export const { initialFilters, selectedFilterValue, appliesFilterValue, addFilters } = FiltersSlice.actions
 
 const FiltersReducer = FiltersSlice.reducer
 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { IPost } from '../../modules/common/models/Post/Post'
+import { IPost } from '../../interfaces/Post'
 import { PostsActions, fetchPosts, selectPostByUserId } from '../../modules/store/reducers/Post.slice'
 
 const STORAGE_KEY = 'postByUserId'

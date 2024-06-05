@@ -7,50 +7,12 @@ import { useAppSelector } from '../../app/hooks'
 import { AccountSelectors } from '../../modules/store/reducers/Account.slice'
 import NormalInput from '../inputs/NormalInput/NormalInput'
 import InputUpload from '../inputs/InputUpload/InputUpload'
+import { IUser } from '../../interfaces/User'
+import { IComment } from '../../interfaces/Comment'
 
 interface IProps {
   addComment: (postId: string, comment: IComment) => void
   postId: string
-}
-
-export interface IReplyComment {
-  commentId: string
-  id: string
-  content: string
-  picture: string
-  owner: IUser
-  date: IDate
-  time: ITime
-}
-
-export interface IComment {
-  postId: string
-  id: string
-  title: string
-  content: string
-  picture: string
-  owner: IUser
-  date: IDate
-  time: ITime
-}
-
-export interface IUser {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-}
-
-export interface IDate {
-  dayOfMonth: number
-  month: number
-  year: number
-}
-
-export interface ITime {
-  hours: number
-  minutes: number
-  seconds: number
 }
 
 interface IInputsState {
